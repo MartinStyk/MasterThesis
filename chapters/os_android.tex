@@ -1,0 +1,33 @@
+\chapter{Android}
+Android je mobilná platforma založená na Linuxovom jadre. Systém bol pôvodne určený pre chytré mobilné telefóny. Vďaka širokému spektru poskytovaných služieb a prispôsobiteľnosti sa jeho použitie rozšírilo na mnoho nových platforiem, ako napríklad zábavné systémy automobilov, softvér televízií, notebooky alebo inteligentné hodinky~\cite{AndroidAbout}. 
+
+Android bol pôvodne vyvíjaný technologickým startup-om Android Inc. Táto spoločnosť bola v roku 2005 odkúpená firmou Google Inc. za približne 50 miliónov dolárov~\cite{Rosoff2011}. Operačný systém Android bol prvý krát predstavený v roku 2007. Prvé mobilné zariadenia založené na tejto platforme boli uvedené na trh koncom roka 2008. Systém je naďalej aktívne vyvíjaný a spravovaný konzorciom Open Handset Alliance ktoré je vedené spoločnosťou Google ~\cite{OHA}.
+
+Android je globálne najrozšírenejší mobilný operačný systém. Podľa údajov spoločnosti Net Applications v septembri 2017 dosahoval jeho podiel na trhu 65 \% ~\cite{NetMarketShare}.
+
+\section{Zdrojový kód}
+Zdrojový kód operačného systému je zverejnený ako Android Open Source Project pod licenciou Apache Software License 2.0. Android Open Source Project tvorí základ všetkých operačných systémov z rodiny Android. Je určený pre široké spektrum rôznorodých zariadení a zapúzdruje základnú funkcionalitu operačného systému. Cieľom open source projektu je vytvorenie otvorenej softvérovej platformy, ktorá je voľne dostupná pre vývojárov a výrobcov zariadení. Na vývoji tohto otvoreného projektu spoluracujú predovšetkým spoločnosti z konzoria Open Handset Alliance~\cite{AndroidSource}.
+Na voľne dostupnom zdrojovom kóde Android Open Source Project je okrem najpoužívanejších verzií vydávaných spoločnosťou Google založených aj viacero alternatívnych mobilných operačných systémov ako napríklad CyanogenMod, alebo Fire OS od spoločnosti Amazon~\cite{AndroidOpen}.
+Nekontrolované prispôsobenia a vylepšovania systému môžu viesť k nekompatibilnému správaniu jednotlivých odvodených verzií systému. Tomu zabraňuje Android Compatibility Program, ktorý špecifikuje požiadavky, ktoré musia jednotlivé implementácie splniť, aby boli považované za Android kompatibilné~\cite{AndroidCompatibility}. 
+
+
+
+\section{Architektúra}
+Platforma Android sa skladá z viacerých softvérových vrstiev~\cite{PlatformArchitecture}.
+ 
+\subsection{Kernel}
+Základ platformy predstavuje Linuxové jadro. Verzie jadra sa medzi jednotlivými verziami Androidu líšia. Prvé verzie využívali jadro 2.6, najnovší Android 8.0. Oreo vydaný v roku 2017 využíva Linuxové jadro vo verzii 4.10~\cite{KernelVersions}. Vyššie vrstvy využívajú nízkoúrovňové služby jadra ako správa vlákien, správa pamäte, komunikácia medzi procesmi alebo bezpečnosť na úrovni kernelu. 
+\subsection{Vrstva hardvérovej abstrakcie}
+Vrstva hardvérovej abstrakcie poskytuje rozhrania pre prístup k hardvérovým komponentám. Táto vrstva pozostáva z viacerých modulov. Každý modul sprostredkováva prístup k špecifickej hardvérovej komponente ako napríklad fotoaparát alebo sieťový adaptér. Vďaka tejto vrstve sú vyššie vrstvy a aplikácie nezávislé na hardvéri na ktorom je systém spustený~\cite{Cohen2014}.
+\subsection{Android Runtime (ART)}
+Od verzie Android 5.0 (API 21) slúži Android Runtime ako behové prostredie Android aplikácií. V skorších verziách bol ako behové prostredie používaný virtuálny stroj Dalvik, ktorý plnil rovnaké funkcie. Behové prostredia sú spätne kompatibilné a aplikácia funkčná v prostredí Android Runtime môže byť spustená aj vo virtuálnom stroji Dalvik.  Android Runtime je optimalizovaný na vykonávanie inštrukcií obsiahnutých v DEX súboroch. DEX súbory obsahujú skompilovaný zdrojový kód aplikácie. Každá aplikácia je spustená vo vlastnej inštancií Android Runtime, čo zamedzuje nechcenému ovplyvňovaniu paralelne bežiacich aplikácií. Medzi dôležité funkcie poskytované ART patrí ahead-of-time a just-in-time kompilácia a efektívna správa pamäti~\cite{ART}.
+\subsection{Natívne C/C++ knižnice}
+Veľká časť knižníc a služieb obsiahnutých vo vrstve hardvérovej abstrakcie a vo vrstve behového prostredia obsahuje nízkoúrovňový zdrojový kód napísaný v jazyku C a C++. Platforma Android poskytuje vývojárom prístup k týmto natívnym metódam pomocou programového API v jazyku Javu. Ako príklad slúži knižnica OpenGL ES, ktorá slúži na vykresľovanie grafických objektov. Jadro tejto knižnice je napísané v natívnom kóde a klienti k nemu pristupujú pomocou Java knižníc ktoré tento natívny kód obaľujú ~\cite{Cohen2014}.
+\subsection{Java API framework}
+Táto vrstva poskytuje vývojárom služby prostredníctvom verejného API rozhrania v jazyku Java. Tieto služby sú základnými stavebnými kameňmi aplikácií. Sprostredkovávajú prístup a využívajú nižšie vrstvy systémovej architektúry. Medzi najdôležitejšie služby poskytované touto vrstvou patria systém správy užívateľského rozhrania, manažér spustených aktivít (Activity Manager), manažér zdrojov (Resource Manager), alebo služby na zdieľanie obsahu medzi aplikáciami (Content Provider). 
+Užívateľské rovnako ako aj systémové aplikácie majú prístup k celému Java API frameworku poskytovaného platformou Android~\cite{PlatformArchitecture}.
+
+\subsection{Systémové aplikácie}
+Android obsahuje základné systémové aplikácie ako napríklad telefón, kalendár alebo kontakty. Systémové aplikácie poskytujú svoju funkcionalitu užívateľom ale aj ostatným užívateľským aplikáciám.		
+
+
