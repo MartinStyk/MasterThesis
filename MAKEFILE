@@ -1,0 +1,35 @@
+# Makro (promìnná) se jménem dokumentu, které pak mùeme pouívat dále 
+# v Makefile zadáním „${NAME}“.
+# Hodnoty maker se dají snadno pøepisovat pøi spuštìní zpracování Makefile bez 
+# zázsahu pøímo do Makefile tak, e make z pøíkazového øádku voláme ve tvaru:
+#   make NAME=<jiné_jméno> <cíle>
+NAME=thesis
+
+# Pouívej interpret pøíkazù BASH. (Uiteèné zejména na Ubuntu, kde je vıchozí 
+# shell pro make DASH, kterı není s BASH plnì kompatibilní. Nìkteré konstrukce 
+# pak „záhadnì nefungují“, protoe si uivatel obvykle neuvìdomí, e make 
+# pouívá jinı shell ne uivatel interaktivnì v terminálu.)SHELL=/bin/bash
+
+# V .PHONY uvádíme „falešné“ cíle, tzn. naše symbolická jména pro cíle, které 
+# neprodukují stejnì pojmenované soubory jako vısledek své èinnosti.
+.PHONY: all pdf clean
+all: pdf 
+#dvi: ${NAME}.dvi
+pdf: ${NAME}.pdf
+#ps: ${NAME}.ps
+
+clean:
+	# Znak „@“ pøed pøíkazem zajistí, e make nebude vypisovat text 
+	# spouštìného pøíkazu, co je napø. zde neádoucí, nebo ve vıpisu 
+	# pøekladu chceme vidìt jen naši formátovanou zprávu.
+	@echo -e "\n\n### Uklid ###\n\n"
+	# Znak „-“ pøed pøíkazem zajistí, e pøípadné selhání pøíkazu (napø. 
+	# zde „rm ...“ sele, pokud nìkterı ze zadanıch souborù ji neexistuje) 
+	# nezpùsobí zastavení provádìní zbytku Makefile (napø. zde nám nevadí, 
+	# e se nepodaøilo smazat soubory, které stejnì neexistují).
+	-rm ${NAME}.{aux,dvi,log,pdf,ps}
+
+${NAME}.pdf: ${NAME}.tex
+	pdflatex ${NAME}.tex
+	biber ${NAME}.bcf
+	pdflatex ${NAME}.tex
