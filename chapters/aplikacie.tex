@@ -1,0 +1,62 @@
+\chapter{Aplikácie pre platformu Android}
+\section{Android Application Package}
+Aplikácie pre platformu Android sú vyvíjané predovšetkým v jazyku Java, ich vývoj je však možný aj v jazykoch C++, Kotlin, Python, alebo prostredníctvom technológie Xamarin ktorá využíva jazyk C\#. Výstupom kompilácie a zabalenia Android aplikácie je súbor typu Android Application Package. Tento súbor slúži ako inštalačný balíček, ktorý je pomocou distribučných kanálov distribuovaný k cieľovým užívateľom.
+
+Android Application Package, skrátene APK, je formát archívnych súborov. APK súbory sú asociované s MIME typom \zv{application/vnd.android.package-archive} a príponou \zv{.apk}~\cite{IANA}. 
+
+Formát APK súborov rozširuje JAR formát. Obidva spomínané formáty vychádzajú z archívneho formátu ZIP. Vďaka tejto vlastnosti je možné obsah archívu extrahovať pomocou štandardných nástrojov pre prácu so súbormi vo formáte ZIP.
+
+APK súbory vznikajú ako výstup kompletnej kompilácie a zabalenia aplikácie. APK archív obsahuje súbory potrebné pre spustenie aplikácie. Typický obsah balíčka tvoria nasledujúce typy súborov:
+\begin{itemize}
+	\item skompilovaný zdrojový kód aplikácie
+	\item súbor Manifest – súbor obsahujúci metadáta o danej aplikácií
+	\item XML súbory – súbory definujúce rozloženie užívateľského rozhrania a konštantné hodnoty využívané aplikáciu, napr. definície farieb alebo textov
+	\item multimediálne zdrojové súbory~\cite{Allen2015}.
+\end{itemize}
+
+\subsection{Štruktúra}
+APK súbory dodržiavajú presne stanovenú vnútornú štruktúru. Táto štruktúra je znázornená na obrázku \ref{fig:strukturaApk}.
+
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=60mm]{images/apkStructure.pdf}
+  \end{center}
+  \caption{Typická štruktúra APK súboru}
+  \label{fig:strukturaApk}
+\end{figure}
+
+
+V APK súbore nájdeme nasledujúce súbory a adresáre:
+\begin{itemize}
+
+	\item \bod{AndroidManifest.xml} -- súbor obsahujúci meta informácie o aplikácii. Pomocou tohto súboru oznamuje aplikácia operačnému systému svoju identitu a požiadavky. Android Manifest sa v APK balíčku nachádza vo formáte skompilovaného binárneho XML.
+Súbor AndroidManifest.xml obsahuje okrem iného informácie o nasledujúcich vlastnostiach aplikácie:
+		
+		\begin{itemize}
+			\item meno balíku aplikácie slúžiace ako unikátny identifikátor aplikácie,
+			\item najnižšiu verziu Android API na ktorej je aplikácia spustiteľná
+			\item popisuje základné komponenty aplikácie, obsahuje informácie o aktivitách, službách (service), poskytovateľoch obsahu (content provider), prijímačoch (broadcast receiver) a triedach ktoré ich v rámci aplikácie implementujú,
+			\item deklaruje povolenia vyžadované aplikáciou na prístup k zabezpečeným častiam Android API,
+			\item definuje povolenia vyžadované od iných aplikácií pri interakcii s danou aplikáciou~\cite{Manifest}.
+		\end{itemize}
+	
+	\item \bod{Classes.dex} -- súbor obsahujúci spustiteľný kód aplikácie. Súbor typu DEX (Dalvik Executable) obsahuje operačné kódy a inštrukcie špecifické pre behové prostredie Android Runtime a virtuálny stroj Dalvik Virtual Machine (pre verzie Android 4.4.4 a staršie)~\cite{DexFormat}. 
+
+	\item \bod{Resources.arsc} -- tento súbor obsahuje informácie o zdrojových súboroch aplikácie. Tento súbor určuje vzťah medzi zdrojovými súbormi a ich identifikátormi, pomocou ktorých sú súbory referencované v zdrojovom kóde aplikácie.
+	
+	\item \bod{Assets} -- adresár obsahujúci neskomprimované zdrojové súbory.  Na rozdiel od zdrojových súborov z priečinku res, tieto zdroje nie sú referencované identifikátorom, ale prístup k nim je umožnený pomocou API triedy AssetManager.
+	
+	\item \bod{Lib} -- v tomto adresári sa nachádzajú skompilované knižnice určené pre konkrétnu architektúru procesora. Medzi podporované architektúry patrí ARMv7 a novšie, x86, x86\_64.
+
+	\item \bod{Res} -- adresár obsahujúci zdroje aplikácie. Obsah tohto adresára je tvorený predovšetkým multimediálnymi súbormi ako napríklad obrázky a ikony, ale aj súbormi vo formáte XML ktoré definujú užívateľské rozhranie, farby, lokalizované texty alebo štýl aplikácie. Súbory umiestnené v tomto adresári sú v zdrojovom kóde referencované pomocou unikátnych číselných identifikátorov, ktoré sú vygenerovaný počas kompilácie a nachádzajú sa v triede \zv{R.java}. Obsah priečinku je ďalej logicky členený do viacerých podpriečinkov. Android podporuje lokalizáciu a rôzne verzie zdrojových súborov, ktoré použije na základe údajov o zariadení na ktorom je aplikácia spustená~\cite{Resources}.
+	
+	\item \bod{META-INF} -- v tomto adresári sa nachádzajú súbory zaručujúce digitálny podpis a integritu APK balíčku. 
+		\begin{itemize}
+			\item CERT.RSA  -- súbor obsahujúci certifikát podpisu aplikácie
+			\item MANIFEST.MF  -- súbor obsahujúci hash každého súboru v APK archíve. Využíva hashovaciu funkciu \zv{SHA-1}.
+			\item CERT.SF  -- súbor obsahujúci záznam o každom súbore v APK archíve. Záznam o jednom súbore obsahuje jeho názov a \zv{SHA-1} hash záznamu o tomto súbore z MANIFEST.MF.
+		\end{itemize}		
+		
+		
+\end{itemize} 
+
