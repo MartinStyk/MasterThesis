@@ -31,3 +31,24 @@ Užívateľské rovnako ako aj systémové aplikácie majú prístup k celému J
 Android obsahuje základné systémové aplikácie ako napríklad telefón, kalendár alebo kontakty. Systémové aplikácie poskytujú svoju funkcionalitu užívateľom ale aj ostatným užívateľským aplikáciám.		
 
 
+\section{Zabezpečenie}
+Na úrovni operačného systému ponúka Android zabezpečenie na úrovni Linuxového jadra a zabezpečenú komunikáciu medzi procesmi.  Dôležitým bezpečnostným aspektom je spôsob exekúcie aplikácií. Každá aplikácia je spustená v izolovanom prostredí (tzv. sandbox). Vďaka tomuto prístupu je systém schopný zabrániť aplikáciám v poškodení iných aplikácií, systému Android alebo samotného zariadenia.
+
+\subsection{Vlastnosti jadra}
+Linuxové jadro slúži ako základ celého systému. Z hľadiska zabezpečenia poskytuje jadro niekoľko kľúčových vlastností 
+
+
+\begin{itemize}
+\item Model povolení založený na užívateľoch a ich skupinách
+\item Izolácia procesov
+\item Rozšíriteľný systém zabezpečenia komunikácie medzi procesmi
+\item Možnosť odobrania nepotrebných a potenciálne nezabezpečených častí kernelu
+\item Izolácia súborov a zdrojov jednotlivých užívateľov
+\end{itemize}
+
+\subsection{Izolácia aplikácií}
+Platforma Android využíva vlastnosti Linuxového jadra za účelom izolácie aplikácií a ich zdrojov. Zabezpečenie je založené na oddelení užívateľských procesov a prístupových oprávneniach Linuxových systémov. Systém priradí každej aplikácii unikátny používateľský identifikátor (UID) a spustí aplikáciu ako daný užívateľ. Tento prístup sa líši od ostatných operačných systémov aj od tradičného Linuxu. Tieto systémy spúšťajú viacero aplikácií v profile jedného užívateľa.
+Android zaisťuje izoláciu aplikácií na úrovni jadra operačného systému. Tento prístup je často označovaný ako kernel level sandbox. Jadro zaručuje bezpečnosť komunikácie medzi aplikáciami a systémom pomocou štandardných vlastností systému Linux, ako sú užívateľské a skupinové identifikátory~\cite{KernelSecurity}. 
+
+\subsection{Prístup k súborom}
+Android využíva prístupovo oprávnenia Linuxových systémov, ktoré zaručujú, že jeden používateľ nemôže neoprávnene pristupovať k dátam iných používateľov. V prípade Androidu, každá aplikácia predstavuje jedného užívateľa. Bez explicitných povolení nie sú dáta medzi aplikáciami zdieľané. V prípade, že aplikácia A pristupuje k dátam aplikácie B, užívateľ s identifikátorom  priradeným aplikácii A musí mať oprávnenie na prístupu k dátam užívateľa s identifikátorom ktorý je priradený aplikácii B. 
