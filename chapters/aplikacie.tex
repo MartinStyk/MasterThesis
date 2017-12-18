@@ -60,3 +60,34 @@ Súbor AndroidManifest.xml obsahuje okrem iného informácie o nasledujúcich vl
 		
 \end{itemize} 
 
+
+\section{Distribúcia aplikácií}
+Aplikácie na platforme Android sú distribuované ako inštalačné APK balíčky. 
+
+Podľa formy distribúcie a inštalácie môžeme aplikácie rozdeliť na dve základné skupiny
+\begin{itemize}
+ \item \bod{Predinštalované (systémové) aplikácie} -- tieto aplikácie sú distribuované priamo so zariadením a sú nainštalované pri iniciálnom zapnutí zariadenia,
+ \item \bod{Užívateľské aplikácie} -- aplikácie distribuované vo forme balíčkov poskytovaných najčastejšie pomocou obchodov s aplikáciami.
+\end{itemize}
+
+Zoznam predinštalovaných aplikácií určuje výrobca zariadenia. Používateľ nemá možnosť systémové aplikácie odinštalovať. Do kategórie predinštalovaných systémových aplikácií patria aplikácie umožňujúce ovládanie základného vybavenia zariadenia ako napríklad aplikácia telefón alebo fotoaparát. Do tejto kategórie patria aj predinštalované služby od spoločnosti Google. 
+
+Užívateľské aplikácie slúžia na prispôsobenie systému pre potreby konkrétneho užívateľa. O inštalácií a odstránení užívateľských aplikácií rozhoduje používateľ. Na pohodlné prehliadanie a inštaláciu aplikácií slúžia obchody (app stores). Pomocou centralizovaných obchodov s aplikáciami môžu softvéroví vývojári jednoducho dostať svoju aplikáciu k veľkému počtu užívateľov.  Najrozšírenejším a najznámejším obchodom s aplikáciami pre platformu Android je oficiálny obchod 
+\zv{Google Play Store}. 
+
+Okrem oficiálneho obchodu sú aplikácie distribuované aj pomocou alternatívnych distribučných kanálov. Medzi takéto kanály zaraďujeme alternatívne obchody s aplikáciami ako napríklad \zv{Amazon Appstore}. Častým distribučným kanálom sú aj obchody výrobcov mobilných zariadení alebo obchody mobilných operátorov. Existuje viacero služieb tretích strán ktoré sprostredkovávajú prístup k oficiálnym aplikáciám z týchto obchodov. APK súbory sú distribuované aj pomocou warezových portálov na zdieľanie súborov alebo underground obchodov. 
+
+Z dôvodu udržania bezpečného a spoľahlivého fungovania platformy Android je dôležitá bezpečnosť a kvalita distribuovaných aplikácií. Výskum porovnávajúci kvalitu aplikácií na neoficiálnych distribučných platformách ukázal, že tieto distribučné kanály obsahujú $5 až 13\%$ aplikácií, ktoré sú klonom oficiálnych aplikácií distribuovaných pomocou \zv{Google Play Store} ~\cite{Zhou2012}.
+
+\section{Inštalácia aplikácií}
+
+Platforma Android poskytuje služby na inštaláciu, aktualizáciu a odinštalovanie aplikácií. \newline
+Základnú funkcionalitu poskytujú nasledujúce služby.
+\begin{itemize}
+	\item \bod{Package Installer} -- implementuje funkcionalitu inštalácie, aktualizácie a odinštalovania aplikácií,
+	\item \bod{Package Manager Service} -- poskytuje API pre správu nainštalovaných softvérových balíčkov,
+	\item \bod{Daemon Installd} -- vytvára a spravuje adresáre potrebné pre nainštalovanie aplikácie.
+\end{itemize}
+Inštalácia aplikácie pozostáva z overenia aplikácie a extrakcie dát z APK balíčka. Aplikácia je overená na základe digitálneho podpisu a metadát zo súboru \zv{AndroidManifest.xml}. Systémové aplikácie sú rozbalené do adresára \cesta{/system/app}. Užívateľské aplikácie sú nainštalované v adresári \cesta{/data/app}. Systém Android uchováva v spomínaných adresároch kompletné APK súbory~\cite{AndroidDeveloper}.
+
+
