@@ -1,0 +1,69 @@
+\chapter{Prebalené aplikácie}
+Prebaľovanie aplikácií je formou útoku na systému Android. Princíp útoku spočíva v modifikácii originálnej aplikácii a jej následnej redistribúcii. Počas modifikácie APK súboru môže útočník pridať škodlivú funkcionalitu a upraviť tak správanie aplikácie.
+Prebaľovanie aplikácií je jednou z najbežnejších techník distribúcie malvéru a škodlivého kódu na platforme Android. 
+
+Štandardný postup tvorby prebalených aplikácií z pohľadu útočníka:
+\begin{itemize}
+	\item Stiahnutie populárnej aplikácie
+	\item Dekompilácia aplikácie pomocou nástrojov reverzného inžinierstva
+	\item Modifikácia aplikácie pridaním škodlivého kódu
+	\item Zabalenie aplikácie
+	\item Podpísanie vlastným self-signed certifikátom
+	\item Distribúcia aplikácie pomocou oficiálnych a neoficiálnych kanálov 
+\end{itemize}
+
+Predchádzajúce výskumy odhalili, že hlavnú motiváciu pre tvorbu prebalených aplikácií predstavuje možnosť pridania reklamných knižníc, ktoré originálna aplikácia neobsahovala, nahradenie účtov existujúcich reklamných modulov a presmerovanie výnosov z reklamy a nákupov uskutočňovaných v aplikácii. Modifikované aplikácie však môžu vykonávať rôzne škodlivé činnosti. Aplikácia môže získať prístup k osobným dáta používateľa alebo umožniť útočníkovi vzdialený prístup do napadnutého zariadenia~\cite{DetectingRepackagedZhou, Zhou2012}.
+
+Cieľom prebaľovania APK súborov nie je vytvoriť novú odlišnú aplikáciu s využitím zdrojového kódu a vlastností existujúcej aplikácie. Namiesto toho je zámerom prebalených aplikácií vydávať sa za pôvodnú aplikáciu a pripomínať ju v maximálnej možnej miere. Modifikované verzie spravidla poskytujú rovnaký look and feel a navonok pôsobia identicky ako originálne verzie. Z pohľadu užívateľa poskytuje modifikovaná aplikácia rovnakú funkcionalitu a užívateľské rozhranie ako originál. 
+
+Prebaľovanie aplikácií je populárne aj vďaka warezovým portálom slúžiacich na zdieľanie nelegálneho obsahu. Warezové portály ponúkajú bezplatne aj aplikácie, ktoré sú v službe \zv{Google Play} dostupné iba za poplatok, čo výrazne prispieva k šíreniu takýchto aplikácií. 
+
+Prebalené aplikácie sú škodlivé nie len pre koncových užívateľov, ale aj vývojárov, vlastníkov duševných práv a prevádzkovateľov obchodov s aplikáciami~\cite{CloneRelative}. 
+
+\section{Spôsob modifikácie aplikácií}
+Za účelom modifikácie aplikácie upraví útočník inštalačný APK balíček. Modifikácia už existujúcej nainštalovanej aplikácie nie je možná. Spravidla je modifikovaný len jej inštalačný balíček a škodlivá aplikácia sa do zariadenia dostane inštaláciou takéhoto balíčku.
+APK súbory majú definovaný formát a štruktúru, ktoré sú popísané v kapitole \ref{sec:struktura}. Vďaka ich formátu a štrukturovanému procesu tvorby je ich dekompilácia nenáročná.
+
+Existuje viacero nástrojov reverzného inžinierstva, ktoré môžu byť použité pri tvorbe prebalených aplikácií. Najkomplexnejším nástrojom, ktorý je možné použiť na kompletné rozbalenie a následné zabalenie aplikácie je nástroj ApkTool~\cite{Apktool}. Za účelom modifikácie zdrojového kódu je možné využiť bežne dostupné nástroje ako dex2jar, jd-gui a smali ~\cite{Dex2jar, jdgui, smali}.
+
+Z hľadiska modifikácie sú pri prebaľovaní zaujímavé nasledujúce súbory:
+
+\begin{itemize}
+	\item \bod{AndroidManifest.xml} -- tento súbor je v APK balíku dostupný ako skomprimované XML. Skomprimované (binárne) XML je možné konvertovať do editovateľnej formy pomocou nástroja ApkTool~\cite{Apktool}.
+	\item \bod{Classes.dex} -- súbor obsahujúci zdrojové kódy aplikácie je možné editovať pomocou spomínaných nástrojov dex2jar, jd-gui a smali.
+\end{itemize}
+
+Pri prebaľovaní aplikácie je teda možné kompletne editovať jej správanie. Upravením \zv{AndroidManifest.xml} je možné pridávať nové povolenia. 
+
+Zásadnou vecou, ktorá odlišuje prebalenú aplikáciu od originálu je digitálny podpis. Po editácií aplikácie a jej opätovnom zabalení je nutné aplikáciu digitálne podpísať. Za predpokladu, že privátny kľúč pôvodného vydavateľa neunikol a nie je k dispozícii útočníkovi, podpis originálnej a prebalenej aplikácie sa bude líšiť. 
+
+\section{Časté typy modifikácie}
+
+Modifikácia zdrojových kódov aplikácie predstavuje vážne ohrozenie bezpečnosti. Nasledujúce body popisujú najčastejšie typy modifikácie zdrojových kódov.
+
+\subsection*{Modifikácia reklamných modulov}
+Väčšina aplikácií je užívateľom dostupná zadarmo. Zdroj príjmu pre vývojárov predstavujú reklamné moduly integrované do aplikácie. Najčastejšou modifikáciu vykonávanou pri prebaľovaní aplikácií je nahradenie pôvodných reklamných modulov. Výnosy z reklamy sú tak presmerované z účtu pôvodného vývojára na účet útočníka. Najjednoduchšou úpravou je využitie existujúcich reklamných služieb a presmerovanie zisku na iný účet pomocou zmeny API kľúča. Takmer 65 \% prebalených aplikácií obsahuje modifikované reklamné knižnice~\cite{fakeapps}.
+
+\subsection*{Zneužitie prémiových služieb}
+Niektoré prebalené aplikácie obsahujú platobné služby, ktoré nie sú súčasťou originálnej aplikácie. Najčastejším spôsobom zneužitia prémiových služieb je odosielanie textových správ na spoplatnené prémiové čísla. Prebalená aplikácia vyžaduje pri inštalácií povolenie na odosielanie správ, ktoré ďalej odosiela bez používateľovho vedomia. Takto upravená aplikácia môže zaregistrovať vlastnú službu, ktorá odfiltruje SMS správy od telekomunikačného poskytovateľa a zabráni tak upozorneniam o využití platených prémiových služieb. Známym príkladom takto napadnutej aplikácie je prehliadač QQ Browser~\cite{fakeapps}.
+
+\subsection*{Prístup k citlivým dátam}
+Aplikácie môžu byť upravené za účelom zbierania informácií ako telefónne čísla kontaktov, emailové adresy, história prehliadania internetu alebo zoznam nainštalovaných aplikácií. Túto činnosť vykonávajú služby na pozadí, ktoré dáta odosielajú na vzdialené web servre. 
+
+\subsection*{Inštalácia malvéru}
+Prebalené aplikácie môžu na pozadí spustiť stiahnutie a inštaláciu ďalšieho malvéru. 
+
+\subsection*{Vzdialený prístup a ovládanie zariadenia}
+Za účelom získania kontroly nad zariadením môže aplikácia nadviazať spojenie s vzdialeným servrom ktorý je pod kontrolou útočníka. Server posiela aplikácii príkazy a prijíma od nej odpovede. Príkladom takéhoto správania je prebalená verzia aplikácie Stupid Birds, ktorá obsahuje vložený kód, pomocou ktorého sa pripojí na URL adresu z ktorej prijíma príkazy. Na základe týchto príkazov dokáže aplikácia na pozadí stiahnúť iné aplikácie, a umiestniť odkazy na ich inštaláciu priamo na plochu zariadenia~\cite{fakeapps}. 
+
+\subsection*{Vloženie viacerých DEX súborov}
+Po zmenách aplikácie prezentovaných v predchádzajúcich bodoch je nutné APK balíček na novo podpísať. Vo verzií Android 4.x existuje zraniteľnosť známa ako Master Key vulnerability. Ide o jednu z najzávažnejších zraniteľnosť pri overovaní APK balíčku počas jeho inštalácie. V prípade, že APK balíček obsahuje dva súbory s rovnakým názvom, pri overovaní hashov súborov sa použije prvý záznam o takomto súbore, avšak Android použije pri inštalácií druhý súbor. To umožňuje upraviť aplikáciu bez potreby opätovného podpísania~\cite{c2gYRVCI9leJhfOJ}. 
+
+\section{Výskyt prebalených aplikácií}
+Pre platformu Android existujú milióny aplikácií. Počet aplikácií dostupných v oficiálnom obchode \zv{Google Play} prekročil v septembri 2017 3 milióny~\cite{Statista}. Množstvo aplikácií je dostupných prostredníctvom neoficiálnych distribučných kanálov.  Výsledky predchádzajúcich výskumov ukazujú, že prebalené aplikácie predstavujú nezanedbateľnú časť dostupných aplikácií.
+
+Analýzou 23 tisíc aplikácií z šiestich alternatívnych obchodov v rámci práce \zv{Detecting Repackaged Smartphone Applications in
+Third-Party Android Marketplaces} sa zistilo, že pomer prebalených aplikácií sa v alternatívnych obchodoch pohybuje medzi 5 až 13 \% ~\cite{DetectingRepackagedZhou}.
+Počet aplikácií, ktoré sú nie len prebalené, ale pridávajú do originálnych aplikácií škodlivé správanie je taktiež významný. Wu Zhou a kolektív na základe analýzy vzorky 85tisíc aplikácií identifikovali, že počet takýchto aplikácií sa pohybuje medzi 0,97 až 2,7 \% všetkých aplikácií~\cite{Zhou2013}.
+
+Alternatívne distribučné platformy, ktoré často neposkytujú formu kontroly obsahu, obsahujú väčší počet prebalených APK súborov ako oficiálne zdroje. Proti prebaľovaniu aplikácií však nie je dostatočne zabezpečený ani oficiálny obchod. Prebalené aplikácie predstavujú výraznú hrozbu aj pre \zv{Google Play Store}~\cite{Zhauniarovich2013}. 
