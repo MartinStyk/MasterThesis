@@ -12,11 +12,11 @@ Prebaľovanie aplikácií je jednou z najbežnejších techník distribúcie mal
 	\item Distribúcia aplikácie pomocou oficiálnych a neoficiálnych kanálov 
 \end{itemize}
 
-Predchádzajúce výskumy odhalili, že hlavnú motiváciu pre tvorbu prebalených aplikácií predstavuje možnosť pridania reklamných knižníc, ktoré originálna aplikácia neobsahovala, nahradenie účtov existujúcich reklamných modulov a presmerovanie výnosov z reklamy a nákupov uskutočňovaných v aplikácii. Modifikované aplikácie však môžu vykonávať rôzne škodlivé činnosti. Aplikácia môže získať prístup k osobným dáta používateľa alebo umožniť útočníkovi vzdialený prístup do napadnutého zariadenia~\cite{DetectingRepackagedZhou, Zhou2012}.
+Hlavnou motiváciou pre tvorbu prebalených aplikácií predstavuje možnosť pridania reklamných knižníc a presmerovanie výnosov z reklamy a nákupov uskutočňovaných v aplikácii. Modifikované aplikácie môžu  taktiež vykonávať rôzne škodlivé činnosti. Aplikácia môže získať prístup k osobným dáta používateľa alebo umožniť útočníkovi vzdialený prístup do napadnutého zariadenia~\cite{DetectingRepackagedZhou, Zhou2012}.
 
-Cieľom prebaľovania APK súborov nie je vytvoriť novú odlišnú aplikáciu s využitím zdrojového kódu a vlastností existujúcej aplikácie. Namiesto toho je zámerom prebalených aplikácií vydávať sa za pôvodnú aplikáciu a pripomínať ju v maximálnej možnej miere. Modifikované verzie spravidla poskytujú rovnaký look and feel a navonok pôsobia identicky ako originálne verzie. Z pohľadu užívateľa poskytuje modifikovaná aplikácia rovnakú funkcionalitu a užívateľské rozhranie ako originál. 
+Tvorcovia prebalených aplikácií využívajú popularitu originálnych aplikácií za účelom propagácie malvéru. Cieľom prebaľovania APK súborov nie je vytvoriť novú odlišnú aplikáciu s využitím zdrojového kódu a vlastností existujúcej aplikácie. Namiesto toho je zámerom prebalených aplikácií vydávať sa za pôvodnú aplikáciu a pripomínať ju v maximálnej možnej miere. Modifikované verzie spravidla poskytujú rovnaký look and feel a navonok pôsobia identicky ako originálne verzie. Z pohľadu užívateľa poskytuje modifikovaná aplikácia rovnakú funkcionalitu a užívateľské rozhranie ako originál. 
 
-Prebaľovanie aplikácií je populárne aj vďaka warezovým portálom slúžiacich na zdieľanie nelegálneho obsahu. Warezové portály ponúkajú bezplatne aj aplikácie, ktoré sú v službe \zv{Google Play} dostupné iba za poplatok, čo výrazne prispieva k šíreniu takýchto aplikácií. 
+Prebaľovanie aplikácií je populárne aj vďaka warezovým portálom slúžiacich na zdieľanie nelegálneho obsahu. Warezové portály ponúkajú bezplatne aj aplikácie, ktoré sú v službe \zv{Google Play} dostupné iba za poplatok, čo výrazne prispieva k šíreniu takýchto aplikácií. Prebalené aplikácie nie sú však distribuované výhradne pomocou neoficiálnych kanálov, ale aj prostredníctvom \zv{Google Play}.
 
 Prebalené aplikácie sú škodlivé nie len pre koncových užívateľov, ale aj vývojárov, vlastníkov duševných práv a prevádzkovateľov obchodov s aplikáciami~\cite{CloneRelative}. 
 
@@ -65,5 +65,6 @@ Pre platformu Android existujú milióny aplikácií. Počet aplikácií dostupn
 Analýzou 23 tisíc aplikácií z šiestich alternatívnych obchodov v rámci práce \zv{Detecting Repackaged Smartphone Applications in
 Third-Party Android Marketplaces} sa zistilo, že pomer prebalených aplikácií sa v alternatívnych obchodoch pohybuje medzi 5 až 13 \% ~\cite{DetectingRepackagedZhou}.
 Počet aplikácií, ktoré sú nie len prebalené, ale pridávajú do originálnych aplikácií škodlivé správanie je taktiež významný. Wu Zhou a kolektív na základe analýzy vzorky 85tisíc aplikácií identifikovali, že počet takýchto aplikácií sa pohybuje medzi 0,97 až 2,7 \% všetkých aplikácií~\cite{Zhou2013}.
+Až 86 \% Android aplikácií obsahujúcich malvér vzniklo prebalovaním originálnej aplikácie a vložením škodlivého kódu~\cite{androidThreats}.
 
 Alternatívne distribučné platformy, ktoré často neposkytujú formu kontroly obsahu, obsahujú väčší počet prebalených APK súborov ako oficiálne zdroje. Proti prebaľovaniu aplikácií však nie je dostatočne zabezpečený ani oficiálny obchod. Prebalené aplikácie predstavujú výraznú hrozbu aj pre \zv{Google Play Store}~\cite{Zhauniarovich2013}. 

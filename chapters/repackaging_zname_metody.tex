@@ -1,0 +1,39 @@
+\chapter{Známe metódy detekcie prebalených aplikácií}
+Šírenie prebalených aplikácií predstavuje významnú hrozbu pre celý systém Android. Z hľadiska bezpečnosti systému je v súčasnosti detekcia prebalených aplikácií jednou z najdôležitejších tém.
+Téme prebalených APK súborov sa vo svojich prácach venuje viacero výskumných tímov. Bolo navrhnutých a implementovaných viacero spôsobov detekcie takýchto aplikácií. 
+\newline 
+
+\noindent Detekcia prebalených APK balíčkov vychádza z nasledujúcich pozorovaní
+\begin{itemize}
+	\item Prebalená aplikácia zachováva funkcionalitu pôvodnej aplikácie
+	\item Prebalená aplikácia zachováva vzhľad pôvodnej aplikácie
+	\item Prebalená a pôvodná aplikácia sú podpísané rôznymi entitami
+\end{itemize} 
+
+\noindent Algoritmy detekcie prebalených aplikácií pozostávajú zvyčajne z dvoch základných krokov
+\begin{itemize}
+	\item Extrakcia vlastností aplikácií
+	\item Párové porovnanie aplikácií na základe extrahovaných vlastností
+\end{itemize}
+\ \newline
+
+\noindent Základným rozdielom medzi existujúcimi metódami detekcie prebalených APK súborov sú vlastnosti aplikácií použité pri detekcii malvérových duplikátov. Väčšia časť existujúcich algoritmov využíva podobnosť zdrojových kódov a inštrukcií. Existuje niekoľko metód, ktoré na detekciu prebalených aplikácií využívajú podobnosť multimediálnych súborov obsiahnutých v APK balíčkoch.
+
+\section{DroidMOSS}
+Metóda \zv{DroidMOSS} je založená na podobnosti zdrojového kódu originálu a prebalenej kópie. Táto metóda sa zameriava na podobnosť aplikačného Java kódu a nezaoberá sa natívnym kódom. Počas prebaľovania je jednoduchšie modifikovať Java kód ako natívny kód a len malá časť aplikácií (približne 5 \% používa natívny kód).
+
+
+\zv{DroidMOSS} pozostáva z troch kľúčových krokov. Prvým krokom je extrakcia aplikačných inštrukcií a získanie informácií o vydavateľovi aplikácie v podobe certifikátu. Tieto dva atribúty charakterizujú a odlišujú aplikácie.
+Za účelom extrakcie aplikačného kódu je použitý nástroj \zv{smali/baksmali}, pomocou ktorého je súbor \zv{classes.dex} dekompilovaný do Dalvik bytekódu~\cite{smali}.  Počas procesu prebaľovania môže byť použitá obfuskácia kódu. Počas obfuskácie sú premenované názvy balíkov, tried, metód a premenných. \zv{DroidMOSS} sa s obfuskáciou kódu vysporiadava pomocou ignorovania operandov. Pri tvorbe identifikátora aplikácie sú zohľadnené len operačné inštrukcie. Intuitívne môžeme tento prístup vysvetliť tak, že počas prebaľovania je jednoduché upraviť kód premenovaním premenných, oveľa náročnejšie je zmeniť kód tak, aby používal odlišné inštrukcie. 
+Informácie o autorovi aplikácie pochádzajú zo súborov v adresári \cesta{META-INF}. \zv{DroidMOSS} vygeneruje identifikátor autora pomocou zahashovania verejného kľuča, mena vývojára a jeho kontaktných informácií. 
+
+
+Druhý krok spočíva vo vygenerovaní unikátneho identifikátoru každej aplikácie. Hlavným dôvodom pre tvorbu identifikátoru je komplexnosť a veľký počet inštrukcií v jednej aplikácií. Dĺžka identifikátoru je výrazne kratšia ako dáta o inštrukciách aplikácie, čo umožňuje efektívnejšie porovnávanie aplikácií. 
+Vytvorenie identifikátoru pomocou hashovania celého kódu aplikácie môže byť efektívne použité na overenie úplnej zhody dvoch aplikácií. Tento postup však nie je možné aplikovať pri určení podobnosti aplikácií.  Z tohto dôvodu využíva \zv{DroidMOSS} špeciálnu hashovaciu techniku \zv{fuzzy hashing} \cite{fuzzyHashing}. Namiesto vytvorenia identifikátoru celej sekvencie inštrukcií, je táto sekvencia najprv rozdelená na kratšie časti. Následne je každá z týchto častí hashovaná osobitne. Na vyhodnotenie podobnosti aplikácií sú použité identifikátory (hashe) týchto kratších sekvencií.
+
+
+Posledným krokom je párové porovnanie aplikácií. Prvé dva kroky sú vykonané pre každú aplikáciu bez ohľadu na jej pôvod a zdroj. V poslednom kroku sú aplikácie rozdelené do dvoch skupín. Jedna skupina obsahuje aplikácie z \zv{Google Play Store}, druhá aplikácie z neoficiálnych zdrojov.  \zv{DroidMOSS} využíva silný predpoklad, že aplikácie pochádzajúce z \zv{Google Play Store} nie sú prebalené. 
+Aplikácie z rozdielnych skupín sú vzájomne porovnané. Výsledok porovnania pre každú dvojicu je číselná hodnota vyjadrujúca podobnosť aplikácií. Podobnosť dvoch aplikácií sa vyhodnocuje na základe zhody identifikátorov sekvencií inštrukcií. V prípade, že sú časti kódu identické, ich hash je rovnaký. Použitá technika umožňuje efektívne lokalizovať zmeny vykonané v prebalených aplikáciách. 
+Na vyhodnotenie podobnosti je použitý algoritmus navrhnutý pomocou techniky dynamického programovania. Podobnosť aplikácií je určená ako minimálna vzdialenosť medzi identifikátormi dvoch sekvencii inštrukcií.  Vzdialenosť je reprezentovaná počtom úprav potrebných na pretvorenie identifikátora jednej sekvencie na identifikátor druhej sekvencie. Ak vypočítaná podobnosť presiahne definovanú hranicu a porovnávané aplikácie sú podpísané rôznymi vydavateľmi, aplikácia ktorá nepochádza z \zv{Google Play Store} je označená za prebalenú.
+
+Systém \zv{DroidMOSS} bol aplikovaný na kolekciu $86\,000$ aplikácií. Pomocou tejto techniky sa ukázalo, že $5$ až $13\%$  aplikácií distribuovaných pomocou alternatívnych zdrojov je prebalených~\cite{DetectingRepackagedZhou}.
