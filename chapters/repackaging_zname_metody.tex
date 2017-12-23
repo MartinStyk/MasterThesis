@@ -32,8 +32,43 @@ Druhý krok spočíva vo vygenerovaní unikátneho identifikátoru každej aplik
 Vytvorenie identifikátoru pomocou hashovania celého kódu aplikácie môže byť efektívne použité na overenie úplnej zhody dvoch aplikácií. Tento postup však nie je možné aplikovať pri určení podobnosti aplikácií.  Z tohto dôvodu využíva \zv{DroidMOSS} špeciálnu hashovaciu techniku \zv{fuzzy hashing} \cite{fuzzyHashing}. Namiesto vytvorenia identifikátoru celej sekvencie inštrukcií, je táto sekvencia najprv rozdelená na kratšie časti. Následne je každá z týchto častí hashovaná osobitne. Na vyhodnotenie podobnosti aplikácií sú použité identifikátory (hashe) týchto kratších sekvencií.
 
 
-Posledným krokom je párové porovnanie aplikácií. Prvé dva kroky sú vykonané pre každú aplikáciu bez ohľadu na jej pôvod a zdroj. V poslednom kroku sú aplikácie rozdelené do dvoch skupín. Jedna skupina obsahuje aplikácie z \zv{Google Play Store}, druhá aplikácie z neoficiálnych zdrojov.  \zv{DroidMOSS} využíva silný predpoklad, že aplikácie pochádzajúce z \zv{Google Play Store} nie sú prebalené. 
-Aplikácie z rozdielnych skupín sú vzájomne porovnané. Výsledok porovnania pre každú dvojicu je číselná hodnota vyjadrujúca podobnosť aplikácií. Podobnosť dvoch aplikácií sa vyhodnocuje na základe zhody identifikátorov sekvencií inštrukcií. V prípade, že sú časti kódu identické, ich hash je rovnaký. Použitá technika umožňuje efektívne lokalizovať zmeny vykonané v prebalených aplikáciách. 
-Na vyhodnotenie podobnosti je použitý algoritmus navrhnutý pomocou techniky dynamického programovania. Podobnosť aplikácií je určená ako minimálna vzdialenosť medzi identifikátormi dvoch sekvencii inštrukcií.  Vzdialenosť je reprezentovaná počtom úprav potrebných na pretvorenie identifikátora jednej sekvencie na identifikátor druhej sekvencie. Ak vypočítaná podobnosť presiahne definovanú hranicu a porovnávané aplikácie sú podpísané rôznymi vydavateľmi, aplikácia ktorá nepochádza z \zv{Google Play Store} je označená za prebalenú.
+Posledným krokom je párové porovnanie aplikácií. Aplikácie sú  rozdelené do dvoch skupín. Jedna skupina obsahuje aplikácie z \zv{Google Play Store}, druhá aplikácie z neoficiálnych zdrojov.  \zv{DroidMOSS} využíva silný predpoklad, že aplikácie pochádzajúce z \zv{Google Play Store} nie sú prebalené. 
+Aplikácie z rozdielnych skupín sú vzájomne porovnané. Na vyhodnotenie podobnosti je použitý algoritmus navrhnutý pomocou techniky dynamického programovania. Podobnosť aplikácií je určená ako minimálna vzdialenosť medzi identifikátormi dvoch sekvencii inštrukcií.  Vzdialenosť je reprezentovaná počtom úprav potrebných na pretvorenie identifikátora jednej sekvencie na identifikátor druhej sekvencie. Ak vypočítaná podobnosť presiahne definovanú hranicu a porovnávané aplikácie sú podpísané rôznymi vydavateľmi, aplikácia ktorá nepochádza z \zv{Google Play Store} je označená za prebalenú. Použitá technika umožňuje efektívne lokalizovať zmeny vykonané v prebalených aplikáciách. 
+
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=130mm]{images/DroidMoss.png}
+  \end{center}
+  \caption{Postup metódy DroidMOSS}
+  \label{fig:strukturaApk}
+\end{figure}
+
 
 Systém \zv{DroidMOSS} bol aplikovaný na kolekciu $86\,000$ aplikácií. Pomocou tejto techniky sa ukázalo, že $5$ až $13\%$  aplikácií distribuovaných pomocou alternatívnych zdrojov je prebalených~\cite{DetectingRepackagedZhou}.
+
+
+\section{ImageStruct}
+Metóda \zv{ImageStruct} používa pri detekcii prebalených aplikácií podobnosť obrázkových súborov. Tento spôsob je založený na pozorovaní, že podobné aplikácie (rôzne verzie tej istej aplikácie alebo prebalené aplikácie) obsahujú podobné obrázky, zatiaľ čo obrázky v aplikáciách s rôznou funkcionalitou sú rozdielne. 
+
+
+\zv{ImageStruct} získava z APK balíčka charakteristické dáta obrázkov. Na extrakciu obrázkových dát je použitý algoritmus \zv{pHash}. \zv{PHash} používa diskrétnu kosínusovú transformáciou, pomocou ktorej z obrázka odstráni niektoré farebné frekvencie. To umožňuje detekciu podobnosti aj pri jednoduchších úpravách, ako napríklad zmena rozlíšenia alebo vystrihnutie časti obrazu~\cite{pHash}. Na identifikáciu vydavateľa sú použité údaje z priečinka \cesta{META-INF}.
+
+
+Extrahované dáta sú ukladané v databáze \zv{Redis}, ktorá slúži ako rýchla cache pamäť. 
+Podobnosť dvoch APK súborov je určená ako pomer spoločných obrázkov a všetkých obrázkov jednej z aplikácií. Na výpočet podobnosti sa používa formula:
+\[ similarity(app_1, app_2) = \frac{|app_{1}images \cap app_{2}images|} { app_{1}images} \]
+
+
+\zv{ImageStruct}  porovnáva kolekciu aplikácií z \zv{Google Play} s aplikáciami z alternatívnych obchodov, pričom využíva predpoklad, že \zv{Google Play} neobsahuje prebalené aplikácie. Ak hodnota podobnosti prekročí stanovenú hranicu a aplikácie sú podpísané rôznymi autormi, aplikácia z alternatívneho zdroja je označená za prebalenú.
+Nastavenie hodnoty hranice nad ktorou sú aplikácie považované za duplikáty je z hľadiska presnosti a spoľahlivosti detekcie kľúčové. Autori uvádzajú, že pomocou viacerých experimentov určili túto hodnotu na $0,6$~\cite{ImageStruct}.
+
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=130mm]{images/ImageStruct.png}
+  \end{center}
+  \caption{Postup metódy ImageStruct}
+  \label{fig:strukturaApk}
+\end{figure}
+
+Pomocou experimentov nad databázou $48\,000$ aplikácií z \zv{Google Play} a alternatívnych zdrojov odhalila táto metóda, že výskyt prebalených aplikácií v alternatívnych zdrojoch sa pohybuje medzi $6,7 \%$ až $14.5 \%$.
+Pomer prebalených aplikácií detekovaných touto metódou je takmer rovnaký ako v prípade metódy \zv{DroidMOSS}. Ako dôkaz použiteľnosti metód zameraných na podobnosť multimediálnych súborov bolo v rámci experimentov vykonané porovnanie hodnôt podobnosti určených metódou \zv{ImageStruct} a metódou \zv{AndroGuard}, ktorá využíva podobnosť zdrojového kódu. Výsledky ukazujú, že medzi týmito postupmi existuje silná korelácia~\cite{ImageStruct}. 
