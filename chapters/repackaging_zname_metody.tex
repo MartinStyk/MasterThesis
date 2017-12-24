@@ -72,3 +72,18 @@ Nastavenie hodnoty hranice nad ktorou sú aplikácie považované za duplikáty 
 
 Pomocou experimentov nad databázou $48\,000$ aplikácií z \zv{Google Play} a alternatívnych zdrojov odhalila táto metóda, že výskyt prebalených aplikácií v alternatívnych zdrojoch sa pohybuje medzi $6,7 \%$ až $14.5 \%$.
 Pomer prebalených aplikácií detekovaných touto metódou je takmer rovnaký ako v prípade metódy \zv{DroidMOSS}. Ako dôkaz použiteľnosti metód zameraných na podobnosť multimediálnych súborov bolo v rámci experimentov vykonané porovnanie hodnôt podobnosti určených metódou \zv{ImageStruct} a metódou \zv{AndroGuard}, ktorá využíva podobnosť zdrojového kódu. Výsledky ukazujú, že medzi týmito postupmi existuje silná korelácia~\cite{ImageStruct}. 
+
+
+\section{FSquaDRA}
+Základnou myšlienkou metódy \zv{FSquaDRA} je, že aplikácia obsahuje okrem zdrojového kódu a obrázkov aj množstvo iných súborov, ktoré definujú jej identitu. Preto táto metóda porovnáva všetky súbory dvoch aplikácií. Na evaluáciu podobnosti dvoch APK súborov je využitý Jaccardov index, ktorý sa určí ako pomer súborov, ktoré sa nachádzajú v obidvoch balíčkoch, ku počtu súborov, ktoré sa nachádzajú v aspoň jednej z aplikácií.
+
+
+Pri porovnaní súborov sú využité ich hashe vygenerované počas podpisu APK balíčka, ktoré sa nachádzajú v súbore \cesta{MANIFEST.MF}. Využitie existujúcich hashov zefektívňuje túto metódu.
+Rovnako ako pri ostatných metódach, aj \zv{FSquaDRA} využíva údaje z adresára \cesta{META-INF} na identifikáciu vydavateľa aplikácie. 
+
+Narozdiel od metód \zv{ImageStruct} a \zv{DroidMOSS} boli v rámci experimentov porovnané všetky aplikácie medzi sebou. Hodnota Jaccardovho indexu, nad ktorou sú aplikácie považované za prebalené bola empiricky určená ako $0,7$.
+Výsledky získané pomocou tejto metódy korešpondujú s výsledkami získanými pomocou analýzy zdrojového kódu. V porovnaní s metódami založenými na analýze zdrojového kódu je tento spôsob oveľa rýchlejší. Autori uvádzajú, že za jednu sekundu systém vykoná $6500$ párových porovnaní, zatiaľ čo metóda porovnávania zdrojového kódu vyhodnotí podobnosť jedného páru aplikácií za približne $65$ sekúnd. 
+Nevýhodou tejto metódy je, že neskúma obsah súborov a spolieha sa výhradne na ich hash. Pri prebaľovaní môže útočník mierne pozmeniť zdrojové súbory, čo má za následok znefunkčnenie detekcie~\cite{Zhauniarovich2014}. 
+
+Použiteľnosť tejto metódy bola ďalej skúmaná v práci \zv{Evaluation of Resource-Based App Repackaging
+Detection in Android}~\cite{Gadyatskaya2016}. V rámci tejto práce bola metóda vyhodnocovaná nad aplikáciami, ktoré obsahovali známe prebalené súbory, a teda bolo možné efektívne vyhodnotiť presnosť a úspešnosť tejto metódy. Práca potvrdila, že táto metóda je aj napriek nedostatkom dosahuje presnosť metód založených na analýze zdrojového kódu.
