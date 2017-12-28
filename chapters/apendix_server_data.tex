@@ -1,0 +1,62 @@
+\chapter{Dáta ukladané v centrálnej databáze APK súborov}
+\label{zbieraneDataPriloha}
+\begin{longtable}{|l|p{6.3cm}|}
+\hline
+\textbf{Atribút} & \textbf{Dátový typ}          \\ \hline
+identifikátor                                   & integer         \\
+meno balíka aplikácie                           & string 		  \\
+názov aplikácie                                      & string             \\
+názov verzie                                      & string      \\
+kód verzie                                      & integer \\
+veľkosť APK súboru                                      & integer (bajty)        \\
+najnišia podporovaná verzia SDK 			& integer \\
+cieľová verzia SDK							& integer \\
+algorimus podpisu balíčka					& string \\
+hash verejného kľuča 						& string \\
+hash certifikátu							& string \\
+sériové číslo certifikátu					& integer \\
+počet aktivít								& integer \\
+identifikátor aktivít								& integer \\
+počet služieb								& integer \\
+identifikátor služieb								& integer \\
+počet content provider								& integer \\
+identifikátor content provider								& integer \\
+počet broadcast receiver								& integer \\
+identifikátor broadcast receiver								& integer \\
+počet definovaných oprávnení								& integer \\
+identifikátor definovaných oprávnení								& integer \\
+počet vyžadovaných oprávnení								& integer \\
+identifikátor vyžadovaných oprávnení								& integer \\
+počet využívaných vlastností								& integer \\
+identifikátor využívaných vlastností								& integer \\
+hash classes.dex						& string \\
+hash resources.arsc						& string \\
+hash AndroidManifest.xml				& string \\
+počet obrázkov							& integer \\
+počet obrazoviek							& integer \\				
+počet menu							& integer \\
+celkový počet súborov							& integer \\
+počet png súborov							& integer \\
+počet png súborov s rôznym názvom							& integer \\
+počet xml súborov							& integer \\
+počet xml súborov s rôznym názvom							& integer \\
+identifikátor png súborov 					& integer \\
+identifikátor xml súborov 					& integer \\
+identifikátor obrazoviek 					& integer \\
+identifikátor menu 					& integer \\
+počet jpg súborov 					& integer \\
+počet ldpi obrázkov					& integer \\
+počet mdpi obrázkov 					& integer \\
+počet hdpi obrázkov 					& integer \\
+počet xhdpi obrázkov 					& integer \\
+počet xxhdpi obrázkov 					& integer \\
+počet xxxhdpi obrázkov 					& integer \\
+počet nodpi obrázkov 					& integer \\
+počet tvdpi obrázkov 					& integer \\
+počet aplikačných tried					& integer \\
+počet aplikačných tried	(bez vnútorných tried)				& integer \\
+identifikátor aplikačných tried					& integer \\
+hashe png súborov					& zoznam stringov \\
+vyžadované oprávnenia					& zoznam stringov 
+  \label{tab:zbieraneData}
+\end{longtable}
