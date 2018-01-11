@@ -1,16 +1,17 @@
 \chapter{Prebalené aplikácie}
+\label{chap:repackaging}
 Prebaľovanie aplikácií je formou útoku na systému Android. Princíp útoku spočíva v modifikácii originálnej aplikácii a jej následnej redistribúcii. Počas modifikácie APK súboru môže útočník pridať škodlivú funkcionalitu a upraviť tak správanie aplikácie.
 Prebaľovanie aplikácií je jednou z najbežnejších techník distribúcie malvéru a škodlivého kódu na platforme Android. 
 
 Štandardný postup tvorby prebalených aplikácií z pohľadu útočníka:
-\begin{itemize}
+\begin{enumerate}
 	\item Stiahnutie populárnej aplikácie
 	\item Dekompilácia aplikácie pomocou nástrojov reverzného inžinierstva
 	\item Modifikácia aplikácie pridaním škodlivého kódu
 	\item Zabalenie aplikácie
 	\item Podpísanie vlastným self-signed certifikátom
 	\item Distribúcia aplikácie pomocou oficiálnych a neoficiálnych kanálov 
-\end{itemize}
+\end{enumerate}
 
 Hlavnou motiváciou pre tvorbu prebalených aplikácií predstavuje možnosť pridania reklamných knižníc a presmerovanie výnosov z reklamy a nákupov uskutočňovaných v aplikácii. Modifikované aplikácie môžu  taktiež vykonávať rôzne škodlivé činnosti. Aplikácia môže získať prístup k osobným dáta používateľa alebo umožniť útočníkovi vzdialený prístup do napadnutého zariadenia~\cite{DetectingRepackagedZhou, Zhou2012}.
 
@@ -64,7 +65,7 @@ Pre platformu Android existujú milióny aplikácií. Počet aplikácií dostupn
 
 Analýzou 23 tisíc aplikácií z šiestich alternatívnych obchodov v rámci práce \zv{Detecting Repackaged Smartphone Applications in
 Third-Party Android Marketplaces} sa zistilo, že pomer prebalených aplikácií sa v alternatívnych obchodoch pohybuje medzi 5 až 13 \% ~\cite{DetectingRepackagedZhou}.
-Počet aplikácií, ktoré sú nie len prebalené, ale pridávajú do originálnych aplikácií škodlivé správanie je taktiež významný. Wu Zhou a kolektív na základe analýzy vzorky 85tisíc aplikácií identifikovali, že počet takýchto aplikácií sa pohybuje medzi 0,97 až 2,7 \% všetkých aplikácií~\cite{Zhou2013}.
-Až 86 \% Android aplikácií obsahujúcich malvér vzniklo prebalovaním originálnej aplikácie a vložením škodlivého kódu~\cite{androidThreats}.
+Počet aplikácií, ktoré sú nie len prebalené, ale pridávajú do originálnych aplikácií škodlivé správanie je taktiež významný. Wu Zhou a kolektív na základe analýzy vzorky 85\,000 aplikácií identifikovali, že počet takýchto aplikácií sa pohybuje medzi 0,97 až 2,7 \% všetkých aplikácií~\cite{Zhou2013}.
+Až 86 \% aplikácií obsahujúcich malvér vzniklo prebalovaním originálnej aplikácie a vložením škodlivého kódu~\cite{androidThreats}.
 
-Alternatívne distribučné platformy, ktoré často neposkytujú formu kontroly obsahu, obsahujú väčší počet prebalených APK súborov ako oficiálne zdroje. Proti prebaľovaniu aplikácií však nie je dostatočne zabezpečený ani oficiálny obchod. Prebalené aplikácie predstavujú výraznú hrozbu aj pre \zv{Google Play Store}~\cite{Zhauniarovich2013}. 
+Alternatívne distribučné platformy, ktoré často neposkytujú formu kontroly obsahu, obsahujú väčší počet prebalených APK súborov ako oficiálne zdroje. Proti prebaľovaniu aplikácií však nie je dostatočne zabezpečený ani oficiálny obchod~\cite{Zhauniarovich2013}. 

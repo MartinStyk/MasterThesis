@@ -6,13 +6,7 @@ Android Application Package, skrátene APK, je formát archívnych súborov. APK
 
 Formát APK súborov rozširuje JAR formát. Obidva spomínané formáty vychádzajú z archívneho formátu ZIP. Vďaka tejto vlastnosti je možné obsah archívu extrahovať pomocou štandardných nástrojov pre prácu so súbormi vo formáte ZIP.
 
-APK súbory vznikajú ako výstup kompletnej kompilácie a zabalenia aplikácie. APK archív obsahuje súbory potrebné pre spustenie aplikácie. Typický obsah balíčka tvoria nasledujúce typy súborov:
-\begin{itemize}
-	\item skompilovaný zdrojový kód aplikácie
-	\item súbor Manifest – súbor obsahujúci metadáta o danej aplikácií
-	\item XML súbory – súbory definujúce rozloženie užívateľského rozhrania a konštantné hodnoty využívané aplikáciu, napr. definície farieb alebo textov
-	\item multimediálne zdrojové súbory~\cite{Allen2015}.
-\end{itemize}
+APK súbory vznikajú ako výstup kompletnej kompilácie a zabalenia aplikácie. APK archív obsahuje súbory potrebné pre spustenie aplikácie~\cite{Allen2015}.
 
 \subsection{Štruktúra}
 \label{sec:struktura}
@@ -64,8 +58,7 @@ Súbor AndroidManifest.xml obsahuje okrem iného informácie o nasledujúcich vl
 
 \section{Distribúcia aplikácií}
 Aplikácie na platforme Android sú distribuované ako inštalačné APK balíčky. 
-
-Podľa formy distribúcie a inštalácie môžeme aplikácie rozdeliť na dve základné skupiny
+Podľa formy distribúcie a inštalácie môžeme aplikácie rozdeliť na dve základné skupiny:
 \begin{itemize}
  \item \bod{Predinštalované (systémové) aplikácie} -- tieto aplikácie sú distribuované priamo so zariadením a sú nainštalované pri iniciálnom zapnutí zariadenia,
  \item \bod{Užívateľské aplikácie} -- aplikácie distribuované vo forme balíčkov poskytovaných najčastejšie pomocou obchodov s aplikáciami.
@@ -121,7 +114,7 @@ Z pohľadu vývojára je správa podpisového kľúča veľmi dôležitá. Vývo
 
 \subsection{Známe bezpečnostné riziká}
 
-Existuje viacero známych zraniteľností súvisiacich s distribúciou aplikácií  pre platformu Android. Najviac rozšíreným problémom je prebaľovanie APK balíčkov. Pri tomto procese je aplikácia rozbalená a niektoré časti aplikácie sú upravené. Modifikovaná aplikácia je ďalej distribuovaná. Detailný popis prebaľovania aplikácií a rizík s tým spojených sa nachádza v kapitole TODO.
+Existuje viacero známych zraniteľností súvisiacich s distribúciou aplikácií  pre platformu Android. Najviac rozšíreným problémom je prebaľovanie APK balíčkov. Pri tomto procese je aplikácia rozbalená a niektoré časti aplikácie sú upravené. Modifikovaná aplikácia je ďalej distribuovaná. Detailný popis prebaľovania aplikácií a rizík s tým spojených sa nachádza v kapitole \ref{chap:repackaging}.
 
 Metóda prebaľovania upraví aplikáciu a na novo ju podpíše iným podpisovým kľúčom. Ďalšie známe metódy útokov využívajú predovšetkým zraniteľnosti pri overovacom procese APK balíčku a nemodifikujú originálny podpis. 
 

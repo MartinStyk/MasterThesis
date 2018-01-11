@@ -38,7 +38,7 @@ Cieľom systému \zv{Apk Analyzer} je vytvorenie dynamickej databázy dát o apl
 Za týmto účeľom je zámerom systému \zv{Apk Analyzer} zapojiť do tvorby databázy existujúcich aplikácií koncových užívateľov. Mobilná aplikácia, ktorá sprostredkováva detekciu prebalených aplikácií odošle dáta o aplikáciách nainštalovaných na danom zariadení do centrálnej databázy systému \zv{Apk Analyzer}. Tento kolaboratívny spôsob zaručí neustálu aktualizáciu databázy. Čím viacej užívateľov je zapojených, tým väčšiu databázu sa podarí vytvoriť.
 
 \section{Návrh metódy}
-Návrh kompletného systému \zv{Apk Analyzer}, ktorý pozostáva z mobilného klienta a serverovej časti je detailne popísaný v kapitole TODO. Táto kapitola sa zameriava predovšetkým na samotnú detekčnú metódu a tvorbu databázy, ktoré sa odohrávajú na strane serveru.
+Návrh kompletného systému \zv{Apk Analyzer}, ktorý pozostáva z mobilného klienta a serverovej časti obsahuje kapitola \ref{chap:apk-analyzer} . Táto kapitola sa zameriava predovšetkým na samotnú detekčnú metódu a tvorbu databázy, ktoré sa odohrávajú na strane serveru.
 
 \subsection{Základný princíp detekcie prebalených aplikácií}
 Mobilná aplikácia \zv{Apk Analyzer} odosiela dáta o aplikáciách nainštalovaných na jednotlivých Android zariadeniach na server, ktorý ich ukladá do databázy. Pri samotnej detekcií sa použijú dáta uložené v databáze. K analyzovanej aplikácií sa vyhľadajú podobné aplikácie. Detekcia podobnosti kombinuje prístupy použité v článkoch \zv{FSquaDRA} a \zv{ImageStruct}. Podobnosť je určená ako pomer obrázkov vo formáte \zv{png}, ktoré dve aplikácie zdieľajú. Z kolekcie aplikácií, ktoré zdieľajú veľkú časť obrázkov, a teda sú považované za rôzne verzie tej istej aplikácie je vybraný najčastejšie sa opakujúci digitálny podpis, ako identifikátor originálnej verzie. Ak je analyzovaná aplikácia podpísaná týmto kľúčom, je označená za dôveryhodnú. V opačnom prípade systém upozorní užívateľa na prebalenú aplikáciu. 
@@ -53,7 +53,7 @@ Mobilná aplikácia \zv{Apk Analyzer} odosiela dáta o aplikáciách nainštalov
 
 \subsection{Databáza aplikácií}
 
-Základom detekcie prebalených aplikácií je databáza metainformácií o aplikáciách. Dáta o aplikáciách pochádzajú z analýzy, ktorá je vykonaná na Android zariadeniach. Detailné informácie týkajúce sa analýzy aplikácií pomocou nástroja \zv{Apk Analyzer} sa nachádzajú v kapitole TODO. Mobilná aplikácia odosiela metadáta o každej nesystémovej aplikácií na server.
+Základom detekcie prebalených aplikácií je databáza metainformácií o aplikáciách. Dáta o aplikáciách pochádzajú z analýzy, ktorá je vykonaná na Android zariadeniach. Detailné informácie týkajúce sa analýzy aplikácií pomocou mobilnej aplik8cie \zv{Apk Analyzer} sa nachádzajú v kapitole \ref{chap:mobilna-aplikacia}. Mobilná aplikácia odosiela metadáta o každej nesystémovej aplikácií na server.
 
  
 \noindent Tento prístup poskytuje nasledujúce výhody:
@@ -62,9 +62,7 @@ Základom detekcie prebalených aplikácií je databáza metainformácií o apli
 	\item \bod{Dynamický vývoj databázy} -- klientska aplikácia odosiela na server všetky nesystémové aplikácie, vrátane aktualizovaných verzií. To zabezpečuje, že databáza aplikácií sa dynamicky vyvíja a obsahuje aj najnovšie aplikácie. Z dôvodu udržovania aktuálnosti databázy nie je potrebný žiadny zásah administrátora.
 \end{itemize}
 
-\noindent Keďže zoznam nainštalovaných aplikácií predstavuje citlivé osobné dáta užívateľa, mobilná aplikácia si pri prvom spustení vyžiada súhlas na odosielanie týchto dát na vzdialený server. Užívateľ má možnosť nezapojiť sa do tvorby databázy, avšak potom mu nie je umožnené využiť služby detekcie prebalených aplikácií. 
-
-Odosielané dáta o nainštalovaných aplikáciách sú podmnožinou dát získaných analýzou APK súboru. Tieto dáta obsahujú základné metadáta ako napríklad meno balíku aplikácie, veľkosť APK súboru, hash certifikátu alebo počty jednotlivých komponent aplikácie. Okrem toho sú odosielané aj hashe všetkých \zv{png} súborov obsiahnutých v APK balíčku a taktiež bezpečnostné povolenia využívané aplikáciou. Kompletný zoznam všetkých uchovávaných atribútov aplikácie obsahuje príloha TODO.
+\noindent Odosielané dáta o nainštalovaných aplikáciách sú podmnožinou dát získaných analýzou APK súboru. Tieto dáta obsahujú základné metadáta ako napríklad meno balíku aplikácie, veľkosť APK súboru, hash certifikátu alebo počty jednotlivých komponent aplikácie. Okrem toho sú odosielané aj hashe všetkých \zv{png} súborov obsiahnutých v APK balíčku a taktiež bezpečnostné povolenia využívané aplikáciou. Kompletný zoznam všetkých uchovávaných atribútov aplikácie obsahuje príloha \ref{zbieraneDataPriloha}.
 
 Z dôvodu efektivity vyhľadávania v databázy je pre každú aplikáciu určený jej unikátny identifikátor. V prípade, že majú dve aplikácie tento identifikátor rovnaký, ide o úplne rovnakú aplikáciu a v databázy ju server ukladá len jeden krát.
 
@@ -203,7 +201,7 @@ Navrhnutá metóda detekcie porovnáva obrázky na základe ich hashov. Aj malá
 \subsection*{Nastavenia detekcie na základe predchádzajúcich výskumov}
 Známe výskumy prebalených APK súborov pracujú nad offline databázou aplikácií. Funkčnosť a presnosť týchto metód je vyhodnotená prostredníctvom porovnania výsledkov s inými algoritmami. Na základe experimentov sú určené parametre detekcie, ktoré eliminujú nesprávne výsledky algoritmu. V prípade našej metódy je situácia komplikovanejšia, pretože našu databázu netvoria celé APK súbory, ale len niektoré metadáta. Nie je teda možné spustiť nad týmito dátami iné metódy detekcie, a nastaviť tak parametre algoritmu, ktoré ovplyvňujú výsledky detekcie. Z metadát o jednotlivých aplikáciách nie je možné rozhodnúť, či je daná aplikácia originál, alebo prebalená verzia.  Z toho dôvodu sa navrhnutá metóda vo veľkej miere opiera o už existujúce výskumy a preberá ich závery a odporúčané parametre detekcie. 
 
-\section{Zhrnutie}
+\section{Hodnotenie}
 Navrhnutá metóda detekcie prebalených APK súborov bola prakticky implementovaná a nasadená v produkčnom prostredí systému \zv{Apk Analyzer}. 
 Metóda je postavená na základoch aktuálnych poznatkov, ktoré odhaľujú, že pri prebaľovaní aplikácií zvyčajne zostávajú zdrojové súbory nezmenené. V prípade rozšírenia metód využívajúcich podobnosť zdrojových súborov je pravdepodobné, že útočníci začnú aplikovať výraznejšie zmeny v rôznych súboroch obsiahnutých v APK balíčku. Výrazná zmena počtu súborov v balíčku alebo úpravy obsiahnutých obrázkov predstavujú spôsob, akým je možné navrhnutú metódu znefunkčniť. Avšak v súčasnosti takéto zmeny vykonávané nie sú a navrhnutá metóda je schopná odhaliť prebalené aplikácie.
 
