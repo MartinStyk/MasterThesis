@@ -1,18 +1,18 @@
 \chapter{Mobilná aplikácia}
 \label{chap:mobilna-aplikacia}
 
-Ústredný bod systému Apk Analyzer tvorí mobilná aplikácia, ktorá analyzuje nainštalované aplikačné balíčky. Táto aplikácia poskytuje užívateľovi podrobné informácie o jeho aplikáciách a umožňuje mu kontrolu originality aplikácie. Vyvinutá aplikácia je od októbra 2017 dostupná v oficiálnom obchode Google Play Store. Táto kapitola obsahuje popis vyvinutej aplikácie, spolu s technikami získavania informácií o aplikačných balíčkoch v operačnom systéme Android.
+Ústredný bod systému Apk Analyzer tvorí mobilná aplikácia, ktorá analyzuje nainštalované aplikačné balíčky. Táto aplikácia poskytuje užívateľovi podrobné informácie o jeho aplikáciách a umožňuje mu kontrolu originality aplikácie. Vyvinutá aplikácia je od októbra 2017 dostupná v oficiálnom obchode Google Play Store~\cite{gp}. Táto kapitola obsahuje popis vyvinutej aplikácie, spolu s technikami získavania informácií o aplikačných balíčkoch v operačnom systéme Android.
 
 \section{Ciele a požiadavky kladené na aplikáciu}
 Pre platformu Android je dostupných viacero aplikácií schopných analyzovať softvérový obsah zariadenia. Hlavnou motiváciou je vytvorenie novej mobilnej aplikácie, ktorá má predpoklady presadiť sa medzi ostatnými podobnými riešeniami. Cieľom je implementovať aplikáciu, ktorá sa v Google Play Store dostane medzi najsťahovanejšie a najlepšie hodnotené aplikácie analyzujúce aplikačné balíčky. Za týmto účelom je potrebné nie len vylepšiť nedostatky existujúcich aplikácií, ale aj poskytnúť nové funkcie, atraktívny dizajn a prehľadné užívateľské rozhranie. 
 
 \subsection{Existujúce riešenia a ich nedostatky}
-Oficiálny obchod \zv{Google Play Store} obsahuje viaceré aplikácie schopné analyzovať nainštalované aplikačné balíčky. V obchode sa nachádzajú aplikácie s názvom \zv{Apk Analyzer}, \zv{App Info} alebo \zv{App Detective}. TODO citace. Najpopulárnejšie z týchto aplikácií dosahovali v januári 2018 viac ako $50\,000$ celkových inštalácií. Pred začiatkom vývoja novej aplikácie bol vykonaný detailný rozbor existujúcich riešení, s dôrazom na identifikáciu nedostatkov, ktoré by mohli byť v novo vyvinutej aplikácií odstránené.
+Oficiálny obchod \zv{Google Play Store} obsahuje viaceré aplikácie schopné analyzovať nainštalované aplikačné balíčky. V obchode sa nachádzajú aplikácie s názvom \zv{Apk Analyzer}, \zv{App Info} alebo \zv{App Detective}. Najpopulárnejšie z týchto aplikácií dosahovali v januári 2018 viac ako $50\,000$ celkových inštalácií~\cite{kfOvdBmwje56iW6j}. Pred začiatkom vývoja novej aplikácie bol vykonaný detailný rozbor existujúcich riešení, s dôrazom na identifikáciu nedostatkov, ktoré by mohli byť v novo vyvinutej aplikácií odstránené.
 \subsubsection{\textbf{Používateľské rozhranie}}
 Väčšina aplikácií zameriavajúcich sa na analýzu softvérového obsahu zariadenia nedodržiava základné princípy dizajnu používateľského rozhrania. Pri niektorých aplikáciách je to spôsobené ich starším časom vydania a prispôsobením na staršie verzie systému. No aj veľká časť pravidelne aktualizovaných nových aplikácií sa nedrží doporučených dizajnových princípov, čo má za následok zhoršenie ovládateľnosti a užívateľského dojmu.
 
 \subsubsection{\textbf{Limitované informácie}}
-Veľká časť aplikácií, ktorých názov napovedá, že zobrazujú dáta o aplikačných balíčkoch sa zameriava na veľmi malú časť dostupných informácií. Ako príklad môže slúžiť aplikácia \zv{APK ANALYZER} od vydavateľa z-project, ktorá zobrazuje len súbor \zv{AndroidManifest.xml}. Aplikácia \zv{App Info} zobrazuje informácie výhradne o vyžadovaných bezpečnostných povoleniach.
+Veľká časť aplikácií, ktorých názov napovedá, že zobrazujú dáta o aplikačných balíčkoch sa zameriava na veľmi malú časť dostupných informácií. Ako príklad môže slúžiť aplikácia \zv{APK ANALYZER} od vydavateľa \zv{z-project}, ktorá zobrazuje len súbor \zv{AndroidManifest.xml}~\cite{kfOvdBmwje56iW6i}. Aplikácia \zv{App Info} zobrazuje informácie výhradne o vyžadovaných bezpečnostných povoleniach~\cite{kfOvdBmwje56iW6i}.
 
 \subsection{Funkčné požiadavky}
 Cieľom novo vyvinutej mobilnej aplikácie je vylepšiť identifikované nedostatky a implementovať aplikáciu v súlade so štandardami systému Android. Funkčné požiadavky kladené na mobilnú aplikáciu vychádzajú z jej funkcie v celom navrhnutom systéme Apk Analyzer, kde mobilná aplikácia slúži ako zdroj aplikačných metadát a poskytuje užívateľské rozhranie.
@@ -78,17 +78,17 @@ XmlResourceParser parser = apkResources.getAssets()
 \noindent Algoritmus následne pomocou tohto objektu spracováva jednotlivé xml elementy a vytvára z nich textovú reprezentáciu tohto súboru.
 
 
-Takto vytvorený xml súbor však nie je čitateľný. Hodnoty veľkej časti atribútov sa odkazujú na zdrojové súbory, ktoré sú skompilované v rámci súboru \zv{resources.arsc}. Príkladom je nasledujúci xml element v ukážke \ref{xml:manifest-before}.  Téma na ktorú sa tento element odkazuje je aplikácií dostupná pod identifikátorom $78954341$, a názov je dostupný ako textový zdroj číslo $4562348$ 
-
-%\begin{lstlisting} [language=xml,frame=single,framesep=10pt, caption= {Ukážka AndroidManifest.xml získaného pomocou parsera} \label{xml:manifest-before}]
-%<application theme=“78954341“ label=“4562348“ .... >
-%\end{lstlisting}
+Takto vytvorený xml súbor však nie je čitateľný. Hodnoty veľkej časti atribútov sa odkazujú na zdrojové súbory, ktoré sú skompilované v rámci súboru \zv{resources.arsc}. Príkladom je xml element \zv{application} v ukážke \ref{xml:manifest-before}.  Téma na ktorú sa tento element odkazuje je aplikácií dostupná pod identifikátorom $78954341$, a názov je dostupný ako textový zdroj číslo $4562348$.
 \mbox{}\\
-Za účelom eliminovania tohto správania využíva \zv{Apk Analyzer} prístup k zdrojovým súborom analyzovaných aplikácií. V týchto súboroch vyhľadá text korešpondujúci s daným identifikátorom a dosadí ho do vytvorenej textovej reprezentácie súboru \zv{AndroidManifest.xml}. Predchádzajúci príklad vyzerá po substitúcií nasledovne:
-
-%\begin{lstlisting} [language=xml,frame=single,framesep=10pt, caption= {Ukážka AndroidManifest.xml po substitúcií identifikátorov zdrojových textov} \label{xml:manifest-after}]
-%<application theme=“Theme.YouTube.Light“ label=“Youtube“ .... >
-%\end{lstlisting}
+\begin{lstlisting} [language=xml,frame=single,framesep=10pt, caption= {Ukážka AndroidManifest.xml získaného pomocou parsera} \label{xml:manifest-before}]
+<application theme="@78954341" label="@4562348" >
+\end{lstlisting}
+\mbox{}\\
+Za účelom eliminovania tohto správania využíva \zv{Apk Analyzer} prístup k zdrojovým súborom analyzovaných aplikácií. V týchto súboroch vyhľadá text korešpondujúci s daným identifikátorom a dosadí ho do vytvorenej textovej reprezentácie súboru \zv{AndroidManifest.xml}. Výsledok tejto operácie je zobrazený na ukážke \ref{xml:manifest-after}.
+\mbox{}\\
+\begin{lstlisting} [language=xml,frame=single,framesep=10pt, caption= {Ukážka AndroidManifest.xml po substitúcií identifikátorov zdrojových textov} \label{xml:manifest-after}]
+<application theme="Theme.YouTube.Light" label="Youtube"/>
+\end{lstlisting}
 
 \subsection{Súbory v APK balíčku}
 Na získanie zoznamu všetkých súborov v aplikácii spolu s ich identifikátormi v podobe hashu je využitý súbor \cesta{MANIFEST.MF}, ktorý je vytvorený v priebehu tvorby APK balíčka.  Prístup k tomuto súboru je možný prostredníctvom štandardného Java API a triedy \zv{JarFile}.
@@ -97,14 +97,29 @@ Na získanie zoznamu všetkých súborov v aplikácii spolu s ich identifikátor
 Dáta \zv{DEX} súboru, ktorý obsahuje zdrojový kód, získava aplikácia pomocou triedy \zv{dalvik.system.DexFile}. Táto trieda obsahuje operácie, pomocou ktorých je možné získať zoznam všetkých aplikačných tried, ktoré má daná aplikácia k dispozícií. Tento zoznam obsahuje triedy samotnej aplikácie, spolu so všetkými použitými knižnicami. 
 
 \section{Aplikácia}
-Mobilná aplikácia bola implementovaná v jazyku Java. Je dostupná v obchode \zv{Google Play} pod názvom \zv{Apk Analyzer}, a je unikátne identifikovaná pomocou mena balíku \zv{sk.styk.martin.apkanalyzer}. Aplikácia je dostupná pre všetky zariadenia s verziou systému novšou ako Android 4.0.3 (API level 15) a  je prispôsobená na použitie na mobilných telefónoch a tabletoch. Nasledujúce sekcie opisujú hlavnú funkcionalitu aplikácie.
+Mobilná aplikácia bola implementovaná v jazyku Java. Je dostupná v obchode \zv{Google Play} pod názvom \zv{Apk Analyzer}, a je unikátne identifikovaná pomocou mena balíku \zv{sk.styk.martin.apkanalyzer}~\cite{gp}. Aplikácia je dostupná pre všetky zariadenia s verziou systému novšou ako Android 4.0.3 (API level 15) a  je prispôsobená na použitie na mobilných telefónoch a tabletoch. Nasledujúce sekcie opisujú hlavnú funkcionalitu aplikácie.
+
+
 
 \subsection{Zoznam nainštalovaných aplikácií}
-Základná obrazovka obsahuje zoznam všetkých nainštalovaných aplikačných balíčkov. Tento zoznam sa užívateľovi zobrazí po spustení aplikácie. V zozname aplikácií je možné vyhľadávať podľa lokalizovaného názvu aplikácie alebo mena balíčku. Taktiež je možné filtrovať aplikácie na základe ich pôvodu. Táto funkcia poskytuje užívateľom možnosť ľahko rozlíšiť medzi aplikáciami získanými z oficiálneho obchodu a z alternatívnych zdrojov. Kliknutím na položku zoznamu sa zobrazia detailné informácie o vybranej aplikácií. V prípade analýzy nenainštalovaného aplikačného balíčku, vyberie užívateľ APK súbor z pamäte zariadenia pomocou tlačidla umiestneného v pravom dolnom rohu obrazovky. 
+\begin{figure}[H]
+\begin{minipage}[t]{0.48\textwidth}
+Základná obrazovka obsahuje zoznam všetkých nainštalovaných aplikačných balíčkov. Tento zoznam sa užívateľovi zobrazí po spustení aplikácie. V zozname aplikácií je možné vyhľadávať podľa lokalizovaného názvu aplikácie alebo mena balíčku. Taktiež je možné filtrovať aplikácie na základe ich pôvodu. Táto funkcia poskytuje užívateľom možnosť ľahko rozlíšiť medzi aplikáciami získanými z oficiálneho obchodu a z alternatívnych zdrojov. Kliknutím na položku zoznamu sa zobrazia detailné informácie o vybranej aplikácií. V prípade analýzy nenainštalovaného aplikačného balíčku, vyberie užívateľ APK súbor z pamäte zariadenia pomocou tlačidla umiestneného v pravom dolnom rohu obrazovky.
+\end{minipage}%
+\hfill
+\centering
+\begin{minipage}[t][][b]{0.45\textwidth}
+\centering
+\includegraphics[width=5.2cm]{images/app/list_device.png}
+\centering
+\caption{Zoznam nainštalovaných aplikácií}
+\label{fig:app-list}
+\end{minipage}%
+\end{figure}
 
 \subsection{Analýza aplikácie}
 Táto obrazovka zobrazuje dáta získané analýzou aplikačného balíčku. Z dôvodu veľkého počtu atribútov získaných analýzou, sú tieto dáta zobrazené vo viacerých záložkách, medzi ktorými môže užívateľ prepínať. 
-\\\\
+\\
 \noindent Atribúty analyzovaných aplikácií sú rozdelené tematicky do nasledujúcich skupín:
 \begin{itemize}
 	\item \bod{Všeobecné informácie} -- základne dáta o aplikácií, napr. názov, verzia, zdroj alebo kompatibilné vezie systému Android
@@ -116,13 +131,26 @@ Táto obrazovka zobrazuje dáta získané analýzou aplikačného balíčku. Z d
 	\item \bod{Definované bezpečnostné povolenia} -- zoznam povolení definovaných v súbore AndroidManifest.xml v rámci elementu defines-permission
 	\item \bod{DEX súbor} -- zoznam všetkých Java a Kotlin tried, ktoré sú zabalené v DEX súbore danej aplikácie
 \end{itemize}
-Kompletný zoznam atribútov získaných pomocou analýzy obsahuje príloha TODO. 
+Kompletný zoznam atribútov získaných pomocou analýzy obsahuje príloha \ref{ziskaneDataPriloha}. 
 
 Po kliknutí na položku atribútu analyzovanej aplikácie sa zobrazí popis daného atribútu. Na základe tohto popisu môže dáta zmysluplne interpretovať aj užívateľ, ktorý nie je odborníkom v oblasti aplikácií pre systém Android.
 
 Táto obrazovka poskytuje užívateľovi prístup k ďalším informáciám a operáciám s analyzovanou aplikáciou. Medzi najdôležitejšie patrí možnosť zobrazenia súboru \zv{AndroidManifest.xml} danej aplikácie. Manifest je možné uložiť do externej pamäte zariadenia. Prístup k súboru \zv{AndroidManifest.xml} je možny len pri analýze nainštalovanej aplikácie.
+\begin{figure}[H]
+\begin{minipage}[t]{0.48\textwidth}
 Užívateľ môže exportovať APK súbor nainštalovanej aplikácie. Systém Android ukladá inštalačné súbory všetkých aplikácií do priečinka, ktorý nie je bežným užívateľom prístupný. Pomocou funkcie exportu APK súboru dokáže naša aplikácia skopírovať tento súbor do užívateľovi prístupnej časti úložného priestoru. Aplikácia taktiež poskytuje možnosť zdieľania APK súborov. 
 \zv{Apk Analyzer} sa nezameriava na získavanie dát o konkrétnej inštalácii aplikácie. Tieto dáta poskytuje systémová aplikácia, ktorá je súčasťou štandardných Android nastavení. Naša aplikácia poskytuje možnosť priameho prechodu na túto systémovú aplikáciu.  Taktiež poskytuje možnosť zobrazenia záznamu o aplikácií na obchode \zv{Google Play}.
+\end{minipage}%
+\hfill
+\centering
+\begin{minipage}[t][][b]{0.45\textwidth}
+\centering
+    \includegraphics[width=5.2cm]{images/app/detail_device.png}
+\centering
+\caption{Detaily aplikácie}
+\label{fig:app-detail}
+\end{minipage}%
+\end{figure}
 
 \subsection{Analýza aplikácie pred inštaláciou z lokálneho APK súboru}
 Naša aplikácia poskytuje možnosť analýzy pred inštaláciou APK súborov, ktoré sú uložené v lokálnej pamäti zariadenia. Táto funkcionalita je užitočná v prípade stiahnutia aplikácie z webu a jej následnej inštalácie. Po výbere APK súboru pomocou prieskumníka súborov, spustí Android inštaláciu prevzatej aplikácie. V prípade, že má používateľ nainštalovanú našu aplikáciu, nespustí Android inštaláciu automaticky po kliknutí na APK súbor. Namiesto toho zobrazí užívateľovi dialóg, v ktorom si môže vybrať medzi priamou inštaláciou a analýzou v aplikácii \zv{Apk Analyzer}. Naša aplikácia zobrazí detaily APK balíčka a zároveň ponúkne užívateľovi možnosť nainštalovať danú aplikáciu.
