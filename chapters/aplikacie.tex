@@ -1,6 +1,6 @@
 \chapter{Aplikácie pre platformu Android}
 \section{Android Application Package}
-Aplikácie pre platformu Android sú vyvíjané predovšetkým v jazyku Java, ich vývoj je však možný aj v jazykoch C++, Kotlin, Python, alebo prostredníctvom technológie Xamarin ktorá využíva jazyk C\#. Výstupom kompilácie a zabalenia Android aplikácie je súbor typu Android Application Package. Tento súbor slúži ako inštalačný balíček, ktorý je pomocou distribučných kanálov distribuovaný k cieľovým užívateľom.
+Aplikácie pre platformu Android sú vyvíjané predovšetkým v jazyku Java, ich vývoj je však možný aj v jazykoch C++, Kotlin, Python, alebo prostredníctvom technológie Xamarin ktorá využíva jazyk C\#. Výstupom kompilácie a zabalenia Android aplikácie je súbor typu \zv{Android Application Package}. Tento súbor slúži ako inštalačný balíček, ktorý je pomocou distribučných kanálov distribuovaný k cieľovým užívateľom.
 
 Android Application Package, skrátene APK, je formát archívnych súborov. APK súbory sú asociované s MIME typom \zv{application/vnd.android.package-archive} a príponou \zv{.apk}~\cite{IANA}. 
 
@@ -37,9 +37,9 @@ Súbor AndroidManifest.xml obsahuje okrem iného informácie o nasledujúcich vl
 	
 	\item \bod{Classes.dex} -- súbor obsahujúci spustiteľný kód aplikácie. Súbor typu DEX (Dalvik Executable) obsahuje operačné kódy a inštrukcie špecifické pre behové prostredie Android Runtime a virtuálny stroj Dalvik Virtual Machine (pre verzie Android 4.4.4 a staršie)~\cite{DexFormat}. 
 
-	\item \bod{Resources.arsc} -- tento súbor obsahuje informácie o zdrojových súboroch aplikácie. Tento súbor určuje vzťah medzi zdrojovými súbormi a ich identifikátormi, pomocou ktorých sú súbory referencované v zdrojovom kóde aplikácie.
+	\item \bod{Resources.arsc} -- obsahuje informácie o zdrojových súboroch aplikácie. Tento súbor určuje vzťah medzi zdrojovými súbormi a ich identifikátormi, pomocou ktorých sú súbory referencované v zdrojovom kóde aplikácie.
 	
-	\item \bod{Assets} -- adresár obsahujúci neskomprimované zdrojové súbory.  Na rozdiel od zdrojových súborov z priečinku res, tieto zdroje nie sú referencované identifikátorom, ale prístup k nim je umožnený pomocou API triedy AssetManager.
+	\item \bod{Assets} -- adresár obsahujúci neskomprimované zdrojové súbory.  Na rozdiel od zdrojových súborov z priečinku res, tieto zdroje nie sú referencované identifikátorom, ale prístup k nim je umožnený pomocou API triedy \zv{AssetManager}.
 	
 	\item \bod{Lib} -- v tomto adresári sa nachádzajú skompilované knižnice určené pre konkrétnu architektúru procesora. Medzi podporované architektúry patrí ARMv7 a novšie, x86, x86\_64.
 
@@ -60,16 +60,15 @@ Súbor AndroidManifest.xml obsahuje okrem iného informácie o nasledujúcich vl
 Aplikácie na platforme Android sú distribuované ako inštalačné APK balíčky. 
 Podľa formy distribúcie a inštalácie môžeme aplikácie rozdeliť na dve základné skupiny:
 \begin{itemize}
- \item \bod{Predinštalované (systémové) aplikácie} -- tieto aplikácie sú distribuované priamo so zariadením a sú nainštalované pri iniciálnom zapnutí zariadenia,
+ \item \bod{Predinštalované (systémové) aplikácie} -- tieto aplikácie sú distribuované priamo so systémom a sú nainštalované pri iniciálnom zapnutí systému,
  \item \bod{Užívateľské aplikácie} -- aplikácie distribuované vo forme balíčkov poskytovaných najčastejšie pomocou obchodov s aplikáciami.
 \end{itemize}
 
 Zoznam predinštalovaných aplikácií určuje výrobca zariadenia. Používateľ nemá možnosť systémové aplikácie odinštalovať. Do kategórie predinštalovaných systémových aplikácií patria aplikácie umožňujúce ovládanie základného vybavenia zariadenia ako napríklad aplikácia telefón alebo fotoaparát. Do tejto kategórie patria aj predinštalované služby od spoločnosti Google. 
 
-Užívateľské aplikácie slúžia na prispôsobenie systému pre potreby konkrétneho užívateľa. O inštalácií a odstránení užívateľských aplikácií rozhoduje používateľ. Na pohodlné prehliadanie a inštaláciu aplikácií slúžia obchody (app stores). Pomocou centralizovaných obchodov s aplikáciami môžu softvéroví vývojári jednoducho dostať svoju aplikáciu k veľkému počtu užívateľov.  Najrozšírenejším a najznámejším obchodom s aplikáciami pre platformu Android je oficiálny obchod 
-\zv{Google Play Store}. 
+Užívateľské aplikácie slúžia na prispôsobenie systému pre potreby konkrétneho užívateľa. O inštalácií a odstránení užívateľských aplikácií rozhoduje používateľ. Na pohodlné prehliadanie a inštaláciu aplikácií slúžia obchody (app stores). Pomocou centralizovaných obchodov s aplikáciami môžu softvéroví vývojári jednoducho distribuovať svoju aplikáciu k veľkému počtu užívateľov.  Najrozšírenejším a najznámejším obchodom s aplikáciami pre platformu Android je oficiálny obchod \zv{Google Play Store}. 
 
-Okrem oficiálneho obchodu sú aplikácie distribuované aj pomocou alternatívnych distribučných kanálov. Medzi takéto kanály zaraďujeme alternatívne obchody s aplikáciami ako napríklad \zv{Amazon Appstore}. Častým distribučným kanálom sú aj obchody výrobcov mobilných zariadení alebo obchody mobilných operátorov. Existuje viacero služieb tretích strán ktoré sprostredkovávajú prístup k oficiálnym aplikáciám z týchto obchodov. APK súbory sú distribuované aj pomocou warezových portálov na zdieľanie súborov alebo underground obchodov. 
+Okrem oficiálneho obchodu sú aplikácie distribuované aj pomocou alternatívnych distribučných kanálov. Medzi takéto kanály zaraďujeme alternatívne obchody s aplikáciami ako napríklad \zv{Amazon Appstore}. Častým distribučným kanálom sú aj obchody výrobcov mobilných zariadení alebo obchody mobilných operátorov. Existuje viacero služieb tretích strán, ktoré sprostredkovávajú prístup k oficiálnym aplikáciám z týchto obchodov. APK súbory sú distribuované aj pomocou warezových portálov na zdieľanie súborov alebo underground obchodov. 
 
 Z dôvodu udržania bezpečného a spoľahlivého fungovania platformy Android je dôležitá bezpečnosť a kvalita distribuovaných aplikácií. Výskum porovnávajúci kvalitu aplikácií na neoficiálnych distribučných platformách ukázal, že tieto distribučné kanály obsahujú $5 až 13\%$ aplikácií, ktoré sú klonom oficiálnych aplikácií distribuovaných pomocou \zv{Google Play Store} ~\cite{Zhou2012}.
 
@@ -93,17 +92,17 @@ Bezpečnosť a integrita distribuovaných APK balíčkov je dôležitým aspekto
 Každý APK balíček musí byť digitálne podpísaný. Systém Android zabráni inštalácii digitálne nepodpísaných aplikácií. 
 Súbory súvisiace s podpisom APK balíčku sa nachádzajú v priečinku \zv{META-INF}. Počas digitálneho podpisu aplikačného balíčku sa vygenerujú \zv{SHA-1} alebo \zv{SHA-256} hashe súborov obsiahnutých v APK archíve. Záznamy o súboroch a ich hashoch sú uložené v súboroch \cesta{META-INF/MANIFEST.MF} a \cesta{META-INF/CERT.SF}. Celý APK balíček je následne podpísaný pomocou utility \zv{Jarsigner}. 
 
-Android podporuje dve schémy digitálneho podpisu aplikácie. Schéma verzie 1 je založená na podpise štandardného Java balíčka. Táto schéma nechráni niektoré súbory špecifické pre APK balíčky, ako napríklad metadáta o aplikácií. Nechránené súbory musia byť za účelom overenia dekomprimované počas procesu overenia, čo zvyšuje časovú a pamäťovú náročnosť overenia APK balíčku.  Od verzie \zv{Android 7.0} (verzia API 24) je podporovaná schéma podpisu vo verzii 2, ktorá je upravená a špecializovaná na podpis APK balíčka a eliminuje nedostatky verzie 1. V súčasnosti sú aplikácie zvyčajne podpísané obidvomi spôsobmi~\cite{NT0FrzQIkOAYbG2Ga}.
-\newline \newline
-\noindent \textbf{Kontrola integrity} \newline \newline
-\noindent Hashe jednotlivých súborov v APK balíčku vygenerované počas procesu podpisu, slúžia na zaručenie integrity. Počas inštalácie aplikácie sa v rámci procesu overenia aplikácie kontrolujú hashe jednotlivých súborov. V prípade zmeny súborov v aplikácií bez jej opätovného podpisu, systém zabráni inštalácií. Pri zmene obsahu musí byť APK balíček podpísaný znova. 
-\newline \newline
-\noindent \textbf{Identifikácia autora} \newline \newline
-\noindent Podpis balíčka slúži na identifikáciu autora aplikácie. V prípade, že je viacero aplikácií podpísaných jedným kľúčom, pochádzajú tieto aplikácie od jedného vydavateľa. 
+Android podporuje dve schémy digitálneho podpisu aplikácie. Schéma verzie 1 je založená na podpise štandardného Java balíčka. Táto schéma nechráni niektoré súbory špecifické pre APK balíčky, ako napríklad metadáta o aplikácií. Nechránené súbory musia byť za účelom overenia dekomprimované počas procesu overenia, čo zvyšuje časovú a pamäťovú náročnosť overenia APK balíčku.  Od verzie \zv{Android 7.0} (verzia API 24) je podporovaná schéma podpisu vo verzii 2, ktorá je špecializovaná na podpis APK balíčka a eliminuje nedostatky predchádzajúcej verzie. V súčasnosti sú aplikácie zvyčajne podpísané obidvomi spôsobmi~\cite{NT0FrzQIkOAYbG2Ga}.
+
+\subsubsection{\textbf{Kontrola integrity}}
+Hashe jednotlivých súborov v APK balíčku vygenerované počas procesu podpisu, slúžia na zaručenie integrity. Počas inštalácie aplikácie sa v rámci procesu overenia aplikácie kontrolujú hashe jednotlivých súborov. V prípade zmeny súborov v aplikácií bez jej opätovného podpisu, systém zabráni inštalácií. Pri zmene obsahu musí byť APK balíček podpísaný znova. 
+
+\subsubsection{\textbf{Identifikácia autora}}
+Podpis balíčka slúži na identifikáciu autora aplikácie. V prípade, že je viacero aplikácií podpísaných jedným kľúčom, pochádzajú tieto aplikácie od jedného vydavateľa. 
 Všetky verzie jednej aplikácie musia byť podpísané rovnakým certifikátom. Unikátnym identifikátorom aplikácie je meno hlavného balíka aplikácie (package name). Android považuje aplikácie s rovnakým menom balíka za rôzne verzie jednej aplikácie a pri aktualizácií nahrádza staršiu verzie novšou. Všetky aplikácie s rovnakým menom balíka musia byť preto podpísané rovnakým certifikátom, čo zaručuje, že pochádzajú od rovnakého vydavateľa.  V prípade, že sú podpísané rôznymi certifikátmi, Android ich inštaláciu zamietne. 
-\newline \newline
-\noindent \textbf{Správa podpisových kľúčov} \newline \newline
-\noindent Platforma Android povoľuje používanie tzv. \zv{self-signed} certifikátov. \zv{Self-signed} certifikáty sú podpísané identitou ktorú identifikujú. 
+
+\subsubsection{\textbf{Správa podpisových kľúčov}}
+Platforma Android povoľuje používanie tzv. \zv{self-signed} certifikátov. \zv{Self-signed} certifikáty sú podpísané identitou ktorú identifikujú. 
 
 Z pohľadu vývojára je správa podpisového kľúča veľmi dôležitá. Vývojári aplikácií majú pri správe podpisového kľúča dve možnosti. Môžu používať manuálnu správu, alebo službu \zv{Google Play App Signing}. 
 \begin{itemize}
@@ -114,7 +113,7 @@ Z pohľadu vývojára je správa podpisového kľúča veľmi dôležitá. Vývo
 
 \subsection{Známe bezpečnostné riziká}
 
-Existuje viacero známych zraniteľností súvisiacich s distribúciou aplikácií  pre platformu Android. Najviac rozšíreným problémom je prebaľovanie APK balíčkov. Pri tomto procese je aplikácia rozbalená a niektoré časti aplikácie sú upravené. Modifikovaná aplikácia je ďalej distribuovaná. Detailný popis prebaľovania aplikácií a rizík s tým spojených sa nachádza v kapitole \ref{chap:repackaging}.
+Existuje viacero známych zraniteľností súvisiacich s distribúciou aplikácií  pre platformu Android. Najviac rozšíreným problémom je prebaľovanie APK balíčkov. Pri tomto procese je aplikácia rozbalená a niektoré časti aplikácie sú upravené. Detailný popis prebaľovania aplikácií a rizík s tým spojených sa nachádza v kapitole \ref{chap:repackaging}.
 
 Metóda prebaľovania upraví aplikáciu a na novo ju podpíše iným podpisovým kľúčom. Ďalšie známe metódy útokov využívajú predovšetkým zraniteľnosti pri overovacom procese APK balíčku a nemodifikujú originálny podpis. 
 
