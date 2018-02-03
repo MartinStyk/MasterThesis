@@ -102,7 +102,7 @@ V porovnaní s metódou \zv{FSquaDRA} nepoužíva \zv{Apk Analyzer} pri porovnan
 
 Samotný algoritmus detekcie prebalených súborov dostane na vstup aplikáciu, o ktorej má rozhodnúť, či je prebalená alebo nie. Algoritmus sa skladá z viacerých krokov.
 
-\subsubsection{\textbf{Detekcia klastru podobných aplikácií}•} 
+\subsubsection{\textbf{Detekcia klastru podobných aplikácií}} 
 
 V prvom kroku algoritmus nájde všetky aplikácie, ktoré spĺňajú definované kritéria zhody aplikácií. Tieto kritéria pozostávajú z podobnosti metadát a zhody obrázkových súborov. 
 Podobnosť metadát je použitá za účelom zefektívnenia vyhľadávania podobných aplikácií. Algoritmus sa rozhoduje na základe metadát, ktoré nemôžu byť pri prebaľovaní ľahko zmenené, respektíve z výsledkov predchádzajúcich výskumov vyplýva, že ich útočníci často nemenia. \newline \noindent Algoritmus používa nasledujúce atribúty:
@@ -181,7 +181,6 @@ Navrhnutá metóda detekcie porovnáva obrázky na základe ich hashov. Aj malá
 
 \begin{table}[]
 \centering
-\caption{Zmeny v prebalených APK súboroch}
 \label{repacakged-changes}
 \begin{tabular}{|l|l|}
 \hline
@@ -195,6 +194,7 @@ Navrhnutá metóda detekcie porovnáva obrázky na základe ich hashov. Aj malá
 0,9227                                      & zdrojový kód        \\
 \hline
 \end{tabular}
+\caption{Zmeny v prebalených APK súboroch}
 \end{table}
 
 \subsection*{Nastavenia detekcie na základe predchádzajúcich výskumov}
