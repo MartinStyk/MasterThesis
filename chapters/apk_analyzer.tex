@@ -18,7 +18,7 @@ Základ systému tvorí mobilná aplikácia \zv{Apk Analyzer}. Aplikácia vykon�
 .
 
 \section{Server}
-Detekcia prebalených aplikácií nie je implementovaná priamo v mobilnej aplikácií, ale na strane zdieľaného servera. Tento dizajn je potrebný z dôvodu implementácie navrhnutej metódy detekcie prebalených aplikácií. Informácie o spôsobe detekcie obsahuje kapitola \ref{chap:metoda-detekcie-apk-analyzer}. Navrhnutá metóda pracuje s rozsiahlou databázou dát o aplikačných balíčkoch. Takáto rozsiahla kolekcia dát nie je zdieľaná medzi mobilnými zariadeniami. Prístup k dátam zabezpečuje centrálny server. 
+Detekcia prebalených aplikácií nie je implementovaná priamo v mobilnej aplikácii, ale na strane zdieľaného servera. Tento dizajn je potrebný z dôvodu implementácie navrhnutej metódy detekcie prebalených aplikácií. Informácie o spôsobe detekcie obsahuje kapitola \ref{chap:metoda-detekcie-apk-analyzer}. Navrhnutá metóda pracuje s rozsiahlou databázou dát o aplikačných balíčkoch. Takáto rozsiahla kolekcia dát nie je zdieľaná medzi mobilnými zariadeniami. Prístup k dátam zabezpečuje centrálny server. 
 \newline
 \noindent Dôvody komunikácie mobilných zariadení a serveru:
 \begin{itemize}
@@ -31,8 +31,8 @@ Server poskytuje administrátorom nasledujúce služby:
 	\item Rozhranie na správu dát,
 	\item Vyhľadávanie v databáze aplikácií,
 	\item Zobrazenie štatistických údajov využitia služby,
-	\item Zobrazenie výsledkov detekcie prebalených aplikácií spolu s údajmi vysvetlujúcimi rozhodnutie systému.
+	\item Zobrazenie výsledkov detekcie prebalených aplikácií spolu s údajmi vysvetľujúcimi rozhodnutia systému.
 \end{itemize}
 
 \section{Databáza}
-Dáta odoslané mobilnými klientami na server sú ukladané v zdieľanom úložisku. Databáza obsahuje metadáta o všetkých aplikáciách odoslaných z mobilných zariadení. Tieto dáta obsahujú všetky kľúčové atribúty potrebné pre detekciu prebalených aplikácií. Spôsob ukladania dát predstavuje dôležitý aspekt pri detekcií prebalených APK balíčkov. Veľká časť operácií potrebných na detekciu prebalených aplikácií je implementovaná pomocou SQL príkazov priamo nad databázou. 
+Dáta odoslané mobilnými klientami na server sú ukladané v zdieľanom úložisku. Databáza obsahuje metadáta o všetkých aplikáciách odoslaných z mobilných zariadení. Tieto dáta obsahujú všetky kľúčové atribúty potrebné pre detekciu prebalených aplikácií. Spôsob ukladania dát predstavuje dôležitý aspekt pri detekcii prebalených APK balíčkov. Veľká časť operácií potrebných na detekciu prebalených aplikácií je implementovaná pomocou SQL príkazov priamo nad databázou. 
