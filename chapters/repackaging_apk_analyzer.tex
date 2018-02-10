@@ -111,7 +111,7 @@ Podobnosť metadát je použitá za účelom zefektívnenia vyhľadávania podob
 	\item počet Java tried v aplikácii
 \end{itemize}
 
-Všetky z týchto atribútov sú číselné. Ako podobné aplikácie sú na základe týchto atribútov označené také aplikácie, ktorých hodnoty týchto atribútov sú v rozmedzí +- TODO 20 \% od hodnôt analyzovanej aplikácie. Hodnota 20 \% bola určená na základe experimentov, ktoré ukázali, že zmena tohto parametru na hodnotu 70 \% nemá zásadný vplyv na výsledky detekcie. Počet detekovaných aplikácií sa pri takomto nastavení zvýšil len o 3\%. TODO
+Všetky z týchto atribútov sú číselné. Ako podobné aplikácie sú na základe týchto atribútov označené také aplikácie, ktorých hodnoty týchto atribútov sú v rozmedzí $\pm 20$ \% od hodnôt analyzovanej aplikácie. Hodnota 20 \% bola určená na základe experimentov nad databázou APK súborov. Tieto pokusy ukázali ukázali, že zmena tohto parametru na vyššie hodnoty nemá zásadný vplyv na výsledky detekcie. Pri nastavení povoleného rozmedzia na 50 \% stúpol počet detekovaných aplikácií o 3\%.
 
 Aplikácie, ktorých metadáta sú vyhodnotené ako podobné, sú následne porovnané s aplikáciou ktorej detekcia prebieha. Toto porovnanie je založené na zhode obrázkových \zv{png} súborov v týchto APK balíčkoch.  Koeficient podobnosti je určený pomocou \zv{Jaccardovej metódy}.
 
@@ -135,7 +135,7 @@ V predchádzajúcom kroku identifikuje algoritmus nadmieru podobné aplikácie. 
 	\item upravené / prebalené aplikácie
 	\item iné (false positive)
 \end{itemize}
-V takejto skupine sa môžu vyskytovať aj aplikácie, ktoré s pôvodnou aplikáciou nie sú v žiadnom vzťahu, prípadne sú to dve rozdielne aplikácie od rovnakého vývojára vytvorené štandardizovaným procesom daného vývojára. Na základe predchádzajúcich prác predpokladáme, že množstvo takýchto aplikácií nepresiahne 13 \%~\cite{Zhou2012}.
+V takejto skupine sa môžu vyskytovať aj aplikácie, ktoré nie sú inou verziou alebo kópiou aplikácie, ktorej detekcia prebieha. Popis možných chýb a nedostatkou tejto metódy obsahuje sekcia \ref{sec:hodnotenie}.
 
 Na základe digitálneho podpisu APK balíčka vieme rozhodnúť, do ktorej z týchto kategórií aplikácia patrí. V prípade zhody certifikátu, ktorým sú aplikácie podpísané, ide o dve rôzne verzie jednej aplikácie, ktoré pochádzajú od jedného vydavateľa. V prípade podpisu rôznymi certifikátmi považujeme jednu z týchto aplikácií za prebalenú, pretože aplikácie pochádzajú od rôznych vydavateľov a na základe ich nadmiernej podobnosti sú považované za jednu logickú aplikáciu.
 
@@ -200,9 +200,12 @@ Navrhnutá metóda detekcie porovnáva obrázky na základe ich hashov. Aj malá
 Známe výskumy prebalených APK súborov pracujú nad offline databázou aplikácií. Funkčnosť a presnosť týchto metód je vyhodnotená prostredníctvom porovnania výsledkov s inými algoritmami. Na základe experimentov sú určené parametre detekcie, ktoré eliminujú nesprávne výsledky algoritmu. V prípade našej metódy je situácia komplikovanejšia, pretože našu databázu netvoria celé APK súbory, ale len niektoré metadáta. Nie je teda možné spustiť nad týmito dátami iné metódy detekcie, a nastaviť tak parametre algoritmu, ktoré ovplyvňujú výsledky detekcie. Z metadát o jednotlivých aplikáciách nie je možné rozhodnúť, či je daná aplikácia originál, alebo prebalená verzia.  Z toho dôvodu sa navrhnutá metóda vo veľkej miere opiera o už existujúce výskumy a preberá ich závery a odporúčané parametre detekcie. 
 
 \section{Hodnotenie}
+\label{sec:hodnotenie}
 Navrhnutá metóda detekcie prebalených APK súborov bola prakticky implementovaná a nasadená v produkčnom prostredí systému \zv{Apk Analyzer}. 
 Metóda je postavená na základoch aktuálnych poznatkov, ktoré odhaľujú, že pri prebaľovaní aplikácií zvyčajne zostávajú zdrojové súbory nezmenené. V prípade rozšírenia metód využívajúcich podobnosť zdrojových súborov je pravdepodobné, že útočníci začnú aplikovať výraznejšie zmeny v rôznych súboroch obsiahnutých v APK balíčku. Výrazná zmena počtu súborov v balíčku alebo úpravy obsiahnutých obrázkov predstavujú spôsob, akým je možné navrhnutú metódu znefunkčniť. Avšak v súčasnosti takéto zmeny vykonávané nie sú a navrhnutá metóda je schopná odhaliť prebalené aplikácie.
 
 \textbf{TODO => kolko detekcii, kolko hrozieb, pustit manualne detekciu kazdy z kazdym a vyhodnotit}
+
+\textbf{TODO => popis mozn7ch problemov - zdielane kniznice a podobne }
  
 Riešenie je implementované nad databázou \zv{Postgres}. Pri aktuálnom objeme dát, ktoré aplikácia obsahuje je výkonnosť SQL databázového servera dostačujúca. V prípade, že systém Apk Analyzer bude aj naďalej rásť, je možné využiť na ukladanie zoznamu hashov obrázkov systém \zv{Redis}, ktorý výrazne zvýši rýchlosť detekcie prebalených aplikácií.
