@@ -15,7 +15,6 @@ Za účelom dosiahnutia stanovených cieľov je v rámci práce implementované 
 
 \section{Mobilná aplikácia}
 Základ systému tvorí mobilná aplikácia \zv{Apk Analyzer}. Aplikácia vykonáva analýzu všetkých nainštalovaných aplikácií v Android zariadení a ponúka možnosť analýzy aplikácií pred ich samotnou inštaláciou. Aplikácia poskytuje užívateľovi detailné informácie o aplikáciách, vrátane možnosti zobrazenia štatistík o softvérovom obsahu jeho zariadenia a možnosti detekcie prebalených aplikácií. \zv{Apk Analyzer} na pozadí odosiela informácie o aplikáciách na vzdialený server. Tieto informácie sú použité pri tvorbe databázy potrebnej pre detekciu prebalených aplikácií. Detailný popis vytvorenej aplikácie vrátane metód získavania informácií o aplikáciách obsahuje kapitola \label{chap:mobilna-aplikacia}.
-.
 
 \section{Server}
 Detekcia prebalených aplikácií nie je implementovaná priamo v mobilnej aplikácii, ale na strane zdieľaného servera. Tento dizajn je potrebný z dôvodu implementácie navrhnutej metódy detekcie prebalených aplikácií. Informácie o spôsobe detekcie obsahuje kapitola \ref{chap:metoda-detekcie-apk-analyzer}. Navrhnutá metóda pracuje s rozsiahlou databázou dát o aplikačných balíčkoch. Takáto rozsiahla kolekcia dát nie je zdieľaná medzi mobilnými zariadeniami. Prístup k dátam zabezpečuje centrálny server. 
