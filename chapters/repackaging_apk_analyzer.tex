@@ -61,6 +61,8 @@ Základom detekcie prebalených aplikácií je databáza metainformácií o apli
 
 \noindent Odosielané dáta o nainštalovaných aplikáciách sú podmnožinou dát získaných analýzou APK súboru. Tieto dáta obsahujú základné metadáta ako napríklad meno balíka aplikácie, veľkosť APK súboru, hash certifikátu alebo počty jednotlivých komponent aplikácie. Okrem toho sú odosielané aj hashe a názvy všetkých rastrových obrázkových súborov obsiahnutých v APK balíčku a taktiež bezpečnostné povolenia využívané aplikáciou. Kompletný zoznam všetkých uchovávaných atribútov aplikácie obsahuje príloha \ref{zbieraneDataPriloha}.
 
+\subsubsection{\textbf{Identifikátor aplikácie}} 
+
 Z dôvodu efektivity vyhľadávania v databáze je pre každú aplikáciu určený jej unikátny identifikátor. V prípade, že majú dve aplikácie tento identifikátor rovnaký, ide o úplne rovnakú aplikáciu a v databáze ju server ukladá len raz.
 
 
@@ -77,9 +79,15 @@ Z dôvodu efektivity vyhľadávania v databáze je pre každú aplikáciu určen
 \end{itemize}
 V prípade, že majú dve aplikácie rovnaký identifikátor, je zaručené, že pochádzajú od jedného vydavateľa, ich zdrojový kód, skompilované zdrojové súbory, metadáta a všetky  obrázky sú identické. 
 
+\subsubsection{\textbf{Počet výskytov aplikácie}}
 Dôležitým aspektom pri detekcii prebalených aplikácií je počet výskytov jednotlivých verzií aplikácií. Túto metriku systém využíva pri určení, ktoré aplikácie sú originály a ktoré prebalené imitácie. Preto je dôležité identifikovať, z akého zariadenia dáta o aplikácii pochádzajú. Za týmto účelom je použitý unikátny identifikátor zariadenia \zv{AndroidID}. Server si ku každej aplikácii pamätá všetky zariadenia, z ktorých bola daná aplikácia nahraná, a taktiež uchováva informácie o pôvode aplikácie.
 
+
+\subsubsection{\textbf{Eliminácia obrázkov z často používaných knižníc}}
 Algoritmus detekcie prebalených aplikácií zisťuje počet rovnakých obrázkových súborov v rozdielnych aplikáciách. Aplikácie štandardne obsahujú viacero obrázkov, ktoré pochádzajú z často používaných knižníc. Medzi často používané knižnice patria predovšetkým knižnice zaručujúce spätnú kompatibilitu medzi verziami systému Android, známe ako \zv{Google support libraries}. Obrázkové súbory pochádzajúce z knižníc nemôžu byť použité algoritmom pre detekciu podobnosti. Takéto obrázky necharakterizujú konkrétne aplikácie. Z tohto dôvodu je potrebná ich eliminácia, ktorá sa odohráva pri ukladaní aplikačných metadát do databázy. Každá z knižníc je dostupná vo viacerých vydaniach. Obrázky sú medzi týmito vydaniami upravované, avšak ich názvy zostávajú nezmenené. Filtrovanie obrázkov na základe ich presných hashov zadaných administrátorom by si vyžadovalo pravidelnú aktualizáciu a z dlhodobého hľadiska by bolo ťažko udržateľné. Z tohto dôvodu náš algoritmus na základe mien súborov dynamicky buduje zoznam hashov obrázkov z knižníc. Pri vkladaní záznamu o jednom obrázkovom súbore sa najskôr skontroluje názov súboru. V prípade, že zodpovedá názvu súboru z často používaných knižníc, databáza hashov súborov z knižníc sa rozšíri o spracovávaný obrázok a tento obrázkový súbor nie je uložený medzi obrázky danej aplikácie. V opačnom prípade sa aplikácia pokúsi vyhľadať hash súboru v databáze hashov obrázkov z knižníc. V závislosti na výsledku tejto operácie je následne súbor ignorovaný alebo pridaný medzi obrázky danej aplikácie.
+
+\subsubsection{\textbf{Dátový model}}
+Návrh dátového modelu zodpovedá štruktúre ukladaných dát. Vzhľadom k požiadavkám kladeným na systém Apk Analyzer je použité riešenie prezentované na ERD diagrame \ref{fig:detectionDbErd}. 
 
 \begin{figure}[htb]
   \begin{center}
@@ -89,7 +97,7 @@ Algoritmus detekcie prebalených aplikácií zisťuje počet rovnakých obrázko
   \label{fig:detectionDbErd}
 \end{figure}
 
-\noindent Návrh dátového modelu zodpovedá štruktúre ukladaných dát. Vzhľadom k požiadavkám kladeným na systém Apk Analyzer je použité riešenie prezentované na ERD diagrame \ref{fig:detectionDbErd}. Pri tvorbe dátového modelu je potrebné zohľadniť požadovanú výkonnosť aplikácie. Za účelom optimalizácie výkonnosti nemá dátový model normalizovanú dátovú schému. Niektoré atribúty v tabuľke \zv{Apk metadata} sú duplicitné, a môžu byť získané pomocou dotazov na iné tabulky. Z dôvodu optimalizácie výkonnosti sú však tieto dáta uložené priamo v tabulke \zv{Apk metadata}.
+Pri tvorbe dátového modelu je potrebné zohľadniť požadovanú výkonnosť aplikácie. Za účelom optimalizácie výkonnosti nemá dátový model normalizovanú dátovú schému. Niektoré atribúty v tabuľke \zv{Apk metadata} sú duplicitné, a môžu byť získané pomocou dotazov na iné tabulky. Z dôvodu optimalizácie výkonnosti sú však tieto dáta uložené priamo v tabulke \zv{Apk metadata}.
 Ďalším porušením normalizácie je vzťah medzi tabuľkou \zv{Apk metadata} a \zv{Obrázky}, respektíve \zv{Apk metadata} a \zv{Povolenia}. V systéme môže nastať situácia, že jeden súbor, prípadne jedno povolenie je zdieľané medzi viacerými aplikáciami. V tom prípade by mal byť medzi týmito entitnými množinami použitý vzťah $N : N$. Takýto prístup by vyžadoval použitie spojovacej tabuľky, čo by malo negatívny vplyv na výkonnosť. Nad databázou vykonáva systém \zv{Apk Analyzer} iba operácie dotazovania a vkladania nových záznamov. Negatívne dôsledky nenormalizovanej databázovej schémy by spôsobili problémy predovšetkým pri operáciách \zv{update} a \zv{delete}. Medzi negatíva zvoleného prístupu patrí zvýšená veľkosť ukladaných dát. Tieto nedostatky sú však vyvážené vyššou výkonnosťou. Vloženie jedného záznamu o APK súbore do existujúcej databázy trvá približne $100\, ms$. Pri použití normalizovanej schémy zaberie táto operácia monohonásobne viac času.  
 
 \subsection{Detekcia prebalených aplikácií}
