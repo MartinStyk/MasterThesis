@@ -19,7 +19,7 @@ Základ systému tvorí mobilná aplikácia \zv{Apk Analyzer}. Aplikácia vykon�
 \section{Server}
 Detekcia prebalených aplikácií nie je implementovaná priamo v mobilnej aplikácii, ale na strane zdieľaného servera. Tento dizajn je potrebný z dôvodu implementácie navrhnutej metódy detekcie prebalených aplikácií. Informácie o spôsobe detekcie obsahuje kapitola \ref{chap:metoda-detekcie-apk-analyzer}. Navrhnutá metóda pracuje s rozsiahlou databázou dát o aplikačných balíčkoch. Takáto rozsiahla kolekcia dát nie je zdieľaná medzi mobilnými zariadeniami. Prístup k dátam zabezpečuje centrálny server. 
 \newline
-\noindent Dôvody komunikácie mobilných zariadení a serveru:
+\noindent Mobilné zariadenia komunikujú so serverom v nasledujúcich scenároch:
 \begin{itemize}
 	\item Mobilné zariadenia odosielajú metadáta o ich aplikáciách,
 	\item Mobilné zariadenia odosielajú požiadavky na analýzu prebalených aplikácií,
