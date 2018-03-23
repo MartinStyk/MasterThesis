@@ -84,6 +84,7 @@ Dôležitým aspektom pri detekcii prebalených aplikácií je počet výskytov 
 
 
 \subsubsection{\textbf{Eliminácia obrázkov z často používaných knižníc}}
+\label{sec:eliminacia-kniznic}
 Algoritmus detekcie prebalených aplikácií zisťuje počet rovnakých obrázkových súborov v rozdielnych aplikáciách. Aplikácie štandardne obsahujú viacero obrázkov, ktoré pochádzajú z často používaných knižníc. Medzi často používané knižnice patria predovšetkým knižnice zaručujúce spätnú kompatibilitu medzi verziami systému Android, známe ako \zv{Google support libraries}. Obrázkové súbory pochádzajúce z knižníc nemôžu byť použité algoritmom pre detekciu podobnosti. Takéto obrázky necharakterizujú konkrétne aplikácie. Z tohto dôvodu je potrebná ich eliminácia, ktorá sa odohráva pri ukladaní aplikačných metadát do databázy. Každá z knižníc je dostupná vo viacerých vydaniach. Obrázky sú medzi týmito vydaniami upravované, avšak ich názvy zostávajú nezmenené. Filtrovanie obrázkov na základe ich presných hashov zadaných administrátorom by si vyžadovalo pravidelnú aktualizáciu a z dlhodobého hľadiska by bolo ťažko udržateľné. Z tohto dôvodu náš algoritmus na základe mien súborov dynamicky buduje zoznam hashov obrázkov z knižníc. Pri vkladaní záznamu o jednom obrázkovom súbore sa najskôr skontroluje názov súboru. V prípade, že zodpovedá názvu súboru z často používaných knižníc, databáza hashov súborov z knižníc sa rozšíri o spracovávaný obrázok a tento obrázkový súbor nie je uložený medzi obrázky danej aplikácie. V opačnom prípade sa aplikácia pokúsi vyhľadať hash súboru v databáze hashov obrázkov z knižníc. V závislosti na výsledku tejto operácie je následne súbor ignorovaný alebo pridaný medzi obrázky danej aplikácie.
 
 \subsubsection{\textbf{Dátový model}}
@@ -213,11 +214,33 @@ Známe výskumy prebalených APK súborov pracujú nad offline databázou aplik�
 
 \section{Hodnotenie}
 \label{sec:hodnotenie}
-Navrhnutá metóda detekcie prebalených APK súborov bola prakticky implementovaná a nasadená v produkčnom prostredí systému \zv{Apk Analyzer}. 
+Implementovaná metóda bola nasadená v produkčnom prostredí a je dostupná užívateľom. Táto sekcia hodnotí hlavné plusy a limitácie navrhnutej metódy detekcie prebalených aplikácií.
+
+Implementovaná metóda v praxi ukázala že dokáže identifikovať aplikácie, ktoré môžu byť potenciálne prebalené. Server zaznamenal celkovo TODO požiadavok na detekciu prebalených aplikácií. Z tohto poču bolo TODO aplikácií vyhodnotených ako originálne verzie, TODO ako potenciálne prebalené a v TODO prípadoch nemal server dostatok dát na určenie výsledku detekcie. GRAF TODO.
+
+Zdieľaná databáza obsahuje informácie o TODO aplikáciách. Požiadavka na detekciu prebalenej aplikácie je štandardne vyhodnotená do tridsiatich sekúnd. Aplikácií pre platformu Android existuje veľké množstvo. Samotný obchod \zv{Google Play} obsahuje v súčasnosti viac ako 3,5 milióna aplikácií. V prípade ďalšieho rozširovania metódy detekcie prebalených APK súborov \zv{Apk Analyzer} je potrebná výrazne robustnejšia a drahšia infraštruktúra. Aktuálne je riešenie implementované nad jednou inštanciou databázy \zv{Postgres}. Pri objeme dát, ktoré aplikácia aktuálne obsahuje je výkonnosť SQL databázového servera dostačujúca. V prípade, že systém bude aj naďalej rásť, je možné využiť na ukladanie zoznamu hashov obrázkov systém \zv{Redis}, ktorý výrazne zvýši rýchlosť detekcie prebalených aplikácií. 
+
+Jedným z najzásadnejších prínosov tejto práce je sprostredkovanie detekcie prebalených aplikácií užívateľom. Implementovaná metóda využíva poznatky z výzkumov z oblasti prebalených aplikácií. Na základe týchto znalostí ponúka možnosť detekcie koncovým užívateľom a tým prepája vedecké štúdie s praktickým využitím. 
+
+Vďaka využitiu dynamickej databázy aplikácií, ktorú rozširujú samotný užívatelia, je detekčná metóda schopná vyhodnotiť aj najnovšie aplikácie.
+
+\subsection{Limitácie}
+Počas implementácie a nasadenia tejto metódy boli identifikované viaceré skutočnosti, ktoré môžu obmedziť využiteľnosť implementovanej metódy. Niektoré z týchto obmedzení sa podarilo eliminovať.
+
+\subsubsection{\textbf{Knižnice}}
+V prípade, že viaceré aplikácie používajú rovnaké knižnice, ktoré obsahujú obrázkové súbory, môžu tieto obrázky ovplyvniť výsledok detekcie. Implementovaná metóda sa s obrázkami z knižníc dokázala čiastočne vysporiadať pomocou odfiltrovania dát, ktoré zodpovedajú obrázkovým súborom pochádzajúcim z často sa vyskytujúcich knižníc. Postup elimininácie takýchto súborov obsahuje sekcia \ref{sec:eliminacia-kniznic}. Na základe tohto algoritmu bolo eliminovaných 12\,500 TODO binárne rôznych obrázkov. Celkovo bolo eliminovaných 25 miliónov TODO obrázkových súborov. Ekosystém platformy Android však obsahuje veľké množstvo knižníc. Nové knižnice, prípadne nové vydania existujúcich knižníc sú publikované každodenne. Nie je preto možné vylúčiť, že v prípade zhody jednej alebo viacerých knižníc, môže dojsť k chybnej detekcií
+
+\subsubsection{\textbf{Aplikácie bez výraznej vizuálnej identity}}
+Väčšina často používaných aplikácií má svoju výraznú a nezameniteľnú vizuálnu identitu. Niektoré z dostupných aplikácií však obsahujú veľmi malé množstvo multimediálnych súborov. V prípade takýchto aplikácií je detekcia prebalenia na základe obrázkových súborov značne limitovaná.
+
+\subsubsection{\textbf{Rôzne verzie APK súboru pre rôzne zariadenia}}
+Prirodzeným predpokladom pri detekcií podobnosti aplikácií je, že viaceré verzie jednej aplikácie vyhodnotí algoritmus ako podobné. Tento predpoklad platí zvyčajne len pri jednoduchších aplikáciách. V prípade komplexných aplikácií ako \zv{Facebook} alebo  aplikácie od spoločnosti \zv{Google} tento predpoklad platiť nemusí. \zv{Google Play} podporuje distribúciu viacerých verzií jednej aplikácie na základe typu a konfigurácie zariadení. V praxi obsahuje vydanie jednej aplikácie na \zv{Google Play} viacero APK súborov. Pri inštalácii vyberie \zv{Google Play} APK balíček na základe parametrov daného zariadenia, najčastejšie podľa úrovni Android API a veľkosti obrazovky. Jednotlivé APK súbory sú optimalizované pre dané zariadenia. Z tohto dôvodu sa jedna verzia aplikácie určenej pre tablet a aplikácie určenej pre mobilný telefón nemusí na základe obrázkov a metadát zhodovať. 
+Táto skutočnosť však pre detekčnú metódu nepredstavuje výrazné riziko. Útočník musí vždy prebaliť niektoré z distribuovaných APK súborov. Za predpokladu, že v takto prebalenom súbore nemení existujúce obrázky je tento súbor detekovaný ako podobný s originálnym APK súborom pre danú konfiguráciu zariadenia. Je však potrebné uvedomiť si, že nie všetky rôzne vydania aplikácie sú odhalené ako podobné aplikácie~\cite{MultipleApks}.
+
+\subsubsection{\textbf{Zmeny obrázkových súborov}}
 Metóda je postavená na základoch aktuálnych poznatkov, ktoré odhaľujú, že pri prebaľovaní aplikácií zvyčajne zostávajú zdrojové súbory nezmenené. V prípade rozšírenia metód využívajúcich podobnosť zdrojových súborov je pravdepodobné, že útočníci začnú aplikovať výraznejšie zmeny v rôznych súboroch obsiahnutých v APK balíčku. Výrazná zmena počtu súborov v balíčku alebo úpravy obsiahnutých obrázkov predstavujú spôsob, akým je možné navrhnutú metódu znefunkčniť. Avšak v súčasnosti takéto zmeny vykonávané nie sú a navrhnutá metóda je schopná odhaliť prebalené aplikácie.
+\\
+\\
+Popísané limitácie odhaľujú slabiny implementovanej metódy detekcie prebalených aplikácií. Napriek týmto nedostatkom však koncept identifikácie kópií originálnej aplikácie založený na podobnosti výzoru dokáže detekovať prebalené aplikácie. Tento prístup je vhodný ako doplnok k existujúcim metódam vychádzajúcich z podobnosti vzoriek inštrukcií aplikácie.
 
-\textbf{TODO => kolko detekcii, kolko hrozieb, pustit manualne detekciu kazdy z kazdym a vyhodnotit}
 
-\textbf{TODO => popis mozn7ch problemov - zdielane kniznice a podobne }
- 
-Riešenie je implementované nad databázou \zv{Postgres}. Pri aktuálnom objeme dát, ktoré aplikácia obsahuje je výkonnosť SQL databázového servera dostačujúca. V prípade, že systém Apk Analyzer bude aj naďalej rásť, je možné využiť na ukladanie zoznamu hashov obrázkov systém \zv{Redis}, ktorý výrazne zvýši rýchlosť detekcie prebalených aplikácií.
