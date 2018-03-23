@@ -1,0 +1,70 @@
+\chapter{Nasadenie systému Apk Analyzer}
+Systém \zv{Apk Analyzer} bol nasadený do produkcie a je prístupný užívateľom. Nasledujúca kapitola obsahuje údaje o použití mobilnej aplikácie a metódy detekcie prebalených aplikácií.
+
+\section{Mobilná aplikácia}
+
+Mobilná aplikácia vyvinutá v rámci tejto práce je dostupná v obchode \zv{Google Play} pod názvom \zv{Apk Analyzer} a unikátnym menom aplikačného balíka \zv{sk.styk.martin.apkanalyzer}. Pre užívateľov je aplikácia dostupná od začiatku októbra 2017. Od prvého vydania aplikácie bolo vytvorených 13 TODO aktualizácií, ktoré pridávali novú funkcionalitu, zvyšovali stabilitu a zefektívňovali fungovanie aplikácie.
+
+V období od októbra 2017 do mája 2018 si mobilnú aplikáciu nainštalovalo celkovo 25\,000 TODO unikátnych užívateľov. Graf TODO zobrazuje počet inštalácií v závislosti na čase. Vzhľadom na trend zobrazený na grafe TODO sa dá predpokladať, že počet inštalácií aplikácie bude naďalej stúpať. 
+
+Záznam aplikácie na \zv{Google Play} si od uvedenia aplikácie do marca 2018 zobrazilo 91\,000 TODO užívateľov. Pomer medzi návštevníkmi záznamu v \zv{Google Play} a inštaláciami dosahuje dohnotu 20,8 \% TODO. Táto hodnota sa označuje ako konverzný pomer. Medián konverzného pomeru pre aplikácie z kategórie nástroje je 25,9 \%. 
+
+Pri mobilných aplikáciách je častým javom okamžité odinštalovanie aplikácie po jej prvom použití. Užívatelia aplikáciu vyskúšajú a pokiaľ im nevyhovuje, okamžite ju odstránia. \zv{ApkAnalyzer} bol v máji 2018 prítomný na 12\,000 TODO zariadeniach. To predstavuje takmer polovicu z celkového počtu inštalácií. \zv{Apk Analyzer} má v porovnaní s ostatnými aplikáciami z kategórie nástroje nadpriemernú schopnosť udržať si užívateľov po dlhší čas. To môže byť spôsobené špecializovaným obsahom aplikácie, ktorý je dlhodobo zaujímavý pre ľudí zaoberajúcich sa vývojom aplikácií pre Android. Nasledujúci graf zobrazuje počet užívateľov, ktorí majú aplikáciu nainštalovanú daný čas po jej prvej inštalácií. TODO
+
+Aplikácia bola v službe \zv{Google Play} ohodnotená 168 TODO krát a priemerné hodnotenie dosahuje hodnotu 4,68 TODO hviezdičiek z maximálne piatich. Graf TODO zobrazuje hodnotenia aplikácie. V porovnaní s ostatnými aplikáciami v kategórii nástroje je priemerné hodnotenie našej aplikácie o 0,278 hviezdičky vyššie.
+
+Z geografického hľadiska je aplikácia najčastejšie inštalovaná v Spojených štátoch amerických, z kadiaľ pochádza až 38 \% užívateľov. Medzi častých užívateľov patria aj obyvatelia Nemecka (5 \%), Indie a Iránu (3.5\%) TODO. 
+
+Medzi najčastejších užívateľov patria muži vo veku 25 až 34 rokov. Ich podiel dosahuje až 31,2 \% TODO. Graf TODO zobrazuje pomer medzi vekovými kategóriami užívateľov. Na grafe TODO je znázornené zastúpenie žien a mužov.
+
+Aplikácia obsahuje integrovaný analytický nástroj \zv{Firebase Analytics} pomocou ktorého je možné získavať detailné dáta o využití aplikácie jej užívateľmi. Nasledujúce dáta boli získané pomocou spomínaného nástroja.
+
+Aplikáciu počas apríla 2018 denne používalo priemerne 916 TODO aktívnych užívateľov. Mesačný počet užívateľov dosiahol hodnotu 15\,000 TODO. Počas jedného otvorenia aplikácie v nej užívateľ strávil priemerne 2 minúty a 20 sekúnd. TODO Počas tohto časi užívateľ typicky navštívi 13 rôznych obrazoviek. 
+
+Z pomedzi rôznych častí aplikácie je najnavštevovanejšou detail jednotlivých analyzovaných aplikácií. Užívateľ na tejto obrazovke strávi až TODO 52 \% času stráveného v aplikácii. \zv{ApkAnalyzer} počas apríla 2018 celkovo zobrazil užívateľom detailné informácie o 30\,000 TODO aplikáciách.  Nasledujúci graf TODO zobrazuje záujem užívateľov o jednotlivé obrazovky v aplikácie.
+
+Obrazovka zobrazujúca detaily analyzovanej aplikácie poskytuje užívateľovi menu možností, pomocou ktorých má možnosť vykonávať nad analyzovanou aplikáciu ďalšie operácie. Medzi najobľúbenejšie možnosti patrí zobrazenie súboru \zv{AndroidManifest.xml}, export APK súboru do externého úložiska a spustenie detekcie prebalených súborov.  Nasledujúca tabuľka \ref{app-ops} zobrazuje počty operácií vykonaných počas apríla 2018.
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|l|r|}
+\hline
+\textbf{Akcia}                        & \textbf{Počet} & \textbf{\%}    \\ \hline
+Zobraziť AndroidManifest.xml & 2,1K  & 28,1\% \\
+Export APK                   & 1,8K  & 24,2\% \\
+Systémové detaily            & 1,4K  & 18,9\% \\
+Záznam v Google Play         & 816   & 10,8\% \\
+Zdieľať APK                  & 475   & 6.3\%  \\
+Uložiť ikonu                 & 409   & 5,4\%  \\
+Detekcia prebalenia          & 42    & 0,6\%  \\ \hline
+\end{tabular}
+\caption{Operácie s aplikáciou}
+\label{app-ops}
+\end{table}
+
+
+
+\subsection{Detekcia prebalených aplikácií}
+Nasadenie metódy detekcie prebalených aplikácií prebehlo v dvoch etapách. Počas prvej etapy bolo spustené zbieranie dát o aplikáciách. Tvorba a rozširovanie databázy aplikácií bolo spustené počas februára 2018. Aktuálne obsahuje databáza aplikácií informácie o viac ako 300\,000 TODO aplikáciách. Dáta o týchto aplikáciách pochádzajú od 4\,602 TODO rôznych užívateľov. Kedže sa implementovaná metóda detekcie opiera o zhodu obrázkových súborov, databáza musí uchovávať informácie o obrázkoch jednotlivých aplikácií. V databáze sa celkovo nachádza viac ako 50 miliónov TODO hashov obrázkových súborov.
+Nasledujúca tabuľka \ref{apps-common} zobrazuje 10 najčastejších aplikácií v našej zdieľanej databáze.
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+Aplikácia     & Počet rôznych verzií \\ \hline
+Facebook      & 114                  \\
+Messenger     & 106                  \\
+YouTube       & 76                   \\
+Instagram     & 73                   \\
+Google Photos & 65                   \\
+Spotify       & 64                   \\
+Google Maps   & 64                   \\
+LinkedIn      & 56                   \\
+Google Docs   & 54                   \\ \hline
+\end{tabular}
+\caption{Najčastejšie aplikácie}
+\label{apps-common}
+\end{table}
+
+V druhom kroku bola spustená samotná detekcia prebalených aplikácií, ktorá je dostupná z mobilnej aplikácie. Server zaznamenal celkovo TODO požiadavok na detekciu prebalených aplikácií. Z tohto poču bolo TODO aplikácií vyhodnotených ako originálne verzie, TODO ako potenciálne prebalené a v TODO prípadoch nemal server dostatok dát na určenie výsledku detekcie. GRAF TODO.
