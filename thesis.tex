@@ -1,5 +1,7 @@
 %\input{setupPrinted}
-\input{setupDigital}
+%\input{setupDigital}
+\input{setupPrintedNew}
+%\input{setupDigitalNew}
 
 \begin{document}
 
@@ -23,12 +25,15 @@
 \input{chapters/nasadenie}
 % Zaver
 \input{chapters/zaver}
-{\csname captions\languagename\endcsname %% Temporarily override
-%% the BibLaTeX localization with the original babel definitions.
-\makeatletter %% Use the correct localization of the quotations.
-  \thesis@selectLocale{\thesis@locale}\makeatother
-\printbibliography[heading=bibintoc]} %% Print the bibliography.
 
+%{\csname captions\languagename\endcsname %% Temporarily override
+%% the BibLaTeX localization with the original babel definitions.
+%\makeatletter %% Use the correct localization of the quotations.
+%  \thesis@selectLocale{\thesis@locale}\makeatother
+%\printbibliography[heading=bibintoc] %% Print the bibliography.
+
+
+\printbibliography[heading=bibintoc] %% Print the bibliography.
 
 %\makeatletter\thesis@blocks@clear\makeatother
 %\phantomsection %% Print the index and insert it into the

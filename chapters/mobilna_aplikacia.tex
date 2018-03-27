@@ -67,9 +67,9 @@ Systém Android neposkytuje aplikačné programové rozhranie na priamy prístup
 \zv{asset} súbormi. Pomocou tohto prístupu však nie je možné súbor celý načítať, ale len vytvoriť tzv. pull parser, ktorý slúži na spracovanie \zv{xml} súboru. 
 \begin{lstlisting} [language=java, basicstyle=\small\color{black},frame=single,framesep=10pt, caption= {Prístup k~súboru \zv{AndroidManifest.xml} v~nainštalovanej aplikácii} \label{code:manifestParse}]
 Resources apkResources = packageManager
-                         .getResourcesForApplication(packageName);
+          .getResourcesForApplication(packageName);
 XmlResourceParser parser = apkResources.getAssets()
-                         .openXmlResourceParser("AndroidManifest.xml");
+          .openXmlResourceParser("AndroidManifest.xml");
 \end{lstlisting}
 \mbox{}\\
 \noindent Algoritmus následne pomocou tohto objektu spracováva jednotlivé xml elementy a vytvára z~nich textovú reprezentáciu tohto súboru.
@@ -83,7 +83,8 @@ Takto vytvorený xml súbor však nie je čitateľný. Hodnoty veľkej časti at
 Za účelom eliminovania tohto správania využíva \zv{Apk Analyzer} prístup k~zdrojovým súborom analyzovaných aplikácií. V~týchto súboroch vyhľadá text korešpondujúci s~daným identifikátorom a dosadí ho do vytvorenej textovej reprezentácie súboru \zv{AndroidManifest.xml}.
 \mbox{}\\
 \begin{lstlisting} [language=xml,frame=single,framesep=10pt, caption= {Ukážka \zv{AndroidManifest.xml} po substitúcií identifikátorov zdrojových textov} \label{xml:manifest-after}]
-<application theme="Theme.YouTube.Light" label="Youtube"/>
+<application theme="Theme.YouTube.Light" 
+label="Youtube"/>
 \end{lstlisting}
 
 \subsection{Súbory v~APK balíčku}
@@ -104,7 +105,7 @@ Mobilná aplikácia bola implementovaná v~jazyku Kotlin. Je dostupná v~obchode
 
 
 \subsection{Zoznam nainštalovaných aplikácií}
-\begin{figure}[H]
+\begin{minipage}[H]{\textwidth}
 \begin{minipage}[t]{0.48\textwidth}
 Základná obrazovka obsahuje zoznam všetkých nainštalovaných aplikačných balíčkov. Tento zoznam sa užívateľovi zobrazí po spustení aplikácie. V~zozname aplikácií je možné vyhľadávať podľa lokalizovaného názvu aplikácie alebo mena balíčku. Taktiež je možné filtrovať aplikácie na základe ich pôvodu. Táto funkcia poskytuje užívateľom možnosť ľahko rozlíšiť medzi aplikáciami získanými z~oficiálneho obchodu a z~alternatívnych zdrojov. Kliknutím na položku zoznamu sa zobrazia detailné informácie o~vybranej aplikácii. V~prípade analýzy nenainštalovaného aplikačného balíčku vyberie užívateľ APK súbor z~pamäte zariadenia pomocou tlačidla umiestneného v~pravom dolnom rohu obrazovky.
 \end{minipage}%
@@ -114,10 +115,10 @@ Základná obrazovka obsahuje zoznam všetkých nainštalovaných aplikačných 
 \centering
 \includegraphics[width=5.2cm]{images/app/list_device.png}
 \centering
-\caption{Zoznam nainštalovaných aplikácií}
+\captionof{figure}{Zoznam nainštalovaných aplikácií}
 \label{fig:app-list}
 \end{minipage}%
-\end{figure}
+\end{minipage}
 
 \subsection{Analýza aplikácie}
 Táto obrazovka zobrazuje dáta získané analýzou aplikačného balíčku. Z~dôvodu veľkého počtu atribútov získaných analýzou, sú tieto dáta zobrazené vo viacerých záložkách, medzi ktorými môže užívateľ prepínať. 
@@ -138,8 +139,9 @@ Kompletný zoznam atribútov získaných pomocou analýzy obsahuje príloha \ref
 
 Po kliknutí na položku atribútu analyzovanej aplikácie sa zobrazí popis daného atribútu.
 
-Táto obrazovka poskytuje užívateľovi prístup k~ďalším informáciám a operáciám s~analyzovanou aplikáciou. Medzi najdôležitejšie patrí možnosť zobrazenia súboru \zv{AndroidManifest.xml} danej aplikácie. Manifest je možné uložiť do externej pamäte zariadenia. Prístup k~súboru \zv{AndroidManifest.xml} je možný len pri analýze nainštalovanej aplikácie.
-\begin{figure}[H]
+Táto obrazovka poskytuje užívateľovi prístup k~ďalším informáciám a operáciám s~analyzovanou aplikáciou. Medzi najdôležitejšie patrí možnosť zobrazenia súboru \zv{AndroidManifest.xml} danej aplikácie. Manifest je možné uložiť do externej pamäte zariadenia.
+
+\begin{minipage}[H]{\textwidth}
 \begin{minipage}[t]{0.48\textwidth}
 Užívateľ môže exportovať APK súbor nainštalovanej aplikácie. Systém Android ukladá inštalačné súbory všetkých aplikácií do priečinka, ktorý nie je bežným užívateľom prístupný. Pomocou funkcie exportu APK súboru dokáže naša aplikácia skopírovať tento súbor do užívateľovi prístupnej časti úložného priestoru. Aplikácia taktiež poskytuje možnosť zdieľania APK súborov. 
 \zv{Apk Analyzer} sa nezameriava na získavanie dát o~konkrétnej inštalácii aplikácie. Tieto dáta poskytuje systémová aplikácia, ktorá je súčasťou štandardných Android nastavení. Naša aplikácia poskytuje možnosť priameho prechodu na túto systémovú aplikáciu.  Taktiež poskytuje možnosť zobrazenia záznamu o~aplikácii v~obchode \zv{Google Play}.
@@ -148,12 +150,12 @@ Užívateľ môže exportovať APK súbor nainštalovanej aplikácie. Systém An
 \centering
 \begin{minipage}[t][][b]{0.45\textwidth}
 \centering
-    \includegraphics[width=5.2cm]{images/app/detail_device.png}
+\includegraphics[width=5.2cm]{images/app/detail_device.png}
 \centering
-\caption{Detaily aplikácie}
+\captionof{figure}{Detaily aplikácie}
 \label{fig:app-detail}
 \end{minipage}%
-\end{figure}
+\end{minipage}
 
 \subsection{Analýza aplikácie pred inštaláciou z~lokálneho APK súboru}
 Naša aplikácia poskytuje možnosť analýzy pred inštaláciou APK súborov, ktoré sú uložené v~lokálnej pamäti zariadenia. Táto funkcionalita je užitočná v~prípade stiahnutia aplikácie z~webu a jej následnej inštalácie. Po výbere APK súboru pomocou prieskumníka súborov spustí Android inštaláciu prevzatej aplikácie. V~prípade, že má používateľ nainštalovanú našu aplikáciu, nespustí Android inštaláciu automaticky po kliknutí na APK súbor. Namiesto toho zobrazí užívateľovi dialóg, v~ktorom si môže vybrať medzi priamou inštaláciou a analýzou v~aplikácii \zv{Apk Analyzer}. Naša aplikácia zobrazí detaily APK balíčka a zároveň ponúkne užívateľovi možnosť nainštalovať danú aplikáciu.
@@ -185,28 +187,28 @@ Aplikácia zobrazuje štatistické informácie získané analýzou všetkých na
 \subsection{Bezpečnostné povolenia}
 Zoznam bezpečnostných povolení vyžadovaných aplikáciami je pre užívateľov jednou z~najzaujímavejších informácií, ktoré naša aplikácia poskytuje. \zv{Apk Analyzer} zobrazuje bezpečnostné povolenia pri detailoch jednotlivých aplikácií. Aplikácia okrem toho umožňuje zobrazenie všetkých povolení, ktoré aplikácie nainštalované na zariadení vyžadujú. Tento zoznam je zoradení podľa počtu aplikácií vyžadujúcich dané oprávnenia. Detail každého bezpečnostného povolenia obsahuje jeho popis, predstavovanú úroveň zabezpečenia a zoznam nainštalovaných aplikácií, ktoré toto povolenie vyžadujú. Od verzie Android 6 majú užívatelia možnosť poskytovať aplikáciám oprávnenia počas ich behu. Tento koncept je známy ako \zv{runtime permissions}. Z~tohto dôvodu sú v~detaile bezpečnostného povolenia zobrazené dva separátne zoznamy aplikácií, ktoré deklarujú využitie daného povolenia. Jeden zoznam obsahuje aplikácie, ktorým používateľ povolenie schválil, alebo na základe úrovne zabezpečenia daného povolenia nie je ich schválenie potrebné. Druhý zoznam tvoria aplikácie, ktoré nemajú povolenie schválené užívateľom.
 
-\begin{figure}[H]
+\begin{minipage}[H] {\textwidth}
 \begin{minipage}[t][][b]{0.5\textwidth}
 \centering
-    \includegraphics[width=4.2cm]{images/app/list_permissions_device.png}
+    \includegraphics[width=4.4cm]{images/app/list_permissions_device.png}
 \centering
-\caption{Zoznam povolení}
+\captionof{figure}{Zoznam povolení}
 \label{fig:permission-list}
 \end{minipage}%%
 \hfill
 \centering
 \begin{minipage}[t][][b]{0.5\textwidth}
 \centering
-    \includegraphics[width=4.2cm]{images/app/permission_detail_device.png}
+    \includegraphics[width=4.4cm]{images/app/permission_detail_device.png}
 \centering
-\caption{Detail povolenia}
+\captionof{figure}{Detail povolenia}
 \label{fig:permission-detail}
 \end{minipage}%
-\end{figure}
+\end{minipage}
 
 
 \subsection{Odosielanie aplikačných metadát na server}
-\begin{figure}[H]
+\begin{minipage}[H] {\textwidth}
 \begin{minipage}[t]{0.48\textwidth}
 Mobilná aplikácia odosiela metadáta o~všetkých nesystémových aplikáciách na server, kde sú tieto dáta použité za účelom detekcie prebalených aplikácií.
 
@@ -219,10 +221,10 @@ V~prípade, že užívateľ povolí odosielanie dát a zariadenie je pripojené 
 \centering
     \includegraphics[width=5.2cm]{images/app/upload_device.png}
 \centering
-\caption{Povolenie na odosielanie aplikačných metadát}
+\captionof {figure}{Povolenie na odosielanie aplikačných metadát}
 \label{fig:upload-dialog}
 \end{minipage}%
-\end{figure}
+\end{minipage}
 
 Dáta sú odosielané v~serializovanej podobe vo formáte JSON. Keďže tieto dáta obsahujú hashe všetkých súborov v~aplikácii, veľkosť odosielaného súboru môže pri väčších aplikáciách dosiahnuť až 1\,MB. Z~dôvodu efektívneho využitia siete sú tieto dáta skomprimované pomocou algoritmu GZIP, ktorý mnohonásobne zmenší veľkosť prenášaných dát.
 
@@ -241,12 +243,12 @@ Detekcia prebalených aplikácií prebieha na strane serveru a mobilná aplikác
 
 Pre lepšiu vizualizáciu sú tieto údaje užívateľom prezentované pomocou grafov. Stĺpcový graf zobrazuje rôzne digitálne podpisy a počet aplikácií ktoré sú nimi podpísané. Zvýraznený je stĺpec, ktorý zodpovedá podpisu analyzovanej aplikácie. Ostatné grafy zobrazujú pomery medzi podpismi podobných aplikácií.
 
-\begin{figure}[H]
+\begin{minipage}[H] {\textwidth}
 \begin{minipage}[t][][b]{0.45\textwidth}
 \centering
     \includegraphics[width=4.2cm]{images/app/detection_device_1.png}
 \centering
-\caption{Výstup detekcie prebalených súborov}
+\captionof{figure}{Výstup detekcie prebalených súborov}
 \label{fig:detection-1}
 \end{minipage}%%
 \hfill
@@ -255,10 +257,10 @@ Pre lepšiu vizualizáciu sú tieto údaje užívateľom prezentované pomocou g
 \centering
     \includegraphics[width=4.2cm]{images/app/detection_device_2.png}
 \centering
-\caption{Grafy zobrazujúce rozloženie digitálnych podpisov podobných balíčkov}
+\captionof{figure}{Grafy zobrazujúce rozloženie digitálnych podpisov podobných balíčkov}
 \label{fig:detection-2}
 \end{minipage}%
-\end{figure}
+\end{minipage}
 
 	
 	
