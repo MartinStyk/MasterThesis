@@ -212,6 +212,25 @@ Navrhnutá metóda detekcie porovnáva obrázky na základe ich hashov. Aj malá
 \subsection*{Nastavenia detekcie na základe predchádzajúcich výskumov}
 Známe výskumy prebalených APK súborov pracujú nad offline databázou aplikácií. Funkčnosť a presnosť týchto metód je vyhodnotená prostredníctvom porovnania výsledkov s~inými algoritmami. Na základe experimentov sú určené parametre detekcie, ktoré eliminujú nesprávne výsledky algoritmu. V~prípade našej metódy je situácia komplikovanejšia, pretože našu databázu netvoria celé APK súbory, ale len niektoré metadáta. Nie je teda možné spustiť nad týmito dátami iné metódy detekcie, a nastaviť tak parametre algoritmu, ktoré ovplyvňujú výsledky detekcie. Z~metadát o~jednotlivých aplikáciách nie je možné rozhodnúť, či je daná aplikácia originál, alebo prebalená verzia.  Z~toho dôvodu sa navrhnutá metóda vo veľkej miere opiera o~už existujúce výskumy a preberá ich závery a odporúčané parametre detekcie. 
 
+\section{Implementácia a optimalizácie}
+Detekčná metóda bola implementovaná v jazyku \zv{Ruby} pomocou frameworku \zv{Ruby on Rails}. Ako úložisko dát slúži databáza \zv{PostgreSQL}. Aplikácia poskytujúca funkciu detekcie prebalených aplikácií je nasadená v produkčnom prostredí v službe \zv{Heroku}. Táto aplikácia poskytuje aplikačné programové rozhranie, ktoré je dostupné prostredníctvom protokolu http (REST rozhranie). Mobilná aplikácia nainštalovaná na Android zariadeniach komunikuje so serverom pomocou tohto rozhrania. 
+
+Detekcia prebalených aplikácií môže byť časovo náročná. Dĺžka určenia originality aplikácie závisí predovšetkým na počte aplikácií, ktoré algoritmus vyhodnotí ako podobné na základe metadát. U takýchto aplikácií je nutné vykonať párové porovnanie identifikátorov obrázkových súborov. V prípade špecifických aplikácií je počet aplikácií podobných na základe metadát a číselných charakteristík nižší ako v prípade aplikácií, ktoré číselnými charakteristikami nevyčnievajú. Pri získanom objeme dát trvá detekcia jednej aplikácie zvyčajne menej, ako 45 sekúnd. Párové porovnanie 1000 aplikácií zaberie približne 20 sekúnd. 
+
+Kolekcia dát nad ktorou detekčná metóda pracuje sa neustále rozširuje. Samotná charakteristika dát je však v krátkom časovom období statická. V prípade, že viacero užívateľov požiada v krátkom časovom úseku o detekciu rovnakej aplikácie, nie je zakaždým potrebné určiť  výsledok pomocou porovnania metadát a obrázkov. Výsledok bude vo všetkých takýchto prípadoch veľmi podobný a detekčný algoritmus bude viackrát počítať podobnosť rovnakých dvojíc aplikácií. Z tohto dôvodu je implementovaná metóda optimalizovaná. Výsledok každej detekcie je uložený v databáze. Ukladané dáta obsahujú informácie o čase vykonania detekcie a výsledku detekcie, vrátane všetkých nadmieru podobných aplikácií. 
+
+V prípade požiadavky na detekciu prebalenej aplikácie, ktorej detekcia už bola vykonaná v priebehu predchádzajúcich dvoch týždňov, vráti algoritmus dáta, ktoré vypočítal v predchádzajúcom behu. Mobilná aplikácia tak dostane odpoveď na svoju detekčnú požiadavku v čase kratšom ako 5 sekúnd.
+
+Pri požiadavke na detekciu aplikácie, ktorá už bola algoritmom overená, avšak dátum predchádzajúcej detekcie je starší ako dva týždne, preverí algoritmus pomocou porovnania metadát a obrázkových súborov len tie aplikácie, ktoré boli do zdieľanej databázy pridané po čase vykonania prechádzajúcej detekcie danej aplikácie. Vďaka tejto optimalizácii neporovnáva algoritmus dvojice, ktoré už porovnal. Výsledok detekcie je určený na základe zjednotenia údajov  uložených z predchádzajúceho behu a novourčených dát. 
+
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=130mm]{images/detection-optimalization.png}
+  \end{center}
+  \caption{Optimalizácia detekčnej metódy}
+  \label{fig:detectionOriginal}
+\end{figure}
+
 \section{Hodnotenie}
 \label{sec:hodnotenie}
 Implementovaná metóda bola nasadená v~produkčnom prostredí a je dostupná užívateľom. Táto sekcia hodnotí hlavné plusy a limitácie navrhnutej metódy detekcie prebalených aplikácií.
