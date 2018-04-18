@@ -185,7 +185,7 @@ Aplikácia zobrazuje štatistické informácie získané analýzou všetkých na
 
 
 \subsection{Bezpečnostné povolenia}
-Zoznam bezpečnostných povolení vyžadovaných aplikáciami je pre užívateľov jednou z~najzaujímavejších informácií, ktoré naša aplikácia poskytuje. \zv{Apk Analyzer} zobrazuje bezpečnostné povolenia pri detailoch jednotlivých aplikácií. Aplikácia okrem toho umožňuje zobrazenie všetkých povolení, ktoré aplikácie nainštalované na zariadení vyžadujú. Tento zoznam je zoradení podľa počtu aplikácií vyžadujúcich dané oprávnenia. Detail každého bezpečnostného povolenia obsahuje jeho popis, predstavovanú úroveň zabezpečenia a zoznam nainštalovaných aplikácií, ktoré toto povolenie vyžadujú. Od verzie Android 6 majú užívatelia možnosť poskytovať aplikáciám oprávnenia počas ich behu. Tento koncept je známy ako \zv{runtime permissions}. Z~tohto dôvodu sú v~detaile bezpečnostného povolenia zobrazené dva separátne zoznamy aplikácií, ktoré deklarujú využitie daného povolenia. Jeden zoznam obsahuje aplikácie, ktorým používateľ povolenie schválil, alebo na základe úrovne zabezpečenia daného povolenia nie je ich schválenie potrebné. Druhý zoznam tvoria aplikácie, ktoré nemajú povolenie schválené užívateľom. \\ \\
+Zoznam bezpečnostných povolení vyžadovaných aplikáciami je pre užívateľov jednou z~najzaujímavejších informácií, ktoré naša aplikácia poskytuje. \zv{Apk Analyzer} zobrazuje bezpečnostné povolenia ako súčasť detailného reportu o jednotlivých aplikáciách. Aplikácia okrem toho umožňuje zobrazenie všetkých povolení, ktoré aplikácie nainštalované na zariadení vyžadujú. Tento zoznam je zoradení podľa počtu aplikácií vyžadujúcich dané oprávnenia. Detail každého bezpečnostného povolenia obsahuje jeho popis, predstavovanú úroveň zabezpečenia a zoznam nainštalovaných aplikácií, ktoré toto povolenie vyžadujú. Od verzie Android 6 majú užívatelia možnosť poskytovať aplikáciám oprávnenia počas ich behu. Tento koncept je známy ako \zv{runtime permissions}. Z~tohto dôvodu sú v~detaile bezpečnostného povolenia zobrazené dva separátne zoznamy aplikácií, ktoré deklarujú využitie daného povolenia. Jeden zoznam obsahuje aplikácie, ktorým používateľ povolenie schválil, alebo na základe úrovne zabezpečenia daného povolenia nie je ich schválenie potrebné. Druhý zoznam tvoria aplikácie, ktoré nemajú dané povolenie schválené užívateľom. \\ \\
 
 \begin{minipage}[H] {\textwidth}
 \begin{minipage}[t][][b]{0.5\textwidth}
@@ -211,9 +211,8 @@ Zoznam bezpečnostných povolení vyžadovaných aplikáciami je pre užívateľ
 \begin{minipage}[H] {\textwidth}
 \begin{minipage}[t]{0.48\textwidth}
 Mobilná aplikácia odosiela metadáta o~všetkých nesystémových aplikáciách na server, kde sú tieto dáta použité za účelom detekcie prebalených aplikácií.
-
 Informácie o~nainštalovaných aplikáciách sú klasifikované ako citlivé údaje. Tieto dáta nie je možné zbierať bez povolenia od užívateľa. Z~tohto dôvodu naša aplikácia počas prvého spustenia požiada užívateľa o~súhlas s~odosielaním metadát o~jeho aplikáciách. Užívateľ má neskôr možnosť zmeniť svoje rozhodnutie v~sekcii nastavenia.
-V~prípade, že užívateľ povolí odosielanie dát a zariadenie je pripojené na internet, aplikácia na pozadí analyzuje všetky nesystémové aplikácie a odosiela dáta na server systému \zv{Apk Analyzer}. Tento proces sa spustí pri každom spustení aplikácie.
+V~prípade, že užívateľ povolí odosielanie dát a zariadenie je pripojené na internet, aplikácia na pozadí analyzuje všetky nesystémové aplikácie a odosiela dáta na server systému \zv{Apk Analyzer}. Tento proces sa spustí pri každom spustení aplikácie. Metadáta o aplikácii sú taktiež odosielané počas jej analýzy vykonávanej pri zobrazení detailného reportu a aplikácii. 
 \end{minipage}%
 \hfill
 \centering
@@ -230,7 +229,7 @@ Dáta sú odosielané v~serializovanej podobe vo formáte JSON. Keďže tieto d�
 
 Server a centrálna databáza neakceptujú viacero záznamov o~jednej verzii aplikácie odoslaných z~jedného zariadenia. Na identifikáciu zariadenia slúži \zv{Android Id}, ktoré je taktiež súčasťou odosielaných dát. Za účelom zamedzenia odosielania dát, ktoré už boli z~daného zariadenia odoslané, využíva naša mobilná aplikácia lokálnu databázu, do ktorej ukladá meno balíčku a verziu všetkých aplikácií, ktoré boli úspešne odoslané na server. Aplikácia je analyzovaná a odosielaná len v~prípade, že ju dané zariadenie ešte neodoslalo.
 
-Komunikácia so serverom prebieha prostrednístvom HTTPS a aplikácia sa musí serveru autentizovať pomocou základnej HTTP autentizácie. Každá požiadavka odoslaná klientom musí mať v~hlavičke nastavené pole \zv{Authorization} na korektn[ hodnotu.
+Komunikácia so serverom prebieha prostrednístvom HTTPS a aplikácia sa musí serveru autentizovať pomocou základnej HTTP autentizácie. Každá požiadavka odoslaná klientom musí mať v~hlavičke nastavené pole \zv{Authorization} na korektnú hodnotu.
 
 \subsection{Detekcia prebalených aplikácií}
 Detekcia prebalených aplikácií prebieha na strane serveru a mobilná aplikácia slúži ako rozhranie, prostredníctvom ktorého ma užívateľ možnosť požiadať o~detekciu svojich aplikácií. Táto funkcia je dostupná z~menu obrazovky zobrazujúcej detaily aplikačného balíčku. Výsledky detekcie prezentované užívateľovi obsahujú:
@@ -241,7 +240,7 @@ Detekcia prebalených aplikácií prebieha na strane serveru a mobilná aplikác
 	\item Pomer aplikácií od vydavateľa, od ktorého pochádza väčšina podobných aplikácií a všetkých identifikovaných podobných aplikácií.
 \end{itemize}
 
-Pre lepšiu vizualizáciu sú tieto údaje užívateľom prezentované pomocou grafov. Stĺpcový graf zobrazuje rôzne digitálne podpisy a počet aplikácií ktoré sú nimi podpísané. Zvýraznený je stĺpec, ktorý zodpovedá podpisu analyzovanej aplikácie. Ostatné grafy zobrazujú pomery medzi podpismi podobných aplikácií.
+Pre lepšiu vizualizáciu sú tieto údaje užívateľom prezentované pomocou grafov. Stĺpcový graf zobrazuje rôzne digitálne podpisy a počet aplikácií, ktoré sú nimi podpísané. Zvýraznený stĺpec odpovedá podpisu analyzovanej aplikácie. Ostatné grafy zobrazujú pomery medzi podpismi podobných aplikácií.
 
 \begin{minipage}[H] {\textwidth}
 \begin{minipage}[t][][b]{0.45\textwidth}
