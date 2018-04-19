@@ -93,7 +93,7 @@ Na získanie zoznamu všetkých súborov v~aplikácii spolu s~ich identifikátor
 \subsection{Zdrojový kód}
 Dáta \zv{DEX} súboru, ktorý obsahuje zdrojový kód, získava aplikácia pomocou triedy \zv{dalvik.system.DexFile}. Táto trieda obsahuje operácie, pomocou ktorých je možné získať zoznam všetkých aplikačných tried, ktoré má daná aplikácia k~dispozícií. Tento zoznam obsahuje triedy samotnej aplikácie, spolu so všetkými použitými knižnicami. 
 
-\section{Aplikácia}
+	\section{Aplikácia}
 Mobilná aplikácia bola implementovaná v~jazyku Kotlin. Je dostupná v~obchode \zv{Google Play} pod názvom \zv{Apk Analyzer}, a je unikátne identifikovaná pomocou mena balíka \zv{sk.styk.martin.apkanalyzer}~\cite{gp}. Aplikácia je dostupná pre všetky zariadenia s~verziou systému novšou ako Android 4.0.3 (API level 15) a  je prispôsobená na použitie na mobilných telefónoch a tabletoch. Nasledujúce sekcie opisujú hlavnú funkcionalitu aplikácie.
 
 \begin{figure}[htb]
@@ -107,7 +107,7 @@ Mobilná aplikácia bola implementovaná v~jazyku Kotlin. Je dostupná v~obchode
 \subsection{Zoznam nainštalovaných aplikácií}
 \begin{minipage}[H]{\textwidth}
 \begin{minipage}[t]{0.48\textwidth}
-Základná obrazovka obsahuje zoznam všetkých nainštalovaných aplikačných balíčkov. Tento zoznam sa užívateľovi zobrazí po spustení aplikácie. V~zozname aplikácií je možné vyhľadávať podľa lokalizovaného názvu aplikácie alebo mena balíčku. Taktiež je možné filtrovať aplikácie na základe ich pôvodu. Táto funkcia poskytuje užívateľom možnosť ľahko rozlíšiť medzi aplikáciami získanými z~oficiálneho obchodu a z~alternatívnych zdrojov. Kliknutím na položku zoznamu sa zobrazia detailné informácie o~vybranej aplikácii. V~prípade analýzy nenainštalovaného aplikačného balíčku vyberie užívateľ APK súbor z~pamäte zariadenia pomocou tlačidla umiestneného v~pravom dolnom rohu obrazovky.
+Základná obrazovka vyvinutej aplikácie \zv{Apk Analyzer} obsahuje zoznam všetkých nainštalovaných aplikačných balíčkov. Tento zoznam sa užívateľovi zobrazí po spustení aplikácie. V~zozname aplikácií je možné vyhľadávať podľa lokalizovaného názvu aplikácie alebo mena balíčku. Taktiež je možné filtrovať aplikácie na základe ich pôvodu. Táto funkcia poskytuje užívateľom možnosť ľahko rozlíšiť medzi aplikáciami získanými z~oficiálneho obchodu a z~alternatívnych zdrojov. Kliknutím na položku zoznamu sa zobrazia detailné informácie o~vybranej aplikácii. V~prípade analýzy nenainštalovaného aplikačného balíčku vyberie užívateľ APK súbor z~pamäte zariadenia pomocou tlačidla umiestneného v~pravom dolnom rohu obrazovky.
 \end{minipage}%
 \hfill
 \centering
@@ -168,7 +168,7 @@ Aplikácia zobrazuje štatistické informácie získané analýzou všetkých na
 	\item \bod{Kompatibilné verzie systému Android} -- minimálna a cieľová verzia Android API
 	\item \bod{Inštalačná politika aplikácie} -- preferované umiestnenie aplikácie
 	\item \bod{Algoritmus podpisu balíčka}
-	\item \bod{Pôvod aplikácie} -- rozlíšenie medzi predinštalovanými aplikáciami a aplikáciami z~oficiálnych a neoficiálnych zdrojov. 
+	\item \bod{Pôvod aplikácie} -- rozlíšenie medzi predinštalovanými aplikáciami a aplikáciami z~oficiálnych a neoficiálnych zdrojov 
 \end{itemize}
 
 \noindent Po kliknutí na položku grafu je zobrazený zoznam aplikácií, ktoré patria do danej kategórie.
@@ -212,7 +212,7 @@ Zoznam bezpečnostných povolení vyžadovaných aplikáciami je pre užívateľ
 \begin{minipage}[t]{0.48\textwidth}
 Mobilná aplikácia odosiela metadáta o~všetkých nesystémových aplikáciách na server, kde sú tieto dáta použité za účelom detekcie prebalených aplikácií.
 Informácie o~nainštalovaných aplikáciách sú klasifikované ako citlivé údaje. Tieto dáta nie je možné zbierať bez povolenia od užívateľa. Z~tohto dôvodu naša aplikácia počas prvého spustenia požiada užívateľa o~súhlas s~odosielaním metadát o~jeho aplikáciách. Užívateľ má neskôr možnosť zmeniť svoje rozhodnutie v~sekcii nastavenia.
-V~prípade, že užívateľ povolí odosielanie dát a zariadenie je pripojené na internet, aplikácia na pozadí analyzuje všetky nesystémové aplikácie a odosiela dáta na server systému \zv{Apk Analyzer}. Tento proces sa spustí pri každom spustení aplikácie. Metadáta o aplikácii sú taktiež odosielané počas jej analýzy vykonávanej pri zobrazení detailného reportu a aplikácii. 
+V~prípade, že užívateľ povolí odosielanie dát a zariadenie je pripojené na internet, aplikácia na pozadí analyzuje všetky nesystémové aplikácie a odosiela dáta na server systému \zv{Apk Analyzer}. Tento proces sa spustí pri každom spustení aplikácie. Metadáta o aplikácii sú taktiež odosielané počas jej analýzy vykonávanej pri zobrazení jej detailu. 
 \end{minipage}%
 \hfill
 \centering
@@ -225,18 +225,18 @@ V~prípade, že užívateľ povolí odosielanie dát a zariadenie je pripojené 
 \end{minipage}%
 \end{minipage}
 
-Dáta sú odosielané v~serializovanej podobe vo formáte JSON. Keďže tieto dáta obsahujú hashe všetkých súborov v~aplikácii, veľkosť odosielaného súboru môže pri väčších aplikáciách dosiahnuť až 1\,MB. Z~dôvodu efektívneho využitia siete sú tieto dáta skomprimované pomocou algoritmu GZIP, ktorý mnohonásobne zmenší veľkosť prenášaných dát.
+Dáta sú odosielané v~serializovanej podobe vo formáte JSON. Odosielané dáta obsahujú hashe všetkých obrázkových súborov v~aplikácii. Veľkosť odosielaných dát môže pri väčších aplikáciách dosiahnuť až 1\,MB. Z~dôvodu efektívneho využitia siete sú tieto dáta skomprimované pomocou algoritmu GZIP, ktorý výrazne zmenší veľkosť prenášaných dát.
 
-Server a centrálna databáza neakceptujú viacero záznamov o~jednej verzii aplikácie odoslaných z~jedného zariadenia. Na identifikáciu zariadenia slúži \zv{Android Id}, ktoré je taktiež súčasťou odosielaných dát. Za účelom zamedzenia odosielania dát, ktoré už boli z~daného zariadenia odoslané, využíva naša mobilná aplikácia lokálnu databázu, do ktorej ukladá meno balíčku a verziu všetkých aplikácií, ktoré boli úspešne odoslané na server. Aplikácia je analyzovaná a odosielaná len v~prípade, že ju dané zariadenie ešte neodoslalo.
+Server a centrálna databáza neakceptujú viacero záznamov o~jednej verzii aplikácie odoslaných z~jedného zariadenia. Na identifikáciu zariadenia slúži jeho unikátny identifikátor \zv{Android ID}, ktorý je taktiež súčasťou odosielaných dát. Za účelom zamedzenia odosielania dát, ktoré už boli z~daného zariadenia odoslané, využíva naša mobilná aplikácia lokálnu databázu, do ktorej ukladá mená a verzie všetkých aplikácií, ktoré boli úspešne odoslané na server. Aplikácia je analyzovaná a odosielaná len v~prípade, že ju dané zariadenie ešte neodoslalo.
 
-Komunikácia so serverom prebieha prostrednístvom HTTPS a aplikácia sa musí serveru autentizovať pomocou základnej HTTP autentizácie. Každá požiadavka odoslaná klientom musí mať v~hlavičke nastavené pole \zv{Authorization} na korektnú hodnotu.
+Komunikácia so serverom prebieha prostredníctvom HTTPS a aplikácia sa musí serveru autentizovať pomocou základnej HTTP autentizácie. Každá požiadavka odoslaná klientom musí mať v~hlavičke nastavené pole \zv{Authorization} na korektnú hodnotu.
 
 \subsection{Detekcia prebalených aplikácií}
 Detekcia prebalených aplikácií prebieha na strane serveru a mobilná aplikácia slúži ako rozhranie, prostredníctvom ktorého ma užívateľ možnosť požiadať o~detekciu svojich aplikácií. Táto funkcia je dostupná z~menu obrazovky zobrazujúcej detaily aplikačného balíčku. Výsledky detekcie prezentované užívateľovi obsahujú:
 \begin{itemize}
-	\item Výsledok -- aplikácia je/nie je prebalená, alebo systém nemá dostatok dát na vyhodnotenie,
-	\item Počet identifikovaných nadmieru podobných aplikácií
-	\item Pomer aplikácií od vydavateľa, od ktorého pochádza užívateľova aplikácia a všetkých identifikovaných podobných aplikácií,
+	\item Výsledok -- aplikácia je/nie je prebalená, alebo systém nemá dostatok dát na vyhodnotenie.
+	\item Počet identifikovaných nadmieru podobných aplikácií.
+	\item Pomer aplikácií od vydavateľa, od ktorého pochádza užívateľova aplikácia a všetkých identifikovaných podobných aplikácií.
 	\item Pomer aplikácií od vydavateľa, od ktorého pochádza väčšina podobných aplikácií a všetkých identifikovaných podobných aplikácií.
 \end{itemize}
 

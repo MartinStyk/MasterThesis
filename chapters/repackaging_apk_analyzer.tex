@@ -1,14 +1,14 @@
 \chapter{Metóda detekcie prebalených aplikácií Apk Analyzer}
 \label{chap:metoda-detekcie-apk-analyzer}
-V~rámci práce je navrhnutá metóda detekcie prebalených APK súborov. Navrhnutá metóda stavia na poznatkoch existujúcich výzkumov, a je založená predovšetkým na podobnosti zdrojových súborov obsiahnutých v~aplikáciách. Základom pre novonavrhnutú metódu sú práce \zv{FSquaDRA} a \zv{ImageStruct}. Primárnym cieľom novej metódy je vytvoriť spôsob detekcie prebalených aplikácií, ktorý je pomocou mobilnej aplikácie prístupný pre použitie širokej škále užívateľov systému Android.
+V~rámci práce je navrhnutá metóda detekcie prebalených APK súborov. Navrhnutá metóda stavia na poznatkoch existujúcich výskumov. Metóda je založená predovšetkým na podobnosti zdrojových súborov obsiahnutých v~aplikáciách. Základom pre novonavrhnutú metódu sú práce \zv{FSquaDRA} a \zv{ImageStruct}. Primárnym cieľom novej metódy je vytvoriť spôsob detekcie prebalených aplikácií, ktorý je pomocou mobilnej aplikácie prístupný pre použitie širokej škále užívateľov systému Android.
 
 \section{Motivácia a ciele}
 
 Medzi existujúcimi riešeniami bolo identifikovaných niekoľko možných vylepšení, ktoré návrh novej metódy zohľadňuje. Tieto vylepšenia súvisia predovšetkým so sprístupnením tejto metódy používateľom.  Navrhnutá metóda sa zameriava na vylepšenie nasledujúcich oblastí:
 \begin{itemize}
-	\item Určenie, ktorá aplikácia je originál a ktorá prebalená kópia,
-	\item Detekcia prebalených aplikácií pochádzajúcich výhradne z~alternatívnych obchodov,
-	\item Kolaborácia užívateľov za účelom spresnenia detekčnej metódy,
+	\item Určenie, ktorá aplikácia je originál a ktorá prebalená kópia.
+	\item Detekcia prebalených aplikácií pochádzajúcich výhradne z~alternatívnych obchodov.
+	\item Kolaborácia užívateľov za účelom spresnenia detekčnej metódy.
 	\item Dynamická aktualizácia dát potrebných na detekciu prebalených súborov.
 \end{itemize}
 
@@ -28,23 +28,22 @@ Cieľom je poskytnúť užívateľovi odpoveď, ktorá ho informuje či je jeho 
 Zámerom metódy \zv{Apk Analyzer} je využiť heuristiku počtu výskytov jednotlivých verzií aplikácií s~prirodzeným predpokladom, že na Android zariadeniach sa nachádza väčší počet originálnych aplikácií, ako ich prebalených kópií. 
 
 \subsection*{Dynamickosť a kolaborácia}
-Predstavené offline metódy pracujú nad statickou kolekciou aplikácií. Metódy využívané priamo v~obchodoch s~aplikáciami pracujú nad kolekciou aplikácií v~danom obchode. Za účelom vytvorenia metódy vychádzajúcej z~\zv{FSquaDRA} a \zv{ImageStruct} je nutné vytvoriť databázu aplikácií. Táto databáza však musí reflektovať zmeny v~aktuálne dostupných aplikáciách, pretože nové verzie a nové aplikácie sú vydávané dennodenne. 
+Predstavené offline metódy pracujú nad statickou kolekciou aplikácií. Metódy využívané priamo v~obchodoch s~aplikáciami pracujú nad kolekciou aplikácií v~danom obchode. Za účelom vytvorenia metódy vychádzajúcej z~\zv{FSquaDRA} a \zv{ImageStruct} je nutné vytvoriť rozsiahlu databázu aplikácií. Táto databáza musí reflektovať zmeny v~aktuálne dostupných aplikáciách, pretože nové verzie a nové aplikácie sú vydávané dennodenne. 
 
 
-Cieľom systému \zv{Apk Analyzer} je vytvorenie dynamickej databázy dát o~aplikáciách, na základe ktorej môže byť uskutočnená detekcia prebalených súborov.
-Za týmto účelom je zámerom systému \zv{Apk Analyzer} zapojiť do tvorby databázy existujúcich aplikácií koncových užívatelov. Mobilná aplikácia, ktorá sprostredkováva detekciu prebalených aplikácií odošle dáta o~aplikáciách nainštalovaných na danom zariadení do centrálnej databázy systému \zv{Apk Analyzer}. Tento kolaboratívny spôsob zaručí neustálu aktualizáciu databázy. Čím viacej užívateľov je zapojených, tým väčšiu databázu sa podarí vytvoriť.
+Cieľom systému \zv{Apk Analyzer} je vytvorenie dynamickej databázy dát o~aplikáciách. Zámerom je zapojiť do tvorby databázy existujúcich aplikácií koncových užívatelov. Mobilná aplikácia poskytujúca možnosť detekcie prebalených aplikácií odošle dáta o~aplikáciách nainštalovaných na danom zariadení do centrálnej databázy systému \zv{Apk Analyzer}. Tento kolaboratívny spôsob zaručí neustálu aktualizáciu databázy. Čím viacej užívateľov používa mobilnú aplikáciu, tým väčšiu databázu sa podarí vytvoriť.
 
 \section{Návrh metódy}
 Návrh kompletného systému \zv{Apk Analyzer}, ktorý pozostáva z~mobilného klienta a serverovej časti obsahuje kapitola \ref{chap:apk-analyzer} . Táto kapitola sa zameriava predovšetkým na samotnú detekčnú metódu a tvorbu databázy, ktoré sa odohrávajú na strane serveru.
 
 \subsection{Základný princíp detekcie prebalených aplikácií}
-Mobilná aplikácia \zv{Apk Analyzer} odosiela dáta o~aplikáciách nainštalovaných na jednotlivých Android zariadeniach na server, ktorý ich ukladá do databázy. Pri detekcii sa použijú dáta uložené v~databáze. K~analyzovanej aplikácii sa vyhľadajú podobné aplikácie. Podobnosť je určená ako pomer obrázkov, ktoré dve aplikácie zdieľajú. Z~kolekcie aplikácií, ktoré zdieľajú veľkú časť obrázkov, a teda sú považované za rôzne verzie tej istej aplikácie je vybraný najčastejšie sa opakujúci digitálny podpis, ako identifikátor originálnej verzie. Ak je analyzovaná aplikácia podpísaná týmto kľúčom, je označená za dôveryhodnú. V~opačnom prípade systém upozorní užívateľa na prebalenú aplikáciu. 
+Mobilná aplikácia \zv{Apk Analyzer} odosiela dáta o~aplikáciách nainštalovaných na jednotlivých Android zariadeniach na server, ktorý ich ukladá do databázy. Pri detekcii sa použijú dáta uložené v~databáze. K~analyzovanej aplikácii sa vyhľadajú podobné aplikácie. Podobnosť je určená na základe počtu obrázkov zdieľaných medzi dvomi aplikáciami. Z~kolekcie aplikácií, ktoré zdieľajú veľkú časť obrázkov, a teda sú považované za rôzne verzie tej istej aplikácie je vybraný najčastejšie sa opakujúci digitálny podpis, ako identifikátor originálnej verzie. Ak je analyzovaná aplikácia podpísaná týmto kľúčom, je označená ako dôveryhodná. V~opačnom prípade systém upozorní užívateľa na prebalenú aplikáciu. 
 
 \begin{figure}[htb]
   \begin{center}
     \includegraphics[width=130mm]{images/detection-overview.png}
   \end{center}
-  \caption{Postup metódy Apk Analyzer}
+  \caption{Postup metódy \zv{Apk Analyzer}}
   \label{fig:metódaApkAnalyzer}
 \end{figure}
 
@@ -80,7 +79,7 @@ Z~dôvodu efektivity vyhľadávania v~databáze je pre každú aplikáciu určen
 V~prípade, že majú dve aplikácie rovnaký identifikátor, je zaručené, že pochádzajú od jedného vydavateľa, ich zdrojový kód, skompilované zdrojové súbory, metadáta a všetky  obrázky sú identické. 
 
 \subsubsection{\textbf{Počet výskytov aplikácie}}
-Dôležitým aspektom pri detekcii prebalených aplikácií je počet výskytov jednotlivých verzií aplikácií. Túto metriku systém využíva pri určení, ktoré aplikácie sú originály a ktoré prebalené imitácie. Preto je dôležité identifikovať, z~akého zariadenia dáta o~aplikácii pochádzajú. Za týmto účelom je použitý unikátny identifikátor zariadenia \zv{AndroidID}. Server si ku každej aplikácii pamätá všetky zariadenia, z~ktorých bola daná aplikácia nahraná, a taktiež uchováva informácie z~akého zdroja bola aplikácia na dané zariadenie nainštalovaná.
+Dôležitým aspektom pri detekcii prebalených aplikácií je počet výskytov jednotlivých verzií aplikácií. Túto metriku systém využíva pri určení, ktoré aplikácie sú originály a ktoré prebalené imitácie. Preto je dôležité identifikovať z~akého zariadenia dáta o~aplikácii pochádzajú. Za týmto účelom je použitý unikátny identifikátor zariadenia \zv{Android ID}. Server si ku každej aplikácii pamätá všetky zariadenia, z~ktorých bola daná aplikácia nahraná, a taktiež uchováva informácie z~akého zdroja bola aplikácia na dané zariadenie nainštalovaná.
 
 
 \subsubsection{\textbf{Eliminácia obrázkov z~často používaných knižníc}}
@@ -88,7 +87,7 @@ Dôležitým aspektom pri detekcii prebalených aplikácií je počet výskytov 
 Algoritmus detekcie prebalených aplikácií zisťuje počet rovnakých obrázkových súborov v~rozdielnych aplikáciách. Aplikácie štandardne obsahujú viacero obrázkov, ktoré pochádzajú z~často používaných knižníc. Medzi často používané knižnice patria predovšetkým knižnice zaručujúce spätnú kompatibilitu medzi verziami systému Android, známe ako \zv{Google support libraries}. Obrázkové súbory pochádzajúce z~knižníc nemôžu byť použité algoritmom pre detekciu podobnosti. Takéto obrázky necharakterizujú konkrétne aplikácie. Z~tohto dôvodu je potrebná ich eliminácia, ktorá sa odohráva pri ukladaní aplikačných metadát do databázy. Každá z~knižníc je dostupná vo viacerých vydaniach. Obrázky sú medzi týmito vydaniami upravované, avšak ich názvy zostávajú nezmenené. Filtrovanie obrázkov na základe ich presných hashov zadaných administrátorom by si vyžadovalo pravidelnú aktualizáciu a z~dlhodobého hľadiska by bolo ťažko udržateľné. Z~tohto dôvodu náš algoritmus na základe mien súborov dynamicky buduje zoznam hashov obrázkov z~knižníc. Pri vkladaní záznamu o~jednom obrázkovom súbore sa najskôr skontroluje názov súboru. V~prípade, že zodpovedá názvu súboru z~často používaných knižníc, databáza hashov súborov z~knižníc sa rozšíri o~spracovávaný obrázok a tento obrázkový súbor nie je uložený medzi obrázky danej aplikácie. V~opačnom prípade sa aplikácia pokúsi vyhľadať hash súboru v~databáze hashov obrázkov z~knižníc. V~závislosti na výsledku tejto operácie je následne súbor ignorovaný alebo pridaný medzi obrázky danej aplikácie.
 
 \subsubsection{\textbf{Dátový model}}
-Návrh dátového modelu zodpovedá štruktúre ukladaných dát. Vzhľadom k~požiadavkám kladeným na systém Apk Analyzer je použité riešenie prezentované na ERD diagrame \ref{fig:detectionDbErd}. 
+Návrh dátového modelu zodpovedá štruktúre ukladaných dát. Vzhľadom k~požiadavkám kladeným na systém \zv{Apk Analyzer} je použité riešenie prezentované na ERD diagrame \ref{fig:detectionDbErd}. 
 
 \begin{figure}[htb]
   \begin{center}
@@ -122,13 +121,13 @@ Podobnosť metadát je použitá za účelom zefektívnenia vyhľadávania podob
 	\item počet Java tried v~aplikácii
 \end{itemize}
 
-Všetky z~týchto atribútov sú číselné. Ako podobné aplikácie sú na základe týchto atribútov označené také aplikácie, ktorých hodnoty týchto atribútov sú v~rozmedzí $\pm 20$ \% od hodnôt analyzovanej aplikácie. Hodnota 20 \% bola určená na základe experimentov nad databázou APK súborov. Tieto pokusy ukázali ukázali, že zmena tohto parametru na vyššie hodnoty nemá zásadný vplyv na výsledky detekcie. Pri nastavení povoleného rozmedzia na 50 \% stúpol počet detekovaných aplikácií o~3\%.
+Všetky z~týchto atribútov sú číselné. Ako podobné aplikácie sú na základe týchto atribútov označené také aplikácie, ktorých hodnoty týchto atribútov sú v~rozmedzí $\pm 20$ \% od hodnôt analyzovanej aplikácie. Hodnota 20 \% bola určená na základe experimentov nad databázou APK súborov. Tieto pokusy ukázali, že zmena tohto parametru na vyššie hodnoty nemá zásadný vplyv na výsledky detekcie. Pri nastavení povoleného rozmedzia na 50 \% stúpol počet detekovaných aplikácií o~3\%.
 
-Aplikácie, ktorých metadáta sú vyhodnotené ako podobné, sú následne porovnané s~aplikáciou ktorej detekcia prebieha. Toto porovnanie je založené na zhode obrázkových súborov v~týchto APK balíčkoch. Algoritmus neberie do úvahy obrázky pochádzajúce z~knižníc, pretože takéto obrázky necharakterizujú jednotlivé aplikácie.  Koeficient podobnosti je určený pomocou \zv{Jaccardovej metódy}.
+Aplikácie, ktorých metadáta sú vyhodnotené ako podobné, sú následne porovnané s~aplikáciou ktorej detekcia prebieha. Toto porovnanie je založené na zhode obrázkových súborov v~APK balíčkoch. Algoritmus neberie do úvahy obrázky pochádzajúce z~knižníc, pretože takéto obrázky necharakterizujú jednotlivé aplikácie.  Koeficient podobnosti je určený pomocou \zv{Jaccardovej metódy}.
 
 \[ similarity(app_1, app_2) = \frac{|app_{1}images \cap app_{2}images|} { app_{1}images} \]
 
-Hodnota Jaccardovho koeficientu, nad ktorou sú aplikácie považované za zhodné je odvodená z~metódy \zv{FSquaDRA} a naväzujúcich prác. Algoritmus APK balíčky ako rôzne verzie jednej aplikácie, ak je Jaccardov index podobnosti vyšší ako $0,7$.
+Hodnota Jaccardovho koeficientu nad ktorou sú aplikácie považované za zhodné je odvodená z~metódy \zv{FSquaDRA} a naväzujúcich prác. Algoritmus APK balíčky ako rôzne verzie jednej aplikácie, ak je Jaccardov index podobnosti vyšší ako $0,7$.
 
 Výstupom prvej časti algoritmu je skupina aplikácií, ktoré algoritmus klasifikuje ako nadmieru podobné. Takéto aplikácie považujeme za rôzne druhy jednej aplikácie.
 
@@ -146,11 +145,11 @@ V~predchádzajúcom kroku identifikuje algoritmus nadmieru podobné aplikácie. 
 	\item upravené / prebalené aplikácie
 	\item iné (\zv{false positive} detekcia)
 \end{itemize}
-V~takejto skupine sa môžu vyskytovať aj aplikácie, ktoré nie sú inou verziou alebo kópiou aplikácie, ktorej detekcia prebieha. Popis možných chýb a nedostatkou tejto metódy obsahuje sekcia \ref{sec:hodnotenie}.
+V~takejto skupine sa môžu vyskytovať aplikácie, ktoré nie sú príbuzné s aktuálne detekovanou aplikáciou. Popis možných chýb a nedostatkov navrhnutej metódy obsahuje sekcia \ref{sec:hodnotenie}.
 
-Na základe digitálneho podpisu APK balíčka vieme rozhodnúť, do ktorej z~týchto kategórií aplikácia patrí. V~prípade zhody certifikátu, ktorým sú aplikácie podpísané, ide o~dve rôzne verzie jednej aplikácie, ktoré pochádzajú od jedného vydavateľa. V~prípade podpisu rôznymi certifikátmi považujeme jednu z~týchto aplikácií za prebalenú, pretože aplikácie pochádzajú od rôznych vydavateľov a na základe ich nadmiernej podobnosti sú považované za jednu logickú aplikáciu.
+Na základe digitálneho podpisu APK balíčka vieme rozhodnúť, do ktorej z~týchto kategórií aplikácia patrí. V~prípade zhody digitálnych podpisov ide o~dve rôzne verzie jednej aplikácie, ktoré pochádzajú od jedného vydavateľa. V~prípade podpisu rôznymi kľúčmi považujeme jednu z~týchto aplikácií za prebalenú, pretože aplikácie pochádzajú od rôznych vydavateľov a na základe ich nadmiernej podobnosti sú považované za jednu logickú aplikáciu.
 
-Metóda detekcie prebalených aplikácií implementovaná v~rámci systému \zv{Apk Analyzer} využíva heuristiku založenú na početnosti výskytu aplikácií. Základom tejto metódy je pozorovanie, že na Android zariadeniach je nainštalovaných viac originálnych aplikácií, ako ich prebalených kópií.
+Metóda detekcie prebalených aplikácií implementovaná v~rámci systému \zv{Apk Analyzer} využíva heuristiku založenú na počte výskytu aplikácií. Základom tejto metódy je pozorovanie, že na Android zariadeniach je nainštalovaných viac originálnych aplikácií, ako ich prebalených kópií.
 
 Aplikácie sú rozdelené do skupín podľa ich digitálneho podpisu. Aplikácia, ktorej detekcia prebieha, je označená ako originálna v~prípade, že je podpísaná kľúčom, ktorým je podpísaná väčšina APK súborov v~klastri podobných aplikácií.  V~opačnom prípade vyhodnotí algoritmus túto aplikáciu ako prebalenú kópiu. Pri určovaní počtu aplikácií sa zohľadňuje počet výskytu jednotlivých verzií na rôznych zariadeniach. 
 
@@ -164,6 +163,7 @@ V~prípade, že kolekcia podobných aplikácií neobsahuje záznamy minimálne o
   \label{fig:detectionOriginal}
 \end{figure}
 
+\newpage
 \section{Predpoklady navrhnutej metódy}
 Navrhnutá metóda využíva pri detekcii prebalených aplikácií viacero dôležitých predpokladov.
 
@@ -171,7 +171,7 @@ Navrhnutá metóda využíva pri detekcii prebalených aplikácií viacero dôle
 Tento predpoklad vychádza zo základného princípu prebalených aplikácií, ktoré využívajú popularitu originálnej aplikácie za účelom šírenia škodlivej funkcionality.
 
 \subsection*{Obrázkové súbory je možné použiť na detekciu prebalených aplikácií}
-Metóda detekcie prebalených APK súborov \zv{ImageStruct} založená na porovnaní vlastností obrázkov ukázala, že výskyt rovnakých obrázkov je silným indikátorom prebalenia aplikácie. Funkčnosť a presnosť tohto prístupu bola overená prostredníctvom porovnania s~metódou založenou na analýze zdrojového kódu \cite{ImageStruct}. Podobné zistenia sú prezentované aj v~rámci práce \zv{FSquaDRA}, ktorá detekuje prebalené kópie na základe porovnania všetkých súborov aplikácií~\cite{Zhauniarovich2014}. V~rámci rozširujúcej evaluácie metódy \zv{FSquaDRA} bolo zistené, že presnosť detekcie je možné zvýšiť pomocou vzájomného porovnanie súborov rovnakého typu~\cite{Gadyatskaya2016}. Tento prístup sme použili aj v~metóde \zv{Apk Analyzer}. Viacero známych metód sa pri identifikácií typov súborov spolieha na štandardnú štruktúra APK balíčka. Práca vyhodnocujúca metódu \zv{FSquaDRA} využíva predpoklad, že obrázkové súbory sa nachádzajú v~štandardnom priečinku \cesta{res/drawable}. Súborová štruktúra APK balíčka môže byť predmetom obfuskácie, ktorú využívajú vývojári za účelom skomplikovania reverzného inžinierstva, a útočníci prebaľujúci aplikácie za účelom odlíšenia kópie od originálu. Z~tohto dôvodu používa náš prístup podobnosť všetkých súborov vo formátoch \zv{png}, \zv{bmp}, \zv{webp}, \zv{jpg} a \zv{gif}. Intuícia za týmto návrhom je založená na pozorovaní, že pri obfuskácii môžu byť zmenené názvy priečinkov a súborov, avšak typ súboru zostáva rovnaký. Tabuľka \ref{images-apk} ukazuje zastúpenie formátov obrázkových súborov v~analyzovanej vzorke 16\,700 aplikácií.
+Metóda detekcie prebalených APK súborov \zv{ImageStruct} založená na porovnaní vlastností obrázkov ukázala, že výskyt rovnakých obrázkov je silným indikátorom prebalenia aplikácie. Funkčnosť a presnosť tohto prístupu bola overená prostredníctvom porovnania s~metódou založenou na analýze zdrojového kódu \cite{ImageStruct}. Podobné zistenia sú prezentované aj v~rámci práce \zv{FSquaDRA}, ktorá detekuje prebalené kópie na základe porovnania všetkých súborov aplikácií~\cite{Zhauniarovich2014}. V~rámci rozširujúcej evaluácie metódy \zv{FSquaDRA} bolo zistené, že presnosť detekcie je možné zvýšiť pomocou vzájomného porovnanie súborov rovnakého typu~\cite{Gadyatskaya2016}. Tento prístup sme použili aj v~metóde \zv{Apk Analyzer}. Viacero známych metód sa pri identifikácií typov súborov spolieha na štandardnú štruktúra APK balíčka. Práca vyhodnocujúca metódu \zv{FSquaDRA} využíva predpoklad, že obrázkové súbory sa nachádzajú v~štandardnom priečinku \cesta{res/drawable}. Súborová štruktúra APK balíčka môže byť predmetom obfuskácie, ktorú využívajú vývojári za účelom skomplikovania reverzného inžinierstva. Obfuskácia je za účelom odlíšenia prebalenej kópie od originálu využívaná aj počas procesu prebaľovania aplikácií. Z~tohto dôvodu sa náš prístup spolieha na podobnosť všetkých súborov vo formátoch \zv{png}, \zv{bmp}, \zv{webp}, \zv{jpg} a \zv{gif}. Intuícia za týmto návrhom je založená na pozorovaní, že pri obfuskácii môžu byť zmenené názvy priečinkov a súborov, avšak typ súboru zostáva rovnaký. Tabuľka \ref{images-apk} ukazuje zastúpenie formátov obrázkových súborov v~analyzovanej vzorke 16\,700 aplikácií.
 \begin{table}[]
 \centering
 \begin{tabular}{|l|c|c|}
@@ -189,9 +189,11 @@ bmp             & 0,1                       & 0         \\
 \end{table}
 
 \subsection*{Pri prebaľovaní aplikácií sú obrázkové súbory nepozmenené}
-Navrhnutá metóda detekcie porovnáva obrázky na základe ich hashov. Aj malá úprava obrázku spôsobí kompletnú zmenu jeho hashu. Preto je pre navrhnutú metódu detekcie kľúčové, aby obrázky v~prebalenej aplikácií zostali nezmenené. Skúmaním zmien vykonávaných pri prebaľovaní aplikácie sa zaoberala Olga Gadyatskaya a kolektív v~roku 2016~\cite{Gadyatskaya2016}. V~tomto období boli už k~dispozícií viaceré metódy využívajúce na detekciu prebalených aplikácií podobnosť zdrojových súborov, vrátane metód \zv{FSquaDRA} a \zv{ImageStruct}. Napriek tomu výsledky výzkumu ukázali, že pri prebaľovaní zostávajú zdrojové súbory zvyčajne nemodifikované a útočníci najčastejšie modifikujú súbor \zv{classes.dex} a \zv{AndroidManifest.xml}. Tento fakt môžeme vysvetliť tak, že metódy založené na podobnosti zdrojových súborov nie sú v~praxi veľmi rozšírené a útočníci ich nepovažujú za hrozbu ani napriek ich preukázanej kvalite. Preto sa pri prebaľovaní sústredia najmä na zmeny v~zdrojovom kóde, a ostatné súbory zostávajú nepozmenené. Nasledujúca tabuľka \ref{repacakged-changes} zobrazuje typy súborov a pravdepodobnosť, že súbor daného typu je modifikovaný v~prebalenej aplikácii. Tento prístup však predstavuje limitáciu z~pohľadu budúcnosti. V~prípade, že útočníci začnú aplikovať zmeny v~obrázkových súboroch, môžu efektívne zabrániť detekcií pomocou narhnutého algoritmu. V~súčasnosti nie sú obrázkové súbory pri prebaľovaní často modifikované a teda ich priame binárne porovnanie môže byť použité za účelom nájdenia prebalených aplikácií.
+Navrhnutá metóda detekcie porovnáva obrázky na základe ich hashov. Aj malá úprava obrázku spôsobí kompletnú zmenu jeho hashu. Preto je pre navrhnutú metódu detekcie kľúčové, aby obrázky v~prebalenej aplikácií zostali nezmenené. Skúmaním zmien vykonávaných pri prebaľovaní aplikácie sa zaoberala Olga Gadyatskaya a kolektív v~roku 2016~\cite{Gadyatskaya2016}. V~tomto období boli už k~dispozícií viaceré metódy využívajúce na detekciu prebalených aplikácií podobnosť zdrojových súborov, vrátane metód \zv{FSquaDRA} a \zv{ImageStruct}. Napriek tomu výsledky výskumu ukázali, že pri prebaľovaní zostávajú zdrojové súbory zvyčajne nemodifikované a útočníci najčastejšie modifikujú súbor \zv{classes.dex} a \zv{AndroidManifest.xml}. Tento fakt môžeme vysvetliť tak, že metódy založené na podobnosti zdrojových súborov nie sú v~praxi veľmi rozšírené a útočníci ich nepovažujú za hrozbu ani napriek ich preukázanej kvalite. Preto sa pri prebaľovaní sústredia najmä na zmeny v~zdrojovom kóde, a ostatné súbory zostávajú nepozmenené. Nasledujúca tabuľka \ref{repacakged-changes} zobrazuje typy súborov a pravdepodobnosť, že súbor daného typu je pri prebaľovaní modifikovaný. 
 
-\begin{table}[]
+Tento prístup však predstavuje limitáciu z~pohľadu budúcnosti. V~prípade, že útočníci začnú aplikovať zmeny v~obrázkových súboroch, môžu efektívne zabrániť detekcií pomocou narhnutého algoritmu. V~súčasnosti nie sú obrázkové súbory pri prebaľovaní často modifikované a teda ich priame binárne porovnanie môže byť použité za účelom nájdenia prebalených aplikácií.
+
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|l|}
 \hline
@@ -223,7 +225,7 @@ V prípade požiadavky na overenie prebalenej aplikácie, ktorej detekcia už bo
 
 Pri požiadavke na detekciu originality aplikácie, ktorá už bola algoritmom overená, avšak dátum predchádzajúcej detekcie je starší ako dva týždne, preverí algoritmus pomocou porovnania metadát a obrázkových súborov len tie aplikácie, ktoré boli do zdieľanej databázy pridané po čase vykonania prechádzajúcej detekcie danej aplikácie. Vďaka tejto optimalizácii neporovnáva algoritmus dvojice, ktoré už porovnal. Výsledok detekcie je určený na základe zjednotenia údajov  uložených z predchádzajúceho behu a novovypočítaných dát. 
 
-\begin{figure}[htb]
+\begin{figure}[H]
   \begin{center}
     \includegraphics[width=130mm]{images/detection-optimalization.png}
   \end{center}
@@ -247,19 +249,19 @@ Vďaka využitiu dynamickej databázy aplikácií, ktorú rozširujú samotný u
 Počas implementácie a nasadenia tejto metódy boli identifikované viaceré skutočnosti, ktoré môžu obmedziť využiteľnosť implementovanej metódy. Niektoré z~týchto obmedzení sa podarilo eliminovať.
 
 \subsubsection{\textbf{Knižnice}}
-V~prípade, že viaceré aplikácie používajú rovnaké knižnice, ktoré obsahujú obrázkové súbory, môžu tieto obrázky ovplyvniť výsledok detekcie. Implementovaná metóda sa s~obrázkami z~knižníc dokázala čiastočne vysporiadať pomocou odfiltrovania dát, ktoré zodpovedajú obrázkovým súborom pochádzajúcim z~často sa vyskytujúcich knižníc. Postup elimininácie takýchto súborov obsahuje sekcia \ref{sec:eliminacia-kniznic}. Na základe tohto algoritmu bolo eliminovaných 14\,500 binárne rôznych obrázkov. Celkovo bolo eliminovaných 30 miliónov obrázkových súborov. Ekosystém platformy Android však obsahuje veľké množstvo knižníc. Nové knižnice, prípadne nové vydania existujúcich knižníc sú publikované každodenne. Nie je preto možné vylúčiť, že v~prípade zhody jednej alebo viacerých knižníc, môže dojsť k~chybnej detekcii.
+V~prípade, že viaceré aplikácie používajú rovnaké knižnice, ktoré obsahujú obrázkové súbory, môžu tieto obrázky ovplyvniť výsledok detekcie. Implementovaná metóda sa s~obrázkami z~knižníc dokázala čiastočne vysporiadať pomocou odfiltrovania dát, ktoré zodpovedajú obrázkovým súborom pochádzajúcim z~často sa vyskytujúcich knižníc. Postup elimininácie takýchto súborov obsahuje sekcia \ref{sec:eliminacia-kniznic}. Na základe tohto algoritmu bolo eliminovaných 14\,500 binárne rôznych obrázkov. Celkovo bolo eliminovaných 30 miliónov obrázkových súborov. Ekosystém platformy Android však obsahuje veľké množstvo knižníc. Nové knižnice, prípadne nové vydania existujúcich knižníc sú publikované každodenne. Nie je preto možné vylúčiť, že v~prípade zhody jednej alebo viacerých knižníc môže dojsť k~chybnej detekcii.
 
 \subsubsection{\textbf{Aplikácie bez výraznej vizuálnej identity}}
 Väčšina často používaných aplikácií má svoju výraznú a nezameniteľnú vizuálnu identitu. Niektoré z~dostupných aplikácií však obsahujú veľmi malé množstvo multimediálnych súborov. V~prípade takýchto aplikácií je detekcia prebalenia na základe obrázkových súborov značne limitovaná.
 
 \subsubsection{\textbf{Rôzne verzie APK súboru pre rôzne zariadenia}}
-Prirodzeným predpokladom pri detekcií podobnosti aplikácií je, že viaceré verzie jednej aplikácie vyhodnotí algoritmus ako podobné. Tento predpoklad platí zvyčajne len pri jednoduchších aplikáciách. V~prípade komplexných aplikácií ako \zv{Facebook} alebo  aplikácie od spoločnosti \zv{Google} tento predpoklad platiť nemusí. \zv{Google Play} podporuje distribúciu viacerých verzií jednej aplikácie na základe typu a konfigurácie zariadení. V~praxi obsahuje vydanie jednej aplikácie na \zv{Google Play} viacero APK súborov. Pri inštalácii vyberie \zv{Google Play} APK balíček na základe parametrov daného zariadenia, najčastejšie podľa úrovni Android API a veľkosti obrazovky. Jednotlivé APK súbory sú optimalizované pre dané zariadenia. Z~tohto dôvodu sa jedna verzia aplikácie určenej pre tablet a aplikácie určenej pre mobilný telefón nemusí na základe obrázkov a metadát zhodovať. 
-Táto skutočnosť však pre detekčnú metódu nepredstavuje výrazné riziko. Útočník musí vždy prebaliť niektoré z~distribuovaných APK súborov. Za predpokladu, že v~takto prebalenom súbore nemení existujúce obrázky je tento súbor detekovaný ako podobný s~originálnym APK súborom pre danú konfiguráciu zariadenia. Je však potrebné uvedomiť si, že nie všetky rôzne vydania aplikácie sú odhalené ako podobné aplikácie~\cite{MultipleApks}.
+Prirodzeným predpokladom pri detekcií podobnosti aplikácií je, že viaceré verzie jednej aplikácie vyhodnotí algoritmus ako podobné. Tento predpoklad platí zvyčajne len pri jednoduchších aplikáciách. V~prípade komplexných aplikácií ako \zv{Facebook} alebo  aplikácie od spoločnosti \zv{Google} tento predpoklad platiť nemusí. \zv{Google Play} podporuje distribúciu viacerých verzií jedného vydania aplikácie. Tieto verzie sú určené pre rôzne typy a konfigurácie zariadení. V~praxi obsahuje vydanie jednej aplikácie na \zv{Google Play} viacero APK súborov. Pri inštalácii vyberie \zv{Google Play} APK balíček na základe parametrov daného zariadenia, najčastejšie podľa úrovni Android API a veľkosti obrazovky. Jednotlivé APK súbory sú optimalizované pre dané zariadenia. Z~tohto dôvodu sa jedna verzia aplikácie určenej pre tablet a aplikácie určenej pre mobilný telefón nemusí na základe obrázkov a metadát zhodovať. 
+Táto skutočnosť však pre detekčnú metódu nepredstavuje výrazné riziko. Útočník musí vždy prebaliť niektoré z~distribuovaných APK súborov. Za predpokladu, že v~takto prebalenom súbore nemení existujúce obrázky je tento súbor detekovaný ako podobný s~originálnym APK súborom pre danú skupinu zariadení. Je však potrebné uvedomiť si, že nie všetky rôzne vydania aplikácie sú odhalené ako podobné aplikácie~\cite{MultipleApks}.
 
 \subsubsection{\textbf{Zmeny obrázkových súborov}}
 Metóda je postavená na základoch aktuálnych poznatkov, ktoré odhaľujú, že pri prebaľovaní aplikácií zvyčajne zostávajú zdrojové súbory nezmenené. V~prípade rozšírenia metód využívajúcich podobnosť zdrojových súborov je pravdepodobné, že útočníci začnú aplikovať výraznejšie zmeny v~rôznych súboroch obsiahnutých v~APK balíčku. Výrazná zmena počtu súborov v~balíčku alebo úpravy obsiahnutých obrázkov predstavujú spôsob, akým je možné navrhnutú metódu znefunkčniť. Avšak v~súčasnosti takéto zmeny vykonávané nie sú a navrhnutá metóda je schopná odhaliť prebalené aplikácie.
 \\
 \\
-Popísané limitácie odhaľujú slabiny implementovanej metódy detekcie prebalených aplikácií. Napriek týmto nedostatkom však koncept identifikácie kópií originálnej aplikácie založený na podobnosti výzoru dokáže detekovať prebalené aplikácie. Tento prístup je vhodný ako doplnok k~existujúcim metódam vychádzajúcich z~podobnosti vzoriek inštrukcií zdrojového kódu aplikácie.
+Popísané limitácie odhaľujú slabiny implementovanej metódy detekcie prebalených aplikácií. Napriek týmto nedostatkom však koncept identifikácie kópií originálnej aplikácie založený na vizuálnej podobnosti dokáže detekovať prebalené aplikácie. Tento prístup je vhodný ako doplnok k~existujúcim metódam vychádzajúcich z~podobnosti vzoriek inštrukcií zdrojového kódu aplikácie.
 
 
