@@ -217,7 +217,7 @@ Známe výskumy prebalených APK súborov pracujú nad offline databázou aplik�
 \section{Implementácia a optimalizácie}
 Detekčná metóda bola implementovaná v jazyku \zv{Ruby} pomocou frameworku \zv{Ruby on Rails}. Ako úložisko dát slúži databáza \zv{PostgreSQL}. Aplikácia poskytujúca funkciu detekcie prebalených aplikácií je nasadená v produkčnom prostredí v službe \zv{Heroku}. Táto aplikácia poskytuje aplikačné programové rozhranie, ktoré je dostupné prostredníctvom protokolu HTTP (REST rozhranie). Mobilná aplikácia nainštalovaná na Android zariadeniach komunikuje so serverom pomocou tohto rozhrania. 
 
-Detekcia prebalených aplikácií môže byť časovo náročná. Dĺžka určenia originality aplikácie závisí predovšetkým na počte aplikácií, ktoré algoritmus vyhodnotí ako podobné na základe metadát. U takýchto aplikácií je nutné vykonať párové porovnanie identifikátorov obrázkových súborov. V prípade špecifických aplikácií je počet aplikácií podobných na základe metadát a číselných charakteristík nižší ako v prípade aplikácií, ktoré číselnými charakteristikami nevyčnievajú. Pri získanom objeme dát trvá detekcia jednej aplikácie zvyčajne menej, ako 45 sekúnd. Párové porovnanie 1000 aplikácií zaberie približne 20 sekúnd. 
+Detekcia prebalených aplikácií môže byť časovo náročná. Dĺžka určenia originality aplikácie závisí predovšetkým na počte aplikácií, ktoré algoritmus vyhodnotí ako podobné na základe metadát. U takýchto aplikácií je nutné vykonať párové porovnanie identifikátorov obrázkových súborov. V prípade špecifických aplikácií je počet aplikácií podobných na základe metadát a číselných charakteristík nižší ako v prípade aplikácií, ktoré číselnými charakteristikami nevyčnievajú. Pri získanom objeme dát trvá detekcia jednej aplikácie zvyčajne menej ako 45 sekúnd. Párové porovnanie 1000 aplikácií zaberie približne 20 sekúnd. 
 
 Kolekcia dát nad ktorou detekčná metóda pracuje sa neustále rozširuje. Samotná charakteristika dát je však v krátkom časovom období statická. V prípade, že viacero užívateľov požiada v krátkom časovom úseku o detekciu rovnakej aplikácie, nie je zakaždým potrebné určiť  výsledok pomocou porovnania metadát a obrázkov. Výsledok bude vo všetkých takýchto prípadoch veľmi podobný a detekčný algoritmus bude viackrát počítať podobnosť rovnakých dvojíc aplikácií. Z tohto dôvodu je implementovaná metóda optimalizovaná. Výsledok každej detekcie je uložený v databáze. Ukladané dáta obsahujú informácie o čase vykonania detekcie a výsledku detekcie, vrátane všetkých nadmieru podobných aplikácií. 
 
@@ -237,7 +237,16 @@ Pri požiadavke na detekciu originality aplikácie, ktorá už bola algoritmom o
 \label{sec:hodnotenie}
 Implementovaná metóda bola nasadená v~produkčnom prostredí a je dostupná užívateľom. Táto sekcia hodnotí hlavné plusy a limitácie navrhnutej metódy detekcie prebalených aplikácií.
 
-Implementovaná metóda v~praxi ukázala že dokáže identifikovať aplikácie, ktoré môžu byť potenciálne prebalené. Server zaznamenal 4\,000 požiadavok na detekciu prebalených aplikácií. Detekcia prebalených aplikácií bola vykonaná pre 1\,500 rôznych APK balíčkov.  Z~tohto poču bolo 746 aplikácií vyhodnotených ako originálne verzie, 146 ako potenciálne prebalené a v~690 prípadoch nemal server dostatok dát na určenie výsledku detekcie.
+Implementovaná metóda v~praxi ukázala že dokáže identifikovať aplikácie, ktoré môžu byť potenciálne prebalené. Server zaznamenal 4\,000 požiadavok na detekciu prebalených aplikácií. Detekcia prebalených aplikácií bola vykonaná pre 1\,680 rôznych APK balíčkov.  Z~tohto poču bolo 801 aplikácií vyhodnotených ako originálne verzie, 166 ako potenciálne prebalené a v~713 prípadoch nemal server dostatok dát na určenie výsledku detekcie.
+
+
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=130mm]{images/grafy/obrazovky.pdf}
+  \end{center}
+  \caption{Výsledky detekčnej metódy}
+  \label{fig:detectionOriginal}
+\end{figure}
 
 Zdieľaná databáza obsahuje informácie o~600\,000 aplikáciách. Požiadavka na detekciu prebalenej aplikácie je štandardne vyhodnotená do jednej minúty. Aplikácií pre platformu Android existuje veľké množstvo. Samotný obchod \zv{Google Play} obsahuje v~súčasnosti viac ako 3,5 milióna aplikácií. V~prípade ďalšieho rozširovania metódy detekcie prebalených APK súborov \zv{Apk Analyzer} je potrebná výrazne robustnejšia a drahšia infraštruktúra. Aktuálne je riešenie implementované nad jednou inštanciou databázy \zv{Postgres}. Pri objeme dát, ktoré aplikácia aktuálne obsahuje je výkonnosť SQL databázového servera dostačujúca. V~prípade, že systém bude aj naďalej rásť, je možné využiť na ukladanie zoznamu hashov obrázkov systém \zv{Redis}, ktorý výrazne zvýši rýchlosť detekcie prebalených aplikácií. 
 

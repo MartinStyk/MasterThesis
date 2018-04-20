@@ -5,33 +5,70 @@ Systém \zv{Apk Analyzer} bol nasadený do produkcie a je prístupný užívate�
 
 Mobilná aplikácia vyvinutá v~rámci tejto práce je dostupná v~obchode \zv{Google Play} pod názvom \zv{Apk Analyzer} a unikátnym menom aplikačného balíka \zv{sk.styk.martin.apkanalyzer}. Pre užívateľov je aplikácia dostupná od začiatku októbra 2017. Od prvého vydania aplikácie bolo vytvorených 13 aktualizácií, ktoré pridávali novú funkcionalitu, zvyšovali stabilitu a zefektívňovali fungovanie aplikácie.
 
-V~období od októbra 2017 do apríla 2018 si mobilnú aplikáciu nainštalovalo celkovo 30,000 unikátnych užívateľov. Graf TODO zobrazuje počet inštalácií v~závislosti na čase. 
+V~období od októbra 2017 do apríla 2018 si mobilnú aplikáciu nainštalovalo celkovo 30\,000 unikátnych užívateľov. Graf \ref{fig:inst-app} zobrazuje vývoj denného počtu inštalácií. 
 
-Záznam aplikácie na \zv{Google Play} si od uvedenia aplikácie do apríla 2018 zobrazilo 140\,000 užívateľov. Pomer medzi návštevníkmi záznamu v~\zv{Google Play} a inštaláciami dosahuje dohnotu 21,1 \%. Táto hodnota sa označuje ako konverzný pomer. Medián konverzného pomeru pre aplikácie z~kategórie nástroje je 25,9 \%. 
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=130mm]{images/grafy/ins_vyvoj.pdf}
+  \end{center}
+  \caption{Počet denných inštalácií mobilnej aplikácie}
+  \label{fig:inst-app}
+\end{figure}
 
-Pri mobilných aplikáciách je častým javom okamžité odinštalovanie aplikácie po jej prvom použití. Užívatelia aplikáciu vyskúšajú a pokiaľ im nevyhovuje, okamžite ju odstránia. \zv{ApkAnalyzer} bol v~apríli 2018 prítomný na 12\,200 zariadeniach. \zv{Apk Analyzer} má v~porovnaní s~ostatnými aplikáciami z~kategórie nástroje nadpriemernú schopnosť udržať si užívateľov po dlhší čas. To môže byť spôsobené špecializovaným obsahom aplikácie, ktorý je dlhodobo zaujímavý pre ľudí zaoberajúcich sa vývojom aplikácií pre Android. Nasledujúci graf zobrazuje počet užívateľov, ktorí majú aplikáciu nainštalovanú daný čas po jej prvej inštalácií. TODO
+Záznam aplikácie na \zv{Google Play} si od uvedenia aplikácie do apríla 2018 zobrazilo 140\,000 užívateľov. Pomer medzi návštevníkmi záznamu v~\zv{Google Play} a inštaláciami dosahuje hodnotu 21,1 \%. Táto hodnota sa označuje ako konverzný pomer. 
+Medián konverzného pomeru pre aplikácie z~kategórie nástroje je 25,9 \%. 
 
-Aplikácia bola v~službe \zv{Google Play} ohodnotená 186 krát a priemerné hodnotenie dosahuje hodnotu 4,6 hviezdičiek z~maximálne piatich. Graf TODO zobrazuje hodnotenia aplikácie. V~porovnaní s~ostatnými aplikáciami v~kategórii nástroje je priemerné hodnotenie našej aplikácie o~0,178 hviezdičky vyššie.
+\zv{ApkAnalyzer} bol v~apríli 2018 prítomný na 12\,200 zariadeniach. Najsledujúci graf zobrazuje vývoj počtu aktívnych inštalácií mobilnej aplikácie.
 
-Z~geografického hľadiska je aplikácia najčastejšie inštalovaná v~Spojených štátoch amerických, z~kadiaľ pochádza až 38 \% užívateľov. Medzi častých užívateľov patria aj obyvatelia Nemecka (5 \%), Indie a Iránu (3.5\%). 
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=130mm]{images/grafy/inst_akt.pdf}
+  \end{center}
+  \caption{Aktívne inštalácie mobilnej aplikácie}
+  \label{fig:inst-akt}
+\end{figure}
+
+Z~geografického hľadiska je aplikácia najčastejšie inštalovaná v~Spojených štátoch amerických, odkiaľ pochádza až 38 \% užívateľov. Medzi častých užívateľov patria aj obyvatelia Nemecka (5 \%), Indie a Iránu (3.5\%). 
+
+Pri mobilných aplikáciách je častým javom okamžité odinštalovanie aplikácie hneď po jej prvom použití. Užívatelia aplikáciu vyskúšajú a pokiaľ im nevyhovuje, okamžite ju odstránia. \zv{Apk Analyzer} má v~porovnaní s~ostatnými aplikáciami z~kategórie nástroje nadpriemernú schopnosť udržať si užívateľov po dlhší čas. To môže byť spôsobené špecializovaným obsahom aplikácie, ktorý je dlhodobo zaujímavý pre ľudí zaoberajúcich sa vývojom aplikácií pre Android. Nasledujúci graf \ref{fig:inst-po} zobrazuje počet užívateľov, ktorí majú aplikáciu nainštalovanú daný čas po jej prvej inštalácií. Čierna čiara zobrazuje strednú hodnotu pre všetky aplikácie z kategórie nástroje. 
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=130mm]{images/grafy/inst_po.pdf}
+  \end{center}
+  \caption{Udržanie užívateľov}
+  \label{fig:inst-po}
+\end{figure}
+
+
+Aplikácia bola v~službe \zv{Google Play} ohodnotená 186 krát a priemerné hodnotenie dosahuje hodnotu 4,6 hviezdičiek z~maximálne piatich. Graf \ref{fig:hodnotenia} zobrazuje hodnotenia aplikácie. V~porovnaní s~ostatnými aplikáciami v~kategórii nástroje je priemerné hodnotenie našej aplikácie o~0,178 hviezdičky vyššie.
+
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=130mm]{images/grafy/hodnotenia.pdf}
+  \end{center}
+  \caption{Hodnotenia aplikácie}
+  \label{fig:hodnotenia}
+\end{figure}
+
 
 Aplikácia obsahuje integrovaný analytický nástroj \zv{Firebase Analytics} pomocou ktorého je možné získavať detailné dáta o~využití aplikácie jej užívateľmi. Nasledujúce dáta boli získané pomocou spomínaného nástroja.
 
 Aplikáciu počas apríla 2018 denne používalo priemerne 800 aktívnych užívateľov. Mesačný počet užívateľov dosiahol hodnotu 15\,000. Počas jedného otvorenia aplikácie v~nej užívateľ strávil priemerne 4 minúty a 20 sekúnd. Počas tohto času užívateľ typicky navštívi 13 rôznych obrazoviek aplikácie. 
 
-Z~pomedzi rôznych častí aplikácie je najnavštevovanejšou detail jednotlivých analyzovaných aplikácií. Užívateľ na tejto obrazovke strávi až 52 \% času stráveného v~aplikácii. \zv{ApkAnalyzer} počas apríla 2018 celkovo zobrazil užívateľom detailné informácie o~30\,000 aplikáciách.  Nasledujúci graf TODO zobrazuje záujem užívateľov o~jednotlivé obrazovky v~aplikácie.
+Z~pomedzi rôznych častí aplikácie je najnavštevovanejšou detail jednotlivých analyzovaných aplikácií. Užívateľ na tejto obrazovke strávi až 52 \% času stráveného v~aplikácii. \zv{ApkAnalyzer} počas apríla 2018 celkovo zobrazil užívateľom detailné informácie o~30\,000 aplikáciách.
 
 Obrazovka zobrazujúca detaily analyzovanej aplikácie poskytuje užívateľovi menu možností, pomocou ktorých má možnosť vykonávať nad analyzovanou aplikáciu ďalšie operácie. Medzi najobľúbenejšie možnosti patrí zobrazenie súboru \zv{AndroidManifest.xml}, export APK súboru do externého úložiska a spustenie detekcie prebalených súborov.  Nasledujúca tabuľka \ref{app-ops} zobrazuje počty operácií vykonaných počas apríla 2018.
 
-\begin{table}[]
+\begin{table}[htb]
 \centering
 \begin{tabular}{|l|l|r|}
 \hline
 \textbf{Akcia}                        & \textbf{Počet} & \textbf{\%}    \\ \hline
-Zobraziť AndroidManifest.xml & 11K  & 26,2\% \\
+Zobraziť \zv{AndroidManifest.xml} & 11K  & 26,2\% \\
 Export APK                   & 8,4K  & 21,0\% \\
 Systémové detaily            & 7,8K  & 19,3\% \\
-Záznam v~Google Play         & 3,6K  & 9,0\% \\
+Záznam v~\zv{Google Play}         & 3,6K  & 9,0\% \\
 Detekcia prebalenia          & 3,4K  & 8,5\%  \\
 Zdieľať APK                  & 2,7K   & 6,6\%  \\
 Inštalovať aplikáciu         & 2,4K   & 6,0\%  \\
@@ -47,7 +84,7 @@ Uložiť ikonu                 & 1,4K   & 3,4\%  \\ \hline
 Nasadenie metódy detekcie prebalených aplikácií prebehlo v~dvoch etapách. Počas prvej etapy bolo spustené zbieranie dát o~aplikáciách. Tvorba a rozširovanie databázy aplikácií bolo spustené počas februára 2018. Aktuálne obsahuje databáza aplikácií informácie o~viac ako 600\,000 aplikáciách. Dáta o~týchto aplikáciách pochádzajú od 9\,000 rôznych užívateľov. Kedže sa implementovaná metóda detekcie opiera o~zhodu obrázkových súborov, databáza musí uchovávať informácie o~obrázkoch jednotlivých aplikácií. V~databázy sa celkovo nachádza viac ako 90 miliónov hashov obrázkových súborov.
 Nasledujúca tabuľka \ref{apps-common} zobrazuje 10 najčastejších aplikácií v~našej zdieľanej databáze.
 
-\begin{table}[]
+\begin{table}[htb]
 \centering
 \begin{tabular}{|l|l|}
 \hline
