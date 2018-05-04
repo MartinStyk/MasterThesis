@@ -16,15 +16,15 @@ Medzi existujúcimi riešeniami bolo identifikovaných niekoľko možných vylep
 
 Známe metódy detekcie prebalených APK súborov (vrátane metód predstavených v~kapitole \ref{chap:zname-metody}) vykonávajú tzv. offline analýzu dát. Tieto metódy pracujú nad existujúcou databázou súborov, nad ktorou vykonávajú operácie s~cieľom identifikácie prebalených dvojíc. Offline metódy slúžia predovšetkým na vedecké účely, no môžu byť použité priamo obchodmi s~aplikáciami. V~súčasnosti však mnohé obchody vrátane \zv{Google Play} nie sú efektívne zabezpečené proti prebaleným aplikáciám~\cite{Zhauniarovich2013}. Užívatelia sú nútení chrániť svoje Android zariadenia pomocou antivírových programov. Napriek tomu, že niektoré antivírové a zabezpečovacie aplikácie môžu detekovať hrozby v~podobe prebalených aplikácií, v~súčasnosti (podľa vedomia autora) nie je rozšírená žiadna metóda zameriavajúca sa priamo na detekciu prebalených APK súborov na Android zariadení.
 
-Metóda navrhnutá v~rámci projektu \zv{Apk Analyzer} predstavuje pre užívateľov ďalšiu možnosť ako ochrániť svoje zariadenie pred škodlivými aplikáciami. Cieľom je sprostredkovať užívateľom mechanizmus detekcie prebalených aplikácií priamo z~ich zariadenia. Tento spôsobo detekcie nebezpečných aplikácií môže byť použitý ako doplnok k~existujúcim nástrojom.
+Metóda navrhnutá v~rámci projektu \zv{Apk Analyzer} predstavuje pre užívateľov ďalšiu možnosť ako ochrániť svoje zariadenie pred škodlivými aplikáciami. Cieľom je sprostredkovať užívateľom mechanizmus detekcie prebalených aplikácií priamo z~ich zariadenia. Tento spôsob detekcie nebezpečných aplikácií môže byť použitý ako doplnok k~existujúcim nástrojom.
 
 
 \subsection*{Určenie originálnej aplikácie a využitie pri alternatívnych zdrojoch}
 
-Existujúce metódy detekcie prebalených aplikácií sú primárne zamerané na určenie vzťahu medzi dvomi aplikáciami. Takéto metódy dokážu detekovať nadmernú podobnosť dvojice aplikácií a rozhodnúť, či pochádzajú od rôznych autorov. Nástroje častokrát nedokážu určiť, ktorá z~týchto aplikácií je originál, a ktorá prebalená kópia. Väčšina nástrojov využíva predpoklad, že aplikácia pochádzajúca z~oficiálneho zdroja \zv{Google Play Store} je pravá a aplikácie z~alternatívnych zdrojov sú prebalené. Tento predpoklad však vo všeobecnosti platiť nemusí. Niektoré aplikácie sú distribuované výhradne pomocou alternatívnych kanálov. Existujúce metódy neumožňujú rozlíšenie medzi originálom a kópiou, v~prípade, že obe porovnávané aplikácie pochádzajú z~alternatívnych zdrojov. Keďže našim základným cieľom je ponúknuť detekciu prebalených aplikácií koncovému užívateľovi, je výsledok detekcie bez rozhodnutia ktorá aplikácia je originál a ktorá prebalená kópia nedostačujúci. 
+Existujúce metódy detekcie prebalených aplikácií sú primárne zamerané na určenie vzťahu medzi dvomi aplikáciami. Takéto metódy dokážu detekovať nadmernú podobnosť dvojice aplikácií a rozhodnúť, či pochádzajú od rôznych autorov. Nástroje častokrát nedokážu určiť, ktorá z~týchto aplikácií je originál, a ktorá prebalená kópia. Väčšina nástrojov využíva predpoklad, že aplikácia pochádzajúca z~oficiálneho zdroja \zv{Google Play Store} je pravá a aplikácie z~alternatívnych zdrojov sú prebalené. Tento predpoklad však vo všeobecnosti platiť nemusí. Niektoré aplikácie sú distribuované výhradne pomocou alternatívnych kanálov. Existujúce metódy neumožňujú rozlíšenie medzi originálom a kópiou v~prípade, že obe porovnávané aplikácie pochádzajú z~alternatívnych zdrojov. Keďže našim základným cieľom je ponúknuť detekciu prebalených aplikácií koncovému užívateľovi, je výsledok detekcie bez rozhodnutia, ktorá aplikácia je originál a ktorá prebalená kópia nedostačujúci. 
 
 
-Cieľom je poskytnúť užívateľovi odpoveď, ktorá ho informuje či je jeho aplikácia podľa systému \zv{Apk Analyzer} prebalená. 
+Cieľom je poskytnúť užívateľovi odpoveď, ktorá ho informuje, či je jeho aplikácia podľa systému \zv{Apk Analyzer} prebalená. 
 Zámerom metódy \zv{Apk Analyzer} je využiť heuristiku počtu výskytov jednotlivých verzií aplikácií s~prirodzeným predpokladom, že na Android zariadeniach sa nachádza väčší počet originálnych aplikácií, ako ich prebalených kópií. 
 
 \subsection*{Dynamickosť a kolaborácia}
@@ -34,10 +34,10 @@ Predstavené offline metódy pracujú nad statickou kolekciou aplikácií. Metó
 Cieľom systému \zv{Apk Analyzer} je vytvorenie dynamickej databázy dát o~aplikáciách. Zámerom je zapojiť do tvorby databázy existujúcich aplikácií koncových užívatelov. Mobilná aplikácia poskytujúca možnosť detekcie prebalených aplikácií odošle dáta o~aplikáciách nainštalovaných na danom zariadení do centrálnej databázy systému \zv{Apk Analyzer}. Tento kolaboratívny spôsob zaručí neustálu aktualizáciu databázy. Čím viacej užívateľov používa mobilnú aplikáciu, tým väčšiu databázu sa podarí vytvoriť.
 
 \section{Návrh metódy}
-Návrh kompletného systému \zv{Apk Analyzer}, ktorý pozostáva z~mobilného klienta a serverovej časti obsahuje kapitola \ref{chap:apk-analyzer} . Táto kapitola sa zameriava predovšetkým na samotnú detekčnú metódu a tvorbu databázy, ktoré sa odohrávajú na strane serveru.
+Návrh kompletného systému \zv{Apk Analyzer}, ktorý pozostáva z~mobilného klienta a serverovej časti obsahuje kapitola \ref{chap:apk-analyzer} . Táto kapitola sa zameriava predovšetkým na samotnú detekčnú metódu a tvorbu databázy, ktoré sa odohrávajú na strane servera.
 
 \subsection{Základný princíp detekcie prebalených aplikácií}
-Mobilná aplikácia \zv{Apk Analyzer} odosiela dáta o~aplikáciách nainštalovaných na jednotlivých Android zariadeniach na server, ktorý ich ukladá do databázy. Pri detekcii sa použijú dáta uložené v~databáze. K~analyzovanej aplikácii sa vyhľadajú podobné aplikácie. Podobnosť je určená na základe počtu obrázkov zdieľaných medzi dvomi aplikáciami. Z~kolekcie aplikácií, ktoré zdieľajú veľkú časť obrázkov, a teda sú považované za rôzne verzie tej istej aplikácie je vybraný najčastejšie sa opakujúci digitálny podpis, ako identifikátor originálnej verzie. Ak je analyzovaná aplikácia podpísaná týmto kľúčom, je označená ako dôveryhodná. V~opačnom prípade systém upozorní užívateľa na prebalenú aplikáciu. 
+Mobilná aplikácia \zv{Apk Analyzer} odosiela dáta o~aplikáciách nainštalovaných na jednotlivých Android zariadeniach na server, ktorý ich ukladá do databázy. Pri detekcii sa použijú dáta uložené v~databáze. K~analyzovanej aplikácii sa vyhľadajú podobné aplikácie. Podobnosť je určená na základe počtu obrázkov zdieľaných medzi dvomi aplikáciami. Z~kolekcie aplikácií, ktoré zdieľajú veľkú časť obrázkov, a teda sú považované za rôzne verzie tej istej aplikácie, je vybraný najčastejšie sa opakujúci digitálny podpis, ako identifikátor originálnej verzie. Ak je analyzovaná aplikácia podpísaná týmto kľúčom, je označená ako dôveryhodná. V~opačnom prípade systém upozorní užívateľa na prebalenú aplikáciu. 
 
 \begin{figure}[htb]
   \begin{center}
@@ -65,7 +65,7 @@ Základom detekcie prebalených aplikácií je databáza metainformácií o~apli
 Z~dôvodu efektivity vyhľadávania v~databáze je pre každú aplikáciu určený jej unikátny identifikátor. V~prípade, že majú dve aplikácie tento identifikátor rovnaký, ide o~úplne rovnakú aplikáciu a v~databáze ju server ukladá len raz.
 
 
-\noindent Na tvorbu tohto identifikátoru sú použité nasledovné atribúty APK balíčka: 
+\noindent Na tvorbu tohto identifikátora sú použité nasledovné atribúty APK balíčka: 
 \begin{itemize}
 	\item \bod{meno balíka aplikácie} -- z~pohľadu systému Android identifikuje aplikáciu. Pokiaľ majú dve aplikácie rovnaké meno balíka, jedná sa o~rôzne verzie tej istej aplikácie,
 	\item \bod{hash certifikátu aplikácie} -- unikátne identifikuje autora aplikácie,
@@ -147,7 +147,7 @@ V~predchádzajúcom kroku identifikuje algoritmus nadmieru podobné aplikácie. 
 \end{itemize}
 V~takejto skupine sa môžu vyskytovať aplikácie, ktoré nie sú príbuzné s aktuálne detekovanou aplikáciou. Popis možných chýb a nedostatkov navrhnutej metódy obsahuje sekcia \ref{sec:hodnotenie}.
 
-Na základe digitálneho podpisu APK balíčka vieme rozhodnúť, do ktorej z~týchto kategórií aplikácia patrí. V~prípade zhody digitálnych podpisov ide o~dve rôzne verzie jednej aplikácie, ktoré pochádzajú od jedného vydavateľa. V~prípade podpisu rôznymi kľúčmi považujeme jednu z~týchto aplikácií za prebalenú, pretože aplikácie pochádzajú od rôznych vydavateľov a na základe ich nadmiernej podobnosti sú považované za jednu logickú aplikáciu.
+Na základe digitálneho podpisu APK balíčka vieme rozhodnúť, do ktorej z~týchto kategórií aplikácia patrí. V~prípade zhody digitálnych podpisov ide o~dve rôzne verzie jednej aplikácie, ktoré pochádzajú od jedného vydavateľa. V~prípade podpisu rôznymi kľúčmi považujeme jednu z~týchto aplikácií za prebalenú, pretože aplikácie pochádzajú od rôznych vydavateľov a na základe ich nadmernej podobnosti sú považované za jednu logickú aplikáciu.
 
 Metóda detekcie prebalených aplikácií implementovaná v~rámci systému \zv{Apk Analyzer} využíva heuristiku založenú na počte výskytu aplikácií. Základom tejto metódy je pozorovanie, že na Android zariadeniach je nainštalovaných viac originálnych aplikácií, ako ich prebalených kópií.
 
@@ -237,7 +237,7 @@ Pri požiadavke na detekciu originality aplikácie, ktorá už bola algoritmom o
 \label{sec:hodnotenie}
 Implementovaná metóda bola nasadená v~produkčnom prostredí a je dostupná užívateľom. Táto sekcia hodnotí hlavné plusy a limitácie navrhnutej metódy detekcie prebalených aplikácií.
 
-Implementovaná metóda v~praxi ukázala že dokáže identifikovať aplikácie, ktoré môžu byť potenciálne prebalené. Server zaznamenal 4\,000 požiadavok na detekciu prebalených aplikácií. Detekcia prebalených aplikácií bola vykonaná pre 1\,680 rôznych APK balíčkov.  Z~tohto poču bolo 801 aplikácií vyhodnotených ako originálne verzie, 166 ako potenciálne prebalené a v~713 prípadoch nemal server dostatok dát na určenie výsledku detekcie.
+Implementovaná metóda v~praxi ukázala že dokáže identifikovať aplikácie, ktoré môžu byť potenciálne prebalené. Server zaznamenal 5\,500 požiadaviek na detekciu prebalených aplikácií. Detekcia prebalených aplikácií bola vykonaná pre 2\,780 rôznych APK balíčkov.  Z~tohto poču bolo 1326 aplikácií vyhodnotených ako originálne verzie, 275 ako potenciálne prebalené a v~1179 prípadoch nemal server dostatok dát na určenie výsledku detekcie.
 
 
 \begin{figure}[htb]

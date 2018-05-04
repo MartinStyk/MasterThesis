@@ -95,19 +95,19 @@ Súbory súvisiace s~podpisom APK balíčka sa nachádzajú v~priečinku \zv{MET
 Android podporuje dve schémy digitálneho podpisu aplikácie. Schéma verzie 1 je založená na podpise štandardného Java balíčka. Táto schéma nechráni niektoré súbory nachádzajúce sa v~APK balíčku, ako napríklad metadáta o~ZIP archíve. Počas procesu overenia APK balíčka podpísaného touto schémou je potrebné rozbaliť súbory obsiahnuté v~archíve. Po rozbalení celého balíčka sú nepodpísané súbory odstránené. Nutnosť rozbaliť a sprocesovať všetky súbory bez ich predchádzajúceho overenia predstavuje výrazné bezpečnostné riziko. Potreba dekomprimovania súborov počas procesu overenia APK balíčka výrazne zvyšuje časovú a pamäťovú náročnosť tejto operácie.  Od verzie Android 7.0 (verzia API 24) je podporovaná schéma podpisu vo verzii 2, ktorá je špecializovaná na podpis APK balíčka a eliminuje nedostatky predchádzajúcej verzie. V~súčasnosti sú aplikácie zvyčajne podpísané obidvomi spôsobmi čo zvyšuje ich kompatibilitu s~rôznymi verziami systému. Aplikácie podpísané pomocou schémy podpisu verzie 2 sú na systémoch Android 7.0 a novších nainštalované rýchlejšie a bezpečnejšie. Schéma podpisu nie je spätne kompatibilná a staršie verzie operačného systému vyžadujú aplikácie podpísané verziou 1~\cite{NT0FrzQIkOAYbG2Ga}.
 
 \subsubsection{\textbf{Kontrola integrity}}
-Hashe jednotlivých súborov v~APK balíčku vygenerované počas procesu podpisu, slúžia na zaručenie integrity. Počas inštalácie aplikácie sa v~rámci procesu overenia aplikácie kontrolujú hashe jednotlivých súborov. V~prípade zmeny súborov v~aplikácii bez jej opätovného podpisu systém zabráni inštalácii. Pri zmene obsahu musí byť APK balíček podpísaný znova. 
+Počas digitálneho podpisu sú vygenerované hashe súborov z~APK balíčka. Tieto hashe slúžia na zaručenie integrity. Počas inštalácie aplikácie sa v~rámci procesu overenia aplikácie kontrolujú hashe jednotlivých súborov. V~prípade zmeny súborov v~aplikácii bez jej opätovného podpisu systém zabráni inštalácii. Pri zmene obsahu musí byť APK balíček podpísaný znova. 
 
 \subsubsection{\textbf{Identifikácia autora}}
 Podpis balíčka slúži na identifikáciu autora aplikácie. V~prípade, že je viacero aplikácií podpísaných jedným kľúčom, pochádzajú tieto aplikácie od jedného vydavateľa. 
 Všetky verzie jednej aplikácie musia byť podpísané rovnakým certifikátom. Unikátnym identifikátorom aplikácie je meno hlavného balíka aplikácie (package name). Android považuje aplikácie s~rovnakým menom balíka za rôzne verzie jednej aplikácie a pri aktualizácii nahrádza staršiu verzie novšou. Všetky aplikácie s~rovnakým menom balíka musia byť preto podpísané rovnakým privátnym kľúčom, čo zaručuje, že pochádzajú od rovnakého vydavateľa.  V~prípade, že sú podpísané rôznymi kľúčmi, Android ich inštaláciu zamietne. 
 
 \subsubsection{\textbf{Správa podpisových kľúčov}}
-Platforma Android povoľuje používanie tzv. \zv{self-signed} certifikátov. \zv{Self-signed} certifikáty sú podpísané identitou ktorú identifikujú. 
+Platforma Android povoľuje používanie tzv. \zv{self-signed} certifikátov. \zv{Self-signed} certifikáty sú podpísané identitou, ktorú identifikujú. 
 
 Z~pohľadu vývojára je správa podpisového kľúča veľmi dôležitá. Vývojári aplikácií majú pri správe podpisového kľúča dve možnosti. Môžu používať manuálnu správu, alebo službu \zv{Google Play App Signing}. 
 \begin{itemize}
 	\item \bod{Manuálna správa kľúča} -- v~prípade použitia manuálnej správy kľúča je aplikácia podpísaná vývojárom a nahraná do obchodu s~aplikáciami. Odtiaľ je ďalej distribuovaná k~užívateľom. V~prípade straty podpisového kľúča nie je vývojár aplikácie schopný vydávať nové verzie aplikácie pod rovnakým názvom balíka.
-	\item \bod{Google Play App Signing} -- pri použití bezpečnej správy podpisových kľúčov \zv{Google Play App Signing} je kľúč používaný na podpis balíčka spravovaný službou  \zv{Google Play}. Vývojár podpíše aplikáciu svojim kľúčom používaným na komunikáciu so službou  \zv{Google Play}, ktorá aplikáciu na novo podpíše podpisovým kľúčom. Aplikácia distribuovaná k~užívateľom je teda podpísaná kľúčom, ktorý je manažovaný službou \zv{Google Play}~\cite{NT0FrzQIkOAYbG2G}. 
+	\item \bod{Google Play App Signing} -- pri použití bezpečnej správy podpisových kľúčov \zv{Google Play App Signing} je kľúč používaný na podpis balíčka spravovaný službou  \zv{Google Play}. Vývojár podpíše aplikáciu svojim kľúčom používaným na komunikáciu so službou  \zv{Google Play}. Po nahratí na \zv{Google Play} je balíček nanovo podpísaný podpisovým kľúčom. Aplikácia distribuovaná k~užívateľom je teda podpísaná kľúčom manažovaným službou \zv{Google Play}~\cite{NT0FrzQIkOAYbG2G}. 
 \end{itemize}
 
 
@@ -115,7 +115,7 @@ Z~pohľadu vývojára je správa podpisového kľúča veľmi dôležitá. Vývo
 
 Existuje viacero známych zraniteľností súvisiacich s~distribúciou aplikácií  pre platformu Android. Najviac rozšíreným problémom je prebaľovanie APK balíčkov. Pri tomto procese je aplikácia rozbalená a niektoré časti aplikácie sú upravené. Detailný popis prebaľovania aplikácií a rizík s~tým spojených sa nachádza v~kapitole \ref{chap:repackaging}.
 
-Metóda prebaľovania upraví aplikáciu a nanovo ju podpíše iným podpisovým kľúčom. Ďalšie známe metódy útokov využívajú predovšetkým zraniteľnosti pri overovacom procese APK balíčku a nemodifikujú originálny podpis. 
+Metóda prebaľovania upraví aplikáciu a nanovo ju podpíše iným podpisovým kľúčom. Ďalšie známe metódy útokov využívajú predovšetkým zraniteľnosti pri overovacom procese APK balíčka a nemodifikujú originálny podpis. 
 
 Zraniteľnosť pri inštalácií nekompletného APK súboru využíva fakt, že pri overovaní hashov súborov sa ignorujú záznamy, ktoré v~balíku neexistujú. Súbory je teda možné z~APK archívu odstrániť bez jeho opätovného podpísania. Modifikovanú aplikáciu je možné distribuovať ako originálnu verziu. Aplikácia po odstránení súborov nebude pracovať správne a môže dostať celé zariadenie do nepoužiteľného stavu. Tento útok patrí do kategórie \zv{denial of service}~\cite{A7idcou1z6WqKvQZ}.
 
