@@ -115,10 +115,10 @@ Samotný algoritmus detekcie prebalených súborov dostane na vstup aplikáciu, 
 V~prvom kroku algoritmus nájde všetky aplikácie, ktoré spĺňajú definované kritériá zhody aplikácií. Tieto kritériá pozostávajú z~podobnosti metadát a zhody obrázkových súborov. 
 Podobnosť metadát je použitá za účelom zefektívnenia vyhľadávania podobných aplikácií. Algoritmus sa rozhoduje na základe metadát, ktoré nemôžu byť pri prebaľovaní ľahko zmenené, respektíve z~výsledkov predchádzajúcich výskumov vyplýva, že ich útočníci často nemenia. \newline \noindent Algoritmus používa nasledujúce atribúty:
 \begin{itemize}
-	\item počet \zv{xml} súborov v~aplikácii
-	\item počet obrázkových súborov v~aplikácii
-	\item celkový počet súborov
-	\item počet Java tried v~aplikácii
+	\item počet \zv{xml} súborov v~aplikácii,
+	\item počet obrázkových súborov v~aplikácii,
+	\item celkový počet súborov,
+	\item počet Java tried v~aplikácii.
 \end{itemize}
 
 Všetky z~týchto atribútov sú číselné. Ako podobné aplikácie sú na základe týchto atribútov označené také aplikácie, ktorých hodnoty týchto atribútov sú v~rozmedzí $\pm 20$ \% od hodnôt analyzovanej aplikácie. Hodnota 20 \% bola určená na základe experimentov nad databázou APK súborov. Tieto pokusy ukázali, že zmena tohto parametru na vyššie hodnoty nemá zásadný vplyv na výsledky detekcie. Pri nastavení povoleného rozmedzia na 50 \% stúpol počet detekovaných aplikácií o~3\%.
@@ -141,9 +141,9 @@ Výstupom prvej časti algoritmu je skupina aplikácií, ktoré algoritmus klasi
 \subsubsection{\textbf{Identifikácia originálu}} 
 V~predchádzajúcom kroku identifikuje algoritmus nadmieru podobné aplikácie. Aplikácia, ktorej detekcia prebieha je s~aplikáciami z~tejto skupiny zvyčajne v~jednom z~nasledujúcich vzťahov:
 \begin{itemize}
-	\item rôzne verzie jednej aplikácie
-	\item upravené / prebalené aplikácie
-	\item iné (\zv{false positive} detekcia)
+	\item rôzne verzie jednej aplikácie,
+	\item upravené / prebalené aplikácie,
+	\item iné (\zv{false positive} detekcia).
 \end{itemize}
 V~takejto skupine sa môžu vyskytovať aplikácie, ktoré nie sú príbuzné s aktuálne detekovanou aplikáciou. Popis možných chýb a nedostatkov navrhnutej metódy obsahuje sekcia \ref{sec:hodnotenie}.
 
@@ -174,7 +174,7 @@ Tento predpoklad vychádza zo základného princípu prebalených aplikácií, k
 Metóda detekcie prebalených APK súborov \zv{ImageStruct} založená na porovnaní vlastností obrázkov ukázala, že výskyt rovnakých obrázkov je silným indikátorom prebalenia aplikácie. Funkčnosť a presnosť tohto prístupu bola overená prostredníctvom porovnania s~metódou založenou na analýze zdrojového kódu \cite{ImageStruct}. Podobné zistenia sú prezentované aj v~rámci práce \zv{FSquaDRA}, ktorá detekuje prebalené kópie na základe porovnania všetkých súborov aplikácií~\cite{Zhauniarovich2014}. V~rámci rozširujúcej evaluácie metódy \zv{FSquaDRA} bolo zistené, že presnosť detekcie je možné zvýšiť pomocou vzájomného porovnanie súborov rovnakého typu~\cite{Gadyatskaya2016}. Tento prístup sme použili aj v~metóde \zv{Apk Analyzer}. Viacero známych metód sa pri identifikácií typov súborov spolieha na štandardnú štruktúra APK balíčka. Práca vyhodnocujúca metódu \zv{FSquaDRA} využíva predpoklad, že obrázkové súbory sa nachádzajú v~štandardnom priečinku \cesta{res/drawable}. Súborová štruktúra APK balíčka môže byť predmetom obfuskácie, ktorú využívajú vývojári za účelom skomplikovania reverzného inžinierstva. Obfuskácia je za účelom odlíšenia prebalenej kópie od originálu využívaná aj počas procesu prebaľovania aplikácií. Z~tohto dôvodu sa náš prístup spolieha na podobnosť všetkých súborov vo formátoch \zv{png}, \zv{bmp}, \zv{webp}, \zv{jpg} a \zv{gif}. Intuícia za týmto návrhom je založená na pozorovaní, že pri obfuskácii môžu byť zmenené názvy priečinkov a súborov, avšak typ súboru zostáva rovnaký. Tabuľka \ref{images-apk} ukazuje zastúpenie formátov obrázkových súborov v~analyzovanej vzorke 16\,700 aplikácií.
 \begin{table}[]
 \centering
-\begin{tabular}{|l|c|c|}
+\begin{tabular}{|l c c|}
 \hline
 \textbf{Formát} & \textbf{Priemerný počet}  & \textbf{Medián}         \\ \hline
 png             & 369                       & 144         \\
@@ -195,16 +195,16 @@ Tento prístup však predstavuje limitáciu z~pohľadu budúcnosti. V~prípade, 
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|l|l|}
+\begin{tabular}{|l c|}
 \hline
-\textbf{Pravdepodobnosť modifikácie} & \textbf{Typ súboru}          \\ \hline
-0,0212                                      & audio video         \\
-0,0624                                      & raw                 \\
-0,0731                                      & obrázok             \\
+\textbf{Typ súboru}  & \textbf{Pravdepodobnosť modifikácie} \\ \hline
+audio video  & 0,0212                                              \\
+raw   & 0,0624                                                    \\
+obrázok & 0,0731                                                  \\
 \multicolumn{2}{|c|}{...} \\
-0,8476                                      & Resources.arsc      \\
-0,9066                                      & AndroidManifest.xml \\
-0,9227                                      & zdrojový kód        \\
+Resources.arsc & 0,8476                                          \\
+AndroidManifest.xml & 0,9066                                       \\
+ zdrojový kód  & 0,9227                                           \\
 \hline
 \end{tabular}
 \caption{Zmeny v~prebalených APK súboroch}
@@ -237,7 +237,7 @@ Pri požiadavke na detekciu originality aplikácie, ktorá už bola algoritmom o
 \label{sec:hodnotenie}
 Implementovaná metóda bola nasadená v~produkčnom prostredí a je dostupná užívateľom. Táto sekcia hodnotí hlavné plusy a limitácie navrhnutej metódy detekcie prebalených aplikácií.
 
-Implementovaná metóda v~praxi ukázala že dokáže identifikovať aplikácie, ktoré môžu byť potenciálne prebalené. Server zaznamenal 5\,500 požiadaviek na detekciu prebalených aplikácií. Detekcia prebalených aplikácií bola vykonaná pre 2\,780 rôznych APK balíčkov.  Z~tohto poču bolo 1326 aplikácií vyhodnotených ako originálne verzie, 275 ako potenciálne prebalené a v~1179 prípadoch nemal server dostatok dát na určenie výsledku detekcie.
+Implementovaná metóda v~praxi ukázala že dokáže identifikovať aplikácie, ktoré môžu byť potenciálne prebalené. Server zaznamenal 5\,560 požiadaviek na detekciu prebalených aplikácií. Detekcia prebalených aplikácií bola vykonaná pre 2\,780 rôznych APK balíčkov.  Z~tohto poču bolo 1326 aplikácií vyhodnotených ako originálne verzie, 275 ako potenciálne prebalené a v~1179 prípadoch nemal server dostatok dát na určenie výsledku detekcie.
 
 
 \begin{figure}[htb]
