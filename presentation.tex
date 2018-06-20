@@ -66,12 +66,12 @@
 	\begin{itemize}
 		\item Aplikácie distribuované ako inštalačné APK balíčky
 	 	\item APK súbory je možné rozbaliť, modifikovať a zabaliť do pôvodnej podoby
+  		\item Spôsob šírenia malvéru	  
 	 	\item Android obsahuje ochranný mechanizmus
 	 	 \begin{itemize}
 	 	 	\item súbor MANIFEST.MF obsahuje hash každého súboru - ochrana 	integrity
 	 	 	\item po každej zmene nutné balíček podpísať
 		 \end{itemize}	 
-		 \item Spôsob šírenia malvéru	  
 	\end{itemize}
   \end{frame} 
   
@@ -97,34 +97,32 @@
   
   \begin{frame}[label=lists]{Systém detekcie prebalených aplikácií}
  	 \framesubtitle{Návrh}
-	\begin{itemize}
+ 	 \begin{minipage}[htb]{\textwidth}
+		\begin{minipage}[t]{0.45\textwidth}
+				\begin{itemize}
 		\item Mobilná aplikácia
 			\begin{itemize}
-				\item Extrakcia metadát o nainštalovaných aplikáciách
-				\item Prezentácia metadát užívateľom
-				\item UI celého systému
+				\item Extrakcia metadát o aplikáciách
 			\end{itemize}
 		\item Zdieľaná databáza
 			\begin{itemize}
 				\item Úložisko metadát
-				\item Dáta od mobilnej aplikácie
 			\end{itemize}		
 		\item Server
 			\begin{itemize}
 				\item Algoritmus detekcie prebalených aplikácií
-				\item Využitie dát zo zdieľanej databázy
 			\end{itemize}					
 	\end{itemize}
-  \end{frame}  
-  
-  \begin{frame}[label=lists]{Systém detekcie prebalených aplikácií}
- 	 \framesubtitle{Architektúra}
-	\begin{figure}[htb]
-	  	\begin{center}
-    		\includegraphics[height=6.5cm]{images/system-overview.png}
-  		\end{center}
-	\end{figure}
-  \end{frame}   
+		\end{minipage}%
+	\hfill
+	\centering
+		\begin{minipage}[t][][b]{0.55\textwidth}
+		\centering
+    		\includegraphics[height=5cm]{images/system-overview.png}
+		\label{fig:app-list}
+		\end{minipage}%
+	\end{minipage}
+  \end{frame}  	
   
   \section{Mobilná aplikácia}    
   \begin{frame}[label=lists]{Mobilná aplikácia Apk Analyzer}
@@ -132,13 +130,17 @@
 	\begin{minipage}[htb]{\textwidth}
 		\begin{minipage}[t]{0.5\textwidth}
 			\begin{itemize}
-				\item Google Play - vysoká konkurencia
-				\item Maximalizácia hodnoty pre užívateľa
+				\item Analýza nainštalovaných aplikácií
+				\item Prezentácia dát užívateľom
+				\item Presadiť sa medzi ostatnými aplikáciami
 				\begin{itemize}
-					\item UI
-					\item UX
+					\item Google Play - vysoká konkurencia
 				\end{itemize}
-				\item Široké spektrum poskytovaných informácií
+				\item Ako?
+				\begin{itemize}
+					\item Lepšie služby ako konkurencia
+					\item Lepšie používateľské rozhranie
+				\end{itemize}
 			\end{itemize}
      		\vfill
 		\end{minipage}%
@@ -295,6 +297,30 @@
 	\end{minipage}
   \end{frame} 
    
+ \begin{frame}[label=lists]{Mobilná aplikácia Apk Analyzer}
+ 	 \framesubtitle{Odosielanie metadát}
+	\begin{minipage}[htb]{\textwidth}
+		\begin{minipage}[t]{0.5\textwidth}
+			\hbox{}
+			\hbox{}
+			\hbox{}
+			\begin{itemize}
+				\item Nutné odsúhlasenie užívateľom
+				\item Po odsúhlasení užívateľom odosielané na pozadí	
+				\item Ak užívateľ neodsúhlasí odosielanie dát, nemôže využiť detekciu prebalenosti	
+			\end{itemize}
+     		\vfill
+		\end{minipage}%
+	\hfill
+	\centering
+		\begin{minipage}[t][][b]{0.4\textwidth}
+		\centering
+		\includegraphics[height=9cm]{images/app/upload_device.png}
+		\label{fig:app-detail}
+		\end{minipage}%
+	\end{minipage}
+  \end{frame}    
+   
  \section{Detekcia prebalených aplikácií}  
   \begin{frame}[label=lists]{Detekcia prebalených aplikácií}
  	 \framesubtitle{Motivácia}
@@ -320,7 +346,6 @@
  	 \framesubtitle{Databáza}
 		\begin{itemize}
 			\item Metadáta získané od mobilnej aplikácie
-			\item Po odsúhlasení užívateľom odosielané na pozadí
 			\item Zamedzenie duplikáciám
 		\end{itemize}
 		\begin{figure}[htb]
@@ -348,33 +373,7 @@
 	\end{figure}
   \end{frame}    
   
- \begin{frame}[label=lists]{Detekcia prebalených aplikácií}
- 	 \framesubtitle{Predpoklady}
-		\begin{itemize}
-			\item Porovnanie hashov obrázkov
-			\begin{itemize}
-				\item rýchlosť
-				\item jednoduchá extrakcia mobilným klientom
-				\item v súčastnosti malá pravdepodobnosť modifikácie (0.073) \cite{a}
-			\end{itemize}
-			\item Originálnych aplikácií je viac ako prebalených
-			\item Nastavenie parametrov detekcie na základe predchádzajúcich výzkumov
-				\begin{itemize}
-					\item FSquaDRA: Fast Detection of Repackaged Applications
-				\end{itemize}
-		\end{itemize}
-  \end{frame}     
-  
    \begin{frame}[label=lists]{Detekcia prebalených aplikácií}
- 	 \framesubtitle{Optimalizácia}
-		\begin{figure}[htb]
-	  	\begin{center}
-    		\includegraphics[height=4.5cm]{images/detection-optimalization.png}
-  		\end{center}
-	\end{figure}
-  \end{frame}   
-  
-    \begin{frame}[label=lists]{Detekcia prebalených aplikácií}
  	 \framesubtitle{Výstup v mobilnej aplikácii}
 	\begin{minipage}[htb]{\textwidth}
 		\begin{minipage}[t]{0.5\textwidth}
@@ -396,7 +395,33 @@
 		\label{fig:app-detail}
 		\end{minipage}%
 	\end{minipage}
-  \end{frame}    
+  \end{frame} 
+  
+ \begin{frame}[label=lists]{Detekcia prebalených aplikácií}
+ 	 \framesubtitle{Predpoklady}
+		\begin{itemize}
+			\item Porovnanie hashov obrázkov
+			\begin{itemize}
+				\item rýchlosť
+				\item jednoduchá extrakcia mobilným klientom
+				\item  Olga Gadyatskaya et al: \textit{v súčastnosti malá pravdepodobnosť modifikácie (0.073)} \cite{a}
+			\end{itemize}
+			\item Originálnych aplikácií je viac ako prebalených
+			\item Nastavenie parametrov detekcie na základe predchádzajúcich výzkumov
+				\begin{itemize}
+					\item FSquaDRA: Fast Detection of Repackaged Applications
+				\end{itemize}
+		\end{itemize}
+  \end{frame}     
+  
+   \begin{frame}[label=lists]{Detekcia prebalených aplikácií}
+ 	 \framesubtitle{Optimalizácia}
+		\begin{figure}[htb]
+	  	\begin{center}
+    		\includegraphics[height=4.5cm]{images/detection-optimalization.png}
+  		\end{center}
+	\end{figure}
+  \end{frame}      
   
   \section{Nasadenie systému}  
   \begin{frame}[label=lists]{Nasadenie systému}
@@ -415,15 +440,22 @@
   
     \begin{frame}[label=lists]{Nasadenie systému}
    	 \framesubtitle{Detekcia prebalených aplikácií}
-  	\begin{itemize}
-  		\item 1 milión záznamov
-  		\item 16\,000 zariadení
-  		\item 285\,000  rôznych aplikácií
-  		\item 7\,500 spustených detekcií
-  	\end{itemize}
+
+	\begin{itemize}
+	\item Databáza
+  		\begin{itemize}
+	  		\item 1 milión záznamov
+  			\item 285\,000  rôznych aplikácií
+ 			\item 16\,000 zariadení
+	   	\end{itemize}
+  	 \item Detekcia
+  		 \begin{itemize}
+  	   		\item 7\,500 spustených detekcií
+	  	 \end{itemize}
+  	 \end{itemize}
 	\begin{figure}[htb]
 	  	\begin{center}
-    		\includegraphics[height=4.5cm]{images/grafy/obrazovky.pdf}
+    		\includegraphics[height=2cm]{images/grafy/obrazovky.pdf}
   		\end{center}
 	\end{figure}
   \end{frame} 
