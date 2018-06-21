@@ -65,13 +65,17 @@
  	 \framesubtitle{Možnosti a hrozby modifikácie Android aplikácií}
 	\begin{itemize}
 		\item Aplikácie distribuované ako inštalačné APK balíčky
-	 	\item APK súbory je možné rozbaliť, modifikovať a zabaliť do pôvodnej podoby
-  		\item Spôsob šírenia malvéru	  
-	 	\item Android obsahuje ochranný mechanizmus
-	 	 \begin{itemize}
-	 	 	\item súbor MANIFEST.MF obsahuje hash každého súboru - ochrana 	integrity
-	 	 	\item po každej zmene nutné balíček podpísať
-		 \end{itemize}	 
+	 	\item Jednoduchá modifikácia
+		\item Postup prebalenia
+			\begin{itemize}
+				\item Stiahnutie originálu
+				\item Rozbalenie a dekompilácia
+				\item Pridanie škodlivej funkcionality
+				\item Zabalenie
+				\item Podpis
+				\item Distribúcia
+			\end{itemize}
+  		\item Spôsob šírenia malvéru
 	\end{itemize}
   \end{frame} 
   
@@ -79,19 +83,17 @@
   
   \begin{frame}[label=lists]{Systém detekcie prebalených aplikácií}
  	 \framesubtitle{Požiadavky a návrh}
- 	Základné požiadavky a očakávania
+ 	 Požiadavky
+		\begin{itemize}
+			\item Sprístupnenie užívateľom
+			\item Určenie, ktorá aplikácia je originál a ktorá je prebalená kópia
+			\item Detekcia prebalených aplikácií pochádzajúcich výhradne z alternatívnych obchodov
+			\item Dynamická aktualizácia dát potrebných na detekciu prebalených súborov
+		\end{itemize}
+   Etapy detekcie prebalených aplikácií
 	\begin{itemize}
-	 	\item Prístupnosť bežným užívateľom
-	 		\begin{itemize}
-	 			\item online metóda
-	 		\end{itemize}
-	 	\item Nadväznosť na existujúce výzkumi
-	 	\item Dynamickosť a automatická adaptácia na nové aplikácie
-	\end{itemize}
-	Proces detekcie prebalených aplikácií
-	\begin{itemize}
- 	\item Extrakcia dát o aplikáciách
- 	\item Určenie prebalených aplikácií
+ 		\item Extrakcia dát o aplikáciách
+ 		\item Určenie prebalených aplikácií
    \end{itemize}
   \end{frame} 
   
@@ -128,16 +130,16 @@
   \begin{frame}[label=lists]{Mobilná aplikácia Apk Analyzer}
  	 \framesubtitle{Úvod}
 	\begin{minipage}[htb]{\textwidth}
-		\begin{minipage}[t]{0.5\textwidth}
+		\begin{minipage}[t]{0.6\textwidth}
 			\begin{itemize}
 				\item Analýza nainštalovaných aplikácií
-				\item Prezentácia dát užívateľom
+				\begin{itemize}
+					\item Prezentácia dát užívateľom
+					\item Extrakcia pre detekciu prebalenosti					
+				\end{itemize}
 				\item Presadiť sa medzi ostatnými aplikáciami
 				\begin{itemize}
 					\item Google Play - vysoká konkurencia
-				\end{itemize}
-				\item Ako?
-				\begin{itemize}
 					\item Lepšie služby ako konkurencia
 					\item Lepšie používateľské rozhranie
 				\end{itemize}
@@ -146,7 +148,7 @@
 		\end{minipage}%
 	\hfill
 	\centering
-		\begin{minipage}[t][][b]{0.4\textwidth}
+		\begin{minipage}[t][][b]{0.35\textwidth}
 		\centering
 		\includegraphics[height=4cm]{images/app/ic_launcher_2.png}
 		\label{fig:app-list}
@@ -218,12 +220,11 @@
 			\hbox{}
 			\hbox{}
 			\begin{itemize}
-				\item Zobrazenie AndroidManifest.xml
+ 				\item Zobrazenie AndroidManifest.xml
+				\item Kontrola originality (detekcia prebalenosti)
 				\item Export inštalačného súboru
 				\item Zdieľanie inštalačného súboru
 				\item Export ikony
-				\item Zobrazenie záznamu v Google Play
-				\item Kontrola originality (detekcia prebalenosti)
 			\end{itemize}
      		\vfill
 		\end{minipage}%
@@ -297,42 +298,30 @@
 	\end{minipage}
   \end{frame} 
    
- \begin{frame}[label=lists]{Mobilná aplikácia Apk Analyzer}
- 	 \framesubtitle{Odosielanie metadát}
-	\begin{minipage}[htb]{\textwidth}
-		\begin{minipage}[t]{0.5\textwidth}
-			\hbox{}
-			\hbox{}
-			\hbox{}
-			\begin{itemize}
-				\item Nutné odsúhlasenie užívateľom
-				\item Po odsúhlasení užívateľom odosielané na pozadí	
-				\item Ak užívateľ neodsúhlasí odosielanie dát, nemôže využiť detekciu prebalenosti	
-			\end{itemize}
-     		\vfill
-		\end{minipage}%
-	\hfill
-	\centering
-		\begin{minipage}[t][][b]{0.4\textwidth}
-		\centering
-		\includegraphics[height=9cm]{images/app/upload_device.png}
-		\label{fig:app-detail}
-		\end{minipage}%
-	\end{minipage}
-  \end{frame}    
-   
- \section{Detekcia prebalených aplikácií}  
-  \begin{frame}[label=lists]{Detekcia prebalených aplikácií}
- 	 \framesubtitle{Motivácia}
-		\begin{itemize}
-			\item Sprístupnenie užívateľom
-			\item Určenie, ktorá aplikácia je originál a ktorá prebalená kópia
-			\item Detekcia prebalených aplikácií pochádzajúcich výhradne z alternatívnych obchodov
-			\item Kolaborácia užívateľov za účelom spresnenia detekčnej metódy
-			\item Dynamická aktualizácia dát potrebných na detekciu prebalených súborov
-		\end{itemize}
-  \end{frame}   
+% \begin{frame}[label=lists]{Mobilná aplikácia Apk Analyzer}
+% 	 \framesubtitle{Odosielanie metadát}
+%	\begin{minipage}[htb]{\textwidth}
+%		\begin{minipage}[t]{0.5\textwidth}
+%%			\hbox{}
+%			\hbox{}
+%			\begin{itemize}
+%				\item Nutné odsúhlasenie užívateľom
+%				\item Po odsúhlasení užívateľom odosielané na pozadí	
+%				\item Ak užívateľ neodsúhlasí odosielanie dát, nemôže využiť detekciu prebalenosti	
+%			\end{itemize}
+%    		\vfill
+%		\end{minipage}%
+%	\hfill
+%	\centering
+%		\begin{minipage}[t][][b]{0.4\textwidth}
+%		\centering
+%		\includegraphics[height=9cm]{images/app/upload_device.png}
+%		\label{fig:app-detail}
+%		\end{minipage}%
+%	\end{minipage}
+% \end{frame}    
   
+    \section{Detekcia prebalených aplikácií}    
     \begin{frame}[label=lists]{Detekcia prebalených aplikácií}
  	 \framesubtitle{Model detekcie}
 		\begin{figure}[htb]
@@ -402,15 +391,18 @@
 		\begin{itemize}
 			\item Porovnanie hashov obrázkov
 			\begin{itemize}
-				\item rýchlosť
-				\item jednoduchá extrakcia mobilným klientom
-				\item  Olga Gadyatskaya et al: \textit{v súčastnosti malá pravdepodobnosť modifikácie (0.073)} \cite{a}
+				\item Rýchlosť
+				\item Možnosť extrakcie mobilným klientom
+				\item Malá pravdepodobnosť modifikácie (0.073) \cite{a}				
+				\begin{itemize}
+					\item \textit{Evaluation of Resource-Based App Repackaging Detection in Android}
+				\end{itemize}
 			\end{itemize}
 			\item Originálnych aplikácií je viac ako prebalených
-			\item Nastavenie parametrov detekcie na základe predchádzajúcich výzkumov
+			\item Nastavenie parametrov detekcie na základe predchádzajúcich výskumov \cite{b}	
 				\begin{itemize}
-					\item FSquaDRA: Fast Detection of Repackaged Applications
-				\end{itemize}
+					\item \textit{FSquaDRA: Fast Detection of Repackaged Applications}
+					\end{itemize}
 		\end{itemize}
   \end{frame}     
   
@@ -433,7 +425,7 @@
   	\end{itemize}
 	\begin{figure}[htb]
 	  	\begin{center}
-    		\includegraphics[height=4.5cm]{images/grafy/ins_vyvoj.pdf}
+    		\includegraphics[height=4.5cm]{images/grafy/ins_vyvoj_p.png}
   		\end{center}
 	\end{figure}
   \end{frame}   
@@ -455,11 +447,10 @@
   	 \end{itemize}
 	\begin{figure}[htb]
 	  	\begin{center}
-    		\includegraphics[height=2cm]{images/grafy/obrazovky.pdf}
+    		\includegraphics[width=11cm, height=3cm]{images/grafy/obrazovky_p.png}
   		\end{center}
 	\end{figure}
   \end{frame} 
-    
 
   \begin{frame}[label=bibliography]{Bibliografia}
     \framesubtitle{Analýza inštalačných APK súborov pre OS Android}
